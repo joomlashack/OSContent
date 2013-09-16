@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5.0" method="upgrade">
+	<name>com_oscontent</name>
+	<author>OSTraining</author>
+	<creationDate>June 2011</creationDate>
+	<copyright>Copyright (C) 2011 OSTraining.com</copyright>
+	<license>GPL</license>
+	<authorEmail>info@ostraining.com</authorEmail>
+	<authorUrl>http://www.ostraining.com</authorUrl>
+	<version>1.9</version>
+	<description>This is fork of MassContent which at the time of the fork was only available for Joomla 1.5/1.0.  This extension is for Joomla 1.6/2.5</description>
+
+	<administration>
+		<menu img="class:component">OSContent</menu>
+		<submenu>
+		   <menu link="option=com_oscontent&amp;view=content" view="content" img="class:component" alt="Mass Content/Content">Create mass content</menu>
+		   <menu link="option=com_oscontent&amp;view=categories" view="categories" img="class:component" alt="Mass Content/Categories">Create mass categories</menu>
+		   <menu link="option=com_oscontent&amp;view=delete" view="delete" img="class:component" alt="Mass Content/delete">Delete mass content</menu>
+		</submenu>
+	
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>oscontent.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_oscontent.ini
+			</language>
+			<language tag="en-GB">language/en-GB.com_oscontent.sys.ini
+			</language>
+		</languages>
+	</administration>
+	
+</extension>
