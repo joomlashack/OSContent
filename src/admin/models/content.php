@@ -316,10 +316,15 @@ class OSContentModelContent extends OSModel
 		// build the html select list for menu selection
 		$menu3 = array();
 		$menulist = array();
-		$menuTypes     = $this->getMenuTypes();
+		$menuTypes = $this->getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
+			if (version_compare(JVERSION, '3.0', '<')) {
+				$menu[] = JHTML::_('select.option',  $menuType, $menuType );
+			} else {
+				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title );
+			}
 		}
+
 		$stop_notice = array();
 
 		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null );
@@ -358,7 +363,14 @@ class OSContentModelContent extends OSModel
         $query = 'SELECT a.menutype, a.title' .
                 ' FROM #__menu_types AS a';
         $db->setQuery( $query );
-         return $db->loadResultArray();
+
+        if (version_compare(JVERSION, '3.0', '<')) {
+        	$result = $db->loadResultArray();
+        } else {
+        	$result = $db->loadObjectList();
+        }
+
+        return $result;
 
     }
 
@@ -378,9 +390,14 @@ class OSContentModelContent extends OSModel
 			//http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
 			$query = 'SELECT id, parent_id, title, menutype, title AS name' .
 				' FROM #__menu' .
-				' WHERE menutype = "'.$menuType .'"  AND published = 1'.
-				' ORDER BY menutype, parent_id, ordering'
+				' WHERE menutype = "'.$menuType->menutype .'"  AND published = 1'.
+				' ORDER BY menutype, parent_id, '
 				;
+			if (version_compare(JVERSION, '3.0', '<')) {
+				$query .= 'ordering';
+			} else {
+				$query .= 'lft';
+			}
 
 			$database->setQuery($query);
 			$menuItems4 = $database->loadObjectList();
