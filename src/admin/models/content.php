@@ -26,7 +26,7 @@ class OSContentModelContent extends OSModel
 /*    function &getTable()
     {
         if ($this->_table == null) {
-            $this->_table = & JTable::getInstance('menuTypes');
+            $this->_table = JTable::getInstance('menuTypes');
             if ($id = JRequest::getVar('id', false, '', 'int')) {
                 $this->_table->load($id);
             }
@@ -43,7 +43,7 @@ class OSContentModelContent extends OSModel
 */
 	function menuLink( $id, $title,$menuselect,$contentType,$parent, $alias = ""  ) {
 		global $mainframe;
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 
 		$menu = strval( $menuselect );
@@ -70,7 +70,7 @@ class OSContentModelContent extends OSModel
 		}
 
 
-		$row  =& JTable::getInstance('menu');
+		$row  = JTable::getInstance('menu');
 		$row->menutype 		= $menu;
 		$row->title			= $link;
 		$row->alias         = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
@@ -152,12 +152,12 @@ class OSContentModelContent extends OSModel
     function getMenuItems($menutype)
     {
 
-        $table = & $this->getTable();
+        $table = $this->getTable();
         if ($table->menutype == '') {
             $table->menutype = JRequest::getString('menutype');
         }
 
-        $db = &$this->getDBO();
+        $db =$this->getDBO();
         $query = 'SELECT a.id, a.name' .
                 ' FROM #__menu AS a' .
                  ' WHERE a.menutype = "' .$menutype .'"' .
@@ -269,7 +269,7 @@ class OSContentModelContent extends OSModel
 	}
 
 	function &getData(){
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		global $my;
 
@@ -287,7 +287,7 @@ class OSContentModelContent extends OSModel
 		{
 			$store='';
 		}
-		$row =& $this->getTable();
+		$row =$this->getTable();
 		$row->load( $id );
 
 		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
@@ -352,7 +352,7 @@ class OSContentModelContent extends OSModel
      */
     function getMenuTypes()
     {
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
         /*$query = 'SELECT menutype' .
                 ' FROM #__menu_types';*/
         $query = 'SELECT a.menutype, a.title' .
@@ -368,7 +368,7 @@ class OSContentModelContent extends OSModel
 		// build the html select list for menu selection
 
 		$menulist = array();
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 		$menuTypes     = $this->getMenuTypes();
 		foreach ( $menuTypes as $menuType )
 		{
@@ -420,7 +420,7 @@ class OSContentModelContent extends OSModel
 		{
 			if ($post["title"][$i] == "")
 				continue;
-			$row =& $this->getTable();
+			$row = $this->getTable();
 			$row->title = $post["title"][$i];
 			if ($post["alias"][$i])
 				$row->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
@@ -482,7 +482,7 @@ class OSContentModelContent extends OSModel
 			if ($post["title"][$i] == "")
 				continue;
 
-			$row =& $this->getTable();
+			$row = $this->getTable();
 
 			$row->id	=	0;
 			$row->title = $post["title"][$i];
@@ -549,7 +549,7 @@ class OSContentModelContent extends OSModel
 			if ($frontpage)
 			{
 
-            	$db        = & JFactory::getDBO();
+            	$db        = JFactory::getDBO();
 			   	$fp = new TableFrontPage($db);
 				// Is the item already viewable on the frontpage?
 				// Insert the new entry

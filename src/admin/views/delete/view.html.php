@@ -30,7 +30,7 @@ class OSContentViewDelete extends OSView
 		$params = JComponentHelper::getParams('com_oscontent');
 		$this->assignRef('params',		$params);
 		//get data
-		$lists=& $this->get('Data');
+		$lists= $this->get('Data');
 		$this->assignRef('lists',		$lists);
 
 		parent::display($tpl);

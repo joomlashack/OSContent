@@ -116,13 +116,13 @@ class OSContentModelCategories extends OSModel
 
 	function &getData(){
 		global  $my, $mainframe;
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$uid=0;
 		$scope 		= "content";
 		$option 	= "com_oscontent";
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		// load the row from the db table
 		$row->load( (int)$uid );
 
@@ -170,7 +170,7 @@ class OSContentModelCategories extends OSModel
 	 */
 	function getMenuTypes()
 	{
-		$db = &JFactory::getDBO();
+		$db =JFactory::getDBO();
 		$query = 'SELECT menutype' .
 				' FROM #__menu_types';
 		$db->setQuery( $query );
@@ -182,7 +182,7 @@ class OSContentModelCategories extends OSModel
 		// build the html select list for menu selection
 
 		$menulist = array();
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 		$menuTypes 	= $this->getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
 			//$menu = JHTML::_('select.option',  $menuType, $menuType );
@@ -254,7 +254,7 @@ class OSContentModelCategories extends OSModel
 
 	function menuLink( $id, $title,$menuselect,$contentType,$parent , $alias = "" ) {
 		global $mainframe;
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 
 		$menu = strval( $menuselect );
@@ -281,7 +281,7 @@ class OSContentModelCategories extends OSModel
 		}
 
 
-		$row  =& JTable::getInstance('menu');
+		$row  = JTable::getInstance('menu');
 		$row->menutype 		= $menu;
 		$row->title			= $link;
 		$row->alias         = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);

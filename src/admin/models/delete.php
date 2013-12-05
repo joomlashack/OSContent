@@ -127,7 +127,7 @@ class OSContentModelDelete extends OSModel
 
 	function deleteOSContent( $option=null ) {
 		global $mainframe;
-		$database = & JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$catid = JRequest::getVar(   'catid', '','POST' );
 		$deleteCategory = JRequest::getVar(   'deleteCategory', '' ,'POST');
