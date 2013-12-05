@@ -11,10 +11,20 @@
 jimport('joomla.application.component.controller');
 
 /**
+ * Extend the JController for J3.0 compatibility
+ *
+ */
+if (version_compare(JVERSION, '3.0', '<')) {
+	class OSController extends JController { }
+} else {
+	class OSController extends JControllerLegacy { }
+}
+
+/**
  * OSContent component Controller
  *
  */
-class OSContentController extends JController
+class OSContentController extends OSController
 {
 	protected $default_view = 'content'; 
 	
@@ -23,7 +33,7 @@ class OSContentController extends JController
 	 *
 	 * @access	public
 	 */
-	function display()
+	function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT.'/helpers/oscontent.php';
 		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content')); 		
