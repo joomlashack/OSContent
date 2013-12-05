@@ -10,30 +10,30 @@
 
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view' );
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
 
 /**
  * Mass categories view
  */
-class OSContentViewDelete extends JView
+class OSContentViewDelete extends OSView
 {
 
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'Mass Delete' ), 'generic.png' );
-		JToolBarHelper::custom ('delete.delete','delete.png', 'delete_f2.png','Delete',false);  
-        JToolBarHelper::divider();      
+		JToolBarHelper::custom ('delete.delete','delete.png', 'delete_f2.png','Delete',false);
+        JToolBarHelper::divider();
 		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_oscontent' );
 
 		//get params
-		$params = JComponentHelper::getParams('com_oscontent');	
+		$params = JComponentHelper::getParams('com_oscontent');
 		$this->assignRef('params',		$params);
 		//get data
 		$lists=& $this->get('Data');
 		$this->assignRef('lists',		$lists);
-		
+
 		parent::display($tpl);
 	}
- 
+
 }

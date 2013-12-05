@@ -9,30 +9,29 @@
 */
 
 defined('_JEXEC') or die();
-jimport( 'joomla.application.component.view' );
+
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
 
 /**
  * Mass content view
  */
-class OSContentViewContent extends JView
+class OSContentViewContent extends OSView
 {
-	
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'OSContent' ), 'generic.png' );
 		JToolBarHelper::apply("content.save");
-        JToolBarHelper::divider();      
+        JToolBarHelper::divider();
 		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_oscontent' );
 
 		//get params
-		$params = JComponentHelper::getParams('com_oscontent');	
+		$params = JComponentHelper::getParams('com_oscontent');
 		$this->assignRef('params',		$params);
 		//get data
-		$lists=& $this->get('Data');		
+		$lists=& $this->get('Data');
 		$this->assignRef('lists',		$lists);
-		
+
 		parent::display($tpl);
 	}
- 
 }

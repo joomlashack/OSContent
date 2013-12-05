@@ -10,12 +10,12 @@
 
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view' );
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
 
 /**
  * Mass categories view
  */
-class OSContentViewCategories extends JView
+class OSContentViewCategories extends OSView
 {
 
 	function display($tpl = null)
