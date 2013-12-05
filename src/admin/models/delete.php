@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.model' );
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
-class OSContentModelDelete extends JModel
+class OSContentModelDelete extends OSModel
 {
 
 	protected function getCategoryParent()
@@ -113,68 +113,68 @@ class OSContentModelDelete extends JModel
 		}
 
 		return $options;
-	} 	
+	}
 
 
 	function &getData(){
-		
+
 		$categories 	= $this->getCategoryParent();
 		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text', intval( $row->catid ) );
-		
+
 		return $lists;
 	}
-	 
+
 
 	function deleteOSContent( $option=null ) {
 		global $mainframe;
 		$database = & JFactory::getDBO();
-		
+
 		$catid = JRequest::getVar(   'catid', '','POST' );
 		$deleteCategory = JRequest::getVar(   'deleteCategory', '' ,'POST');
 		$deleteContentOnly = JRequest::getVar(   'deleteContentOnly', '','POST' );
 		$where="";
-		
-		
-		
+
+
+
 		if ($catid>0) //a cat is selected
 		{
-		
-			if ($deleteCategory) {  		   
-				//delete link menu-cat			
-				$query = "DELETE m FROM #__menu m "              
-				. "\n WHERE m.component_id = 22 "       
-				. "\n AND LOCATE( \"category\", link ) >0 AND LOCATE( \"com_content\", link ) >0 AND LOCATE( \"id={$catid}\", link ) >0"       
+
+			if ($deleteCategory) {
+				//delete link menu-cat
+				$query = "DELETE m FROM #__menu m "
+				. "\n WHERE m.component_id = 22 "
+				. "\n AND LOCATE( \"category\", link ) >0 AND LOCATE( \"com_content\", link ) >0 AND LOCATE( \"id={$catid}\", link ) >0"
 				;
 				$database->setQuery( $query );
-				$database->query();      
-				
+				$database->query();
+
 				//delete cat
 				$query = "DELETE FROM #__categories"
 					. "\n WHERE id=$catid"
 					. $where;
 					;
 				$database->setQuery( $query );
-				$database->query();            
+				$database->query();
 			}
-			
-			if ($deleteContentOnly) { 
-			$query = "UPDATE #__content SET `introtext`='', `fulltext`='' "   
-				. "\n WHERE catid=$catid"       
-				. $where ;         
+
+			if ($deleteContentOnly) {
+			$query = "UPDATE #__content SET `introtext`='', `fulltext`='' "
+				. "\n WHERE catid=$catid"
+				. $where ;
 			}
-			else {          
+			else {
 				//delete full content (article)
-				$query = "DELETE co FROM #__content co "   
-				. "\n WHERE co.catid=$catid"       
+				$query = "DELETE co FROM #__content co "
+				. "\n WHERE co.catid=$catid"
 				. $where ;
 			}
 			$database->setQuery( $query );
 			$database->query();
-			
+
 		}
-		
-		//delete content 
-		return true;   
+
+		//delete content
+		return true;
 	}
-	
+
 }
