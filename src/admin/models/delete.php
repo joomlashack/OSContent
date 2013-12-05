@@ -119,7 +119,7 @@ class OSContentModelDelete extends OSModel
 	function &getData(){
 
 		$categories 	= $this->getCategoryParent();
-		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text', intval( $row->catid ) );
+		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
 
 		return $lists;
 	}
