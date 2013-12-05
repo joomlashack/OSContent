@@ -10,15 +10,15 @@
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.controller');
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
 
-class OSContentControllerCategories extends JController
+class OSContentControllerCategories extends OSController
 {
 
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		 //Register Extra tasks
 		 //$this->registerTask( 'create'  , 	'newOSCategories' );
 	}
@@ -27,10 +27,10 @@ class OSContentControllerCategories extends JController
 	 * display the form
 	 * @return void
 	 */
-	function display()
+	function display($cachable = false, $urlparams = array())
 	{
 		JRequest::setVar( 'view', 'categories' );
-		parent::display();
+		parent::display($cachable, $urlparams);
 	}
 
 	/**

@@ -26,8 +26,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
  */
 class OSContentController extends OSController
 {
-	protected $default_view = 'content'; 
-	
+	protected $default_view = 'content';
+
 	/**
 	 * Method to display the view
 	 *
@@ -36,9 +36,8 @@ class OSContentController extends OSController
 	function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT.'/helpers/oscontent.php';
-		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content')); 		
-		parent::display();
+		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content'));
+		parent::display($cachable, $urlparams);
 	}
-
 }
-?> 
+?>

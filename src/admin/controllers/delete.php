@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die();
 
-class OSContentControllerDelete extends JController
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
+
+class OSContentControllerDelete extends OSController
 {
 
 	function __construct()
@@ -25,10 +27,10 @@ class OSContentControllerDelete extends JController
 	 * display the form
 	 * @return void
 	 */
-	function display()
+	function display($cachable = false, $urlparams = array())
 	{
 		JRequest::setVar( 'view', 'delete' );
-		parent::display();
+		parent::display($cachable, $urlparams);
 	}
 
 	/**

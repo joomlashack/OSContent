@@ -10,13 +10,15 @@
 
 defined('_JEXEC') or die();
 
-class OSContentControllerContent extends JController
+require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
+
+class OSContentControllerContent extends OSController
 {
 
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		 //Register Extra tasks
 		// $this->registerTask( 'create'  , 	'newOSContent' );
 	}
@@ -25,10 +27,10 @@ class OSContentControllerContent extends JController
 	 * display the form
 	 * @return void
 	 */
-	function display()
+	function display($cachable = false, $urlparams = array())
 	{
 		JRequest::setVar( 'view', 'content' );
-		parent::display();
+		parent::display($cachable, $urlparams);
 	}
 
 	/**
