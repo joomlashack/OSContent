@@ -146,12 +146,17 @@ class OSContentModelCategories extends OSModel
 		$menuTypes 	= $this->getMenuTypes();
 		foreach ( $menuTypes as $menuType )
 		{
-			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
+			$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title );
 		}
 
 
 		// build the html select list for the group access
-		$lists['access'] 			= JHTML::_('list.accesslevel', $row );
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$lists['access'] = JHTML::_('list.accesslevel',  $row );
+		} else {
+			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
+		}
+
 		// build the html radio buttons for published
 		$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published );
 
@@ -171,10 +176,17 @@ class OSContentModelCategories extends OSModel
 	function getMenuTypes()
 	{
 		$db =JFactory::getDBO();
-		$query = 'SELECT menutype' .
-				' FROM #__menu_types';
-		$db->setQuery( $query );
-		return $db->loadResultArray();
+		$query = 'SELECT a.menutype, a.title' .
+                ' FROM #__menu_types AS a';
+        $db->setQuery( $query );
+
+		if (version_compare(JVERSION, '3.0', '<')) {
+        	$result = $db->loadResultArray();
+        } else {
+        	$result = $db->loadObjectList();
+        }
+
+        return $result;
 	}
 
 	function createSubMenu ()
@@ -191,9 +203,14 @@ class OSContentModelCategories extends OSModel
 			//http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
 			$query = 'SELECT id, parent_id, title, menutype' .
 				' FROM #__menu' .
-				' WHERE menutype = "'.$menuType .'" AND published = 1'.
-				' ORDER BY menutype, parent_id, ordering'
+				' WHERE menutype = "'.$menuType->menutype .'" AND published = 1'.
+				' ORDER BY menutype, parent_id, '
 				;
+			if (version_compare(JVERSION, '3.0', '<')) {
+				$query .= 'ordering';
+			} else {
+				$query .= 'lft';
+			}
 
 			$database->setQuery($query);
 			$menuItems4 = $database->loadObjectList();

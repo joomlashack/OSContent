@@ -371,7 +371,6 @@ class OSContentModelContent extends OSModel
         }
 
         return $result;
-
     }
 
 
