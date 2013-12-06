@@ -46,15 +46,15 @@ class OSContentModelContent extends OSModel
 	* @param menuselect: The menu where to create the link
 	* @param contentType:  to know the kind of content (static content or not)
 	*/
-	public function menuLink( $id, $title,$menuselect,$contentType,$parent, $alias = ""  ) {
+	public function menuLink($id, $title,$menuselect,$contentType,$parent, $alias = "" ) {
 		global $mainframe;
 		$database = JFactory::getDBO();
 
 
-		$menu = strval( $menuselect );
-		$link = strval( $title );
+		$menu = strval($menuselect);
+		$link = strval($title);
 
-		$link	= stripslashes( JFilterOutput::ampReplace($link) );
+		$link	= stripslashes(JFilterOutput::ampReplace($link));
 
 		//find what kind of link needs to be created in $row->link
 		switch ($contentType){
@@ -144,10 +144,10 @@ class OSContentModelContent extends OSModel
 			exit();
 		}
 
-		$row->reorder( "menutype = " . $database->Quote( $row->menutype ) . " AND parent = " . (int) $row->parent );
+		$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
 
 		// clean any existing cache files
-		//mosCache::cleanCache( 'com_content' );
+		//mosCache::cleanCache('com_content');
 	}
 	/**
 	 * Get a list of the menu records associated with the type
@@ -167,7 +167,7 @@ class OSContentModelContent extends OSModel
 				' FROM #__menu AS a' .
 				 ' WHERE a.menutype = "' .$menutype .'"' .
 				' ORDER BY a.name';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
 		return $db->loadObjectList();
 		//return $db->loadResultArray();
@@ -293,14 +293,14 @@ class OSContentModelContent extends OSModel
 			$store='';
 		}
 		$row =$this->getTable();
-		$row->load( $id );
+		$row->load($id);
 
-		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
-		$javascript2 = "onchange=\"changeDynaList( 'menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
+		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
+		$javascript2 = "onchange=\"changeDynaList('menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
 
 
 		$categories 	= $this->getCategoryParent();
-		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text', intval( $row->catid ) );
+		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text"
@@ -313,34 +313,34 @@ class OSContentModelContent extends OSModel
 		$row->ordering=null;
 
 		if (version_compare(JVERSION, '3.0', '<')) {
-			$lists['ordering'] =  JHTML::_('list.specificordering', $row, $uid, $query, 1 );
+			$lists['ordering'] =  JHTML::_('list.specificordering', $row, $uid, $query, 1);
 		} else {
-			$lists['ordering'] =  JHTML::_('list.ordering', 'ordering', $query, '', $row->ordering, 1 );
+			$lists['ordering'] =  JHTML::_('list.ordering', 'ordering', $query, '', $row->ordering, 1);
 		}
 
 		// build the html select list for menu selection
 		$menu3 = array();
 		$menulist = array();
 		$menuTypes = $this->getMenuTypes();
-		foreach ( $menuTypes as $menuType ) {
+		foreach ($menuTypes as $menuType) {
 			if (version_compare(JVERSION, '3.0', '<')) {
-				$menu[] = JHTML::_('select.option',  $menuType, $menuType );
+				$menu[] = JHTML::_('select.option',  $menuType, $menuType);
 			} else {
-				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title );
+				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title);
 			}
 		}
 
 		$stop_notice = array();
 
-		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null );
+		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null);
 
 
-		$lists['menuselect'] = JHTML::_('select.genericlist',   $menu, 'menuselect', 'class="inputbox" size="10" '.  $javascript2, 'value', 'text', null   );
+		$lists['menuselect'] = JHTML::_('select.genericlist',   $menu, 'menuselect', 'class="inputbox" size="10" '.  $javascript2, 'value', 'text', null  );
 
 
 		// build the html select list for the group access
 		if (version_compare(JVERSION, '3.0', '<')) {
-			$lists['access'] = JHTML::_('list.accesslevel',  $row );
+			$lists['access'] = JHTML::_('list.accesslevel',  $row);
 		} else {
 			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 		}
@@ -367,7 +367,7 @@ class OSContentModelContent extends OSModel
 				' FROM #__menu_types';*/
 		$query = 'SELECT a.menutype, a.title' .
 				' FROM #__menu_types AS a';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
 		if (version_compare(JVERSION, '3.0', '<')) {
 			$result = $db->loadResultArray();
@@ -386,13 +386,13 @@ class OSContentModelContent extends OSModel
 		$menulist = array();
 		$database = JFactory::getDBO();
 		$menuTypes     = $this->getMenuTypes();
-		foreach ( $menuTypes as $menuType )
+		foreach ($menuTypes as $menuType)
 		{
 			if (version_compare(JVERSION, '3.0', '>=')) {
 				$menuType = $menuType->menutype;
 			}
 
-			//$menu = JHTML::_('select.option',  $menuType, $menuType );
+			//$menu = JHTML::_('select.option',  $menuType, $menuType);
 			///////////////////////////////////////////////////
 			//Create tje tree of menus
 			//http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
@@ -422,14 +422,14 @@ class OSContentModelContent extends OSModel
 					$list     = @$children[$pt] ? $children[$pt] : array();
 
 					// we push our item onto the array (either the existing one for the specified parent or the new one
-					array_push( $list, $v );
+					array_push($list, $v);
 					// We put out updated list into the array
 					$children[$pt] = $list;
 				}
 			}
 			// second pass - get an indent list of the items
 			//$list = JHtmlMenu::TreeRecurse(intval($menuItems4[0]->parent_id), '', array(), $children, 9999, 0, 0);
-			$list = JHTML::_('menu.treerecurse', intval(@$menuItems4[0]->parent_id), '-', array(), $children, 9999, 0, 0 );
+			$list = JHTML::_('menu.treerecurse', intval(@$menuItems4[0]->parent_id), '-', array(), $children, 9999, 0, 0);
 			$menulist[] = $list ;
 
 		}
@@ -437,7 +437,7 @@ class OSContentModelContent extends OSModel
 		///////////////////////////////////////////////////
 	}
 
-	public function saveOSContent( $option=null ) {
+	public function saveOSContent($option=null) {
 
 		$post		= JRequest::get("post");
 
@@ -456,8 +456,8 @@ class OSContentModelContent extends OSModel
 				$row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') ."-".$i;
 			}
 
-			$intro_text = JRequest::getVar( 'introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW );
-			$full_text = JRequest::getVar( 'fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW );
+			$intro_text = JRequest::getVar('introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$full_text = JRequest::getVar('fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
 			$row->fulltext   = ($intro_text != "" ? $full_text : "");
 			$row->metakey   = $post["metakey"][$i];
@@ -547,8 +547,8 @@ class OSContentModelContent extends OSModel
 			{
 				$row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') ."-".$i;
 			}
-			$intro_text = JRequest::getVar( 'introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW );
-			$full_text = JRequest::getVar( 'fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW );
+			$intro_text = JRequest::getVar('introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$full_text = JRequest::getVar('fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
 			$row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
 			$row->fulltext   = ($intro_text != "" ? $full_text : "");
 			$row->metakey   = $post["metakey"][$i];
@@ -623,7 +623,7 @@ class OSContentModelContent extends OSModel
 
 			if ($post["addMenu"]) {
 				$type="content_item_link" ;
-				$this->menuLink($row->id, $row->title,$post["menuselect"], $type, $post["menuselect3"], $row->alias );
+				$this->menuLink($row->id, $row->title,$post["menuselect"], $type, $post["menuselect3"], $row->alias);
 			}
 
 			if ($frontpage)
@@ -634,11 +634,11 @@ class OSContentModelContent extends OSModel
 				// Is the item already viewable on the frontpage?
 				// Insert the new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-				' VALUES ( '. (int) $row->id .', 1 )';
+				' VALUES ('. (int) $row->id .', 1)';
 				$db->setQuery($query);
 				if (!$db->query())
 				{
-					JError::raiseError( 500, $db->stderr() );
+					JError::raiseError(500, $db->stderr());
 					return false;
 				}
 				$fp->ordering = 1;

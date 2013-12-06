@@ -20,12 +20,12 @@ class OSContentViewCategories extends OSView
 	public function display($tpl = null)
 	{
 
-		JToolBarHelper::title(   JText::_( 'Mass Categories' ), 'generic.png' );
+		JToolBarHelper::title(  JText::_('Mass Categories'), 'generic.png');
 		JToolBarHelper::apply("categories.save");
 		JToolbarHelper::cancel('categories.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::spacer();
-		JToolBarHelper::preferences( 'com_oscontent' );
+		JToolBarHelper::preferences('com_oscontent');
 
 		//get params
 		$params = JComponentHelper::getParams('com_oscontent');

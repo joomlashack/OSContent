@@ -149,52 +149,52 @@ class OSContentModelCategories extends OSModel
 
 		$row = $this->getTable();
 		// load the row from the db table
-		$row->load( (int)$uid );
+		$row->load((int)$uid);
 
 		$row->scope 		= $scope;
 		$row->published 	= 1;
 		$menus 				= array();
 
-		$javascript2 = "onchange=\"changeDynaList( 'menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
+		$javascript2 = "onchange=\"changeDynaList('menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
 		$categoriesparent 	= $this->getCategoryParent();
-		$lists['cate'] 		= JHTML::_('select.genericlist',   $categoriesparent, 'parent_id', 'class="inputbox" size="1"', 'value', 'text', null );
+		$lists['cate'] 		= JHTML::_('select.genericlist',   $categoriesparent, 'parent_id', 'class="inputbox" size="1"', 'value', 'text', null);
 
 
 		// build the html select list for section types
-		$types[] = JHTML::_('select.option', '', 'Select Type' );
-		$types[] = JHTML::_('select.option', 'content_category', 'Category List Layout' );
-		$types[] = JHTML::_('select.option', 'content_blog_category', 'Category Blog Layout' );
-		$lists['link_type'] 		= JHTMLSelect::genericList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );
+		$types[] = JHTML::_('select.option', '', 'Select Type');
+		$types[] = JHTML::_('select.option', 'content_category', 'Category List Layout');
+		$types[] = JHTML::_('select.option', 'content_blog_category', 'Category Blog Layout');
+		$lists['link_type'] 		= JHTMLSelect::genericList($types, 'link_type', 'class="inputbox" size="1"', 'value', 'text');
 
 
 
 		$menuTypes 	= $this->getMenuTypes();
-		foreach ( $menuTypes as $menuType )
+		foreach ($menuTypes as $menuType)
 		{
 			if (version_compare(JVERSION, '3.0', '<')) {
-				$menu[] = JHTML::_('select.option',  $menuType, $menuType );
+				$menu[] = JHTML::_('select.option',  $menuType, $menuType);
 			} else {
-				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title );
+				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title);
 			}
 		}
 
 
 		// build the html select list for the group access
 		if (version_compare(JVERSION, '3.0', '<')) {
-			$lists['access'] = JHTML::_('list.accesslevel',  $row );
+			$lists['access'] = JHTML::_('list.accesslevel',  $row);
 		} else {
 			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 		}
 
 		// build the html radio buttons for published
-		$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published );
+		$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published);
 
 		$stop_notice = array();
-		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null );
+		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null);
 
 		$lists['menulist']=  $this->createSubMenu();
 
-		$lists['menuselect'] = JHTML::_('select.genericlist',   $menu, 'menuselect', 'class="inputbox" size="10" '.  $javascript2, 'value', 'text', null );
+		$lists['menuselect'] = JHTML::_('select.genericlist',   $menu, 'menuselect', 'class="inputbox" size="10" '.  $javascript2, 'value', 'text', null);
 		return $lists;
 
 	}
@@ -207,7 +207,7 @@ class OSContentModelCategories extends OSModel
 		$db =JFactory::getDBO();
 		$query = 'SELECT a.menutype, a.title' .
 				' FROM #__menu_types AS a';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
 		if (version_compare(JVERSION, '3.0', '<')) {
 			$result = $db->loadResultArray();
@@ -225,13 +225,13 @@ class OSContentModelCategories extends OSModel
 		$menulist = array();
 		$database = JFactory::getDBO();
 		$menuTypes 	= $this->getMenuTypes();
-		foreach ( $menuTypes as $menuType ) {
+		foreach ($menuTypes as $menuType) {
 
 			if (version_compare(JVERSION, '3.0', '>=')) {
 				$menuType = $menuType->menutype;
 			}
 
-			//$menu = JHTML::_('select.option',  $menuType, $menuType );
+			//$menu = JHTML::_('select.option',  $menuType, $menuType);
 			///////////////////////////////////////////////////
 			//Create tje tree of menus
 			//http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
@@ -259,13 +259,13 @@ class OSContentModelCategories extends OSModel
 					// if an array entry for the parent doesn't exist, we create a new array
 					$list 	= @$children[$pt] ? $children[$pt] : array();
 					// we push our item onto the array (either the existing one for the specified parent or the new one
-					array_push( $list, $v );
+					array_push($list, $v);
 					// We put out updated list into the array
 					$children[$pt] = $list;
 				}
 			}
 			// second pass - get an indent list of the items
-			$list = JHTML::_('menu.treerecurse', @$menuItems4[0]->parent_id, '-', array(), $children, 9999, 0, 0 );
+			$list = JHTML::_('menu.treerecurse', @$menuItems4[0]->parent_id, '-', array(), $children, 9999, 0, 0);
 			$menulist[] = $list ;
 
 		}
@@ -274,7 +274,7 @@ class OSContentModelCategories extends OSModel
 		///////////////////////////////////////////////////
 	}
 
-	public function saveOSCategories( $option=null ){
+	public function saveOSCategories($option=null){
 		$post		= JRequest::get("post");
 
 		for ($i = 0; $i < count($post["title"]); $i++)
@@ -303,15 +303,15 @@ class OSContentModelCategories extends OSModel
 		return true;
 	}
 
-	public function menuLink( $id, $title,$menuselect,$contentType,$parent , $alias = "" ) {
+	public function menuLink($id, $title,$menuselect,$contentType,$parent , $alias = "") {
 		global $mainframe;
 		$database = JFactory::getDBO();
 
 
-		$menu = strval( $menuselect );
-		$link = strval( $title );
+		$menu = strval($menuselect);
+		$link = strval($title);
 
-		$link	= stripslashes( JFilterOutput::ampReplace($link) );
+		$link	= stripslashes(JFilterOutput::ampReplace($link));
 
 		//find what kind of link needs to be created in $row->link
 		switch ($contentType){
@@ -398,9 +398,9 @@ class OSContentModelCategories extends OSModel
 			exit();
 		}
 
-		$row->reorder( "menutype = " . $database->Quote( $row->menutype ) . " AND parent = " . (int) $row->parent );
+		$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
 
 		// clean any existing cache files
-		//mosCache::cleanCache( 'com_content' );
+		//mosCache::cleanCache('com_content');
 	}
 }

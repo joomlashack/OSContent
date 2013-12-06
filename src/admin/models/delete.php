@@ -142,24 +142,24 @@ class OSContentModelDelete extends OSModel
 
 	public function &getData(){
 
-		$categories 	= $this->getCategoryParent();
+		$categories = $this->getCategoryParent();
 		$sectioncategories=0;
 
-		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
+		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
 
-		$lists['sectioncategories']= $sectioncategories;
+		$lists['sectioncategories'] = $sectioncategories;
 
 		return $lists;
 	}
 
 
-	public function deleteOSContent( $option=null ) {
+	public function deleteOSContent($option=null) {
 		global $mainframe;
 		$database = JFactory::getDBO();
 
-		$catid = JRequest::getVar(   'catid', '','POST' );
-		$deleteCategory = JRequest::getVar(   'deleteCategory', '' ,'POST');
-		$deleteContentOnly = JRequest::getVar(   'deleteContentOnly', '','POST' );
+		$catid = JRequest::getVar(  'catid', '','POST');
+		$deleteCategory = JRequest::getVar(  'deleteCategory', '' ,'POST');
+		$deleteContentOnly = JRequest::getVar(  'deleteContentOnly', '','POST');
 		$where="";
 
 		if ($catid>0) //a cat is selected
@@ -168,10 +168,10 @@ class OSContentModelDelete extends OSModel
 				//delete link menu-cat
 				$query = "DELETE m FROM #__menu m "
 				. "\n WHERE m.component_id = 22 "
-				. "\n AND LOCATE( \"category\", link ) >0 AND LOCATE( \"com_content\", link ) >0 AND LOCATE( \"id={$catid}\", link ) >0"
+				. "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0"
 				;
 
-				$database->setQuery( $query );
+				$database->setQuery($query);
 				$database->query();
 
 				//delete cat
@@ -180,7 +180,7 @@ class OSContentModelDelete extends OSModel
 					. $where;
 					;
 
-				$database->setQuery( $query );
+				$database->setQuery($query);
 				$database->query();
 			}
 
@@ -195,7 +195,7 @@ class OSContentModelDelete extends OSModel
 				. "\n WHERE co.catid=$catid"
 				. $where ;
 			}
-			$database->setQuery( $query );
+			$database->setQuery($query);
 			$database->query();
 
 		}

@@ -37,9 +37,9 @@ class OSContentControllerContent extends JControllerForm
 
 		$model = $this->getModel('content');
 		if(!$model->saveOSContent()) {
-			$msg = JText::_( "ERROR_CATEGORIES" );
+			$msg = JText::_("ERROR_CATEGORIES");
 		} else {
-			$msg = JText::_( "SUCCESS_CATEGORIES" );
+			$msg = JText::_("SUCCESS_CATEGORIES");
 		}
 
 		$this->setMessage($msg);

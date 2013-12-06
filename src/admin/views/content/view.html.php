@@ -19,12 +19,12 @@ class OSContentViewContent extends OSView
 {
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'OSContent' ), 'generic.png' );
+		JToolBarHelper::title(  JText::_('OSContent'), 'generic.png');
 		JToolBarHelper::apply("content.save");
 		JToolbarHelper::cancel('content.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::spacer();
-		JToolBarHelper::preferences( 'com_oscontent' );
+		JToolBarHelper::preferences('com_oscontent');
 
 		//get params
 		$params = JComponentHelper::getParams('com_oscontent');

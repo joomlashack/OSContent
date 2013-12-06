@@ -21,10 +21,10 @@ JHtml::_('behavior.tooltip');
 		function submitbutton(pressbutton) {
 			if (pressbutton=='delete'){
 				if (confirm("<?php echo JText::_("DELETE_ALL");?>"))
-					submitform( pressbutton );
+					submitform(pressbutton);
 				else return;
 			}
-			else 	submitform( pressbutton );
+			else 	submitform(pressbutton);
 		}
 	<?php else : ?>
 		Joomla.submitbutton = function(task, type)
@@ -49,7 +49,7 @@ JHtml::_('behavior.tooltip');
 		// $i = 0;
 		// foreach ($this->lists['sectioncategories'] as $k=>$items) {
 		// 	foreach ($items as $v) {
-		// 		echo "sectioncategories[".$i++."] = new Array( '$k','".addslashes( $v->id )."','".addslashes( $v->name )."' );\t";
+		// 		echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->name)."');\t";
 		// 	}
 		// }
 		// ?>

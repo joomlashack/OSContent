@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 if (version_compare(JVERSION, '3.0', '<')) {
 	class OSModel extends JModel { }

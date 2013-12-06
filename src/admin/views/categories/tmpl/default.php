@@ -92,15 +92,15 @@ JHtml::_('behavior.tooltip');
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-				alert(  "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>" );
+				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>");
 				return;
 			}
 			else if ((form.addMenu.checked) && (form.link_type.value == '')) {
-				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU");?>" );
+				alert("<?php  echo  JText::_("PLEASE SELECT A MENU");?>");
 				return;
 			}
 			else{
-				submitform( pressbutton );
+				submitform(pressbutton);
 			}
 		}
 	<?php else : ?>
@@ -108,11 +108,11 @@ JHtml::_('behavior.tooltip');
 		{
 			var form = document.adminForm;
 			if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-				alert(  "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>" );
+				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>");
 				return;
 			}
 			else if ((form.addMenu.checked) && (form.link_type.value == '')) {
-				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU");?>" );
+				alert("<?php  echo  JText::_("PLEASE SELECT A MENU");?>");
 				return;
 			}
 			else{
@@ -128,15 +128,15 @@ JHtml::_('behavior.tooltip');
 	$i = 0;
 	$top=0;
 
-	foreach ( $this->lists['menulist']  as $k=>$items) {
+	foreach ($this->lists['menulist']  as $k=>$items) {
 		$top=0;
 		foreach ($items as $v) {
 			if ($top==0)
 			{
-				echo "menulist[".$i++."] = new Array( '".addslashes( $v->menutype)."','-1','Top' );\t";
+				echo "menulist[".$i++."] = new Array('".addslashes($v->menutype)."','-1','Top');\t";
 				$top=1;
 			}
-			echo "menulist[".$i++."] = new Array( '".addslashes( $v->menutype )."','".addslashes( $v->id )."','".str_replace('&nbsp;',' ',addslashes(str_replace('&#160;', '-',  $v->treename) ))."' );\t";
+			echo "menulist[".$i++."] = new Array('".addslashes($v->menutype)."','".addslashes($v->id)."','".str_replace('&nbsp;',' ',addslashes(str_replace('&#160;', '-',  $v->treename)))."');\t";
 		}
 	}
 	?>

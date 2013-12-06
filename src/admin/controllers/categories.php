@@ -37,9 +37,9 @@ class OSContentControllerCategories extends JControllerForm
 
 		$model = $this->getModel('categories');
 		if(!$model->saveOSCategories()) {
-			$msg = JText::_( "ERROR_CATEGORIES" );
+			$msg = JText::_("ERROR_CATEGORIES");
 		} else {
-			$msg = JText::_( "SUCCESS_CATEGORIES" );
+			$msg = JText::_("SUCCESS_CATEGORIES");
 		}
 
 		$this->setMessage($msg);
