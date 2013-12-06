@@ -1,6 +1,6 @@
  <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -8,12 +8,36 @@
 * Official website: http://www.baticore.com
 */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
 class OSContentModelDelete extends OSModel
 {
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_OSCONTENT_DELETE';
+
+	/**
+	 * Model context string.
+	 *
+	 * @var        string
+	 */
+	protected $_context = 'com_oscontent.delete';
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_oscontent.delete', 'delete', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
 
 	protected function getCategoryParent()
 	{
@@ -119,7 +143,11 @@ class OSContentModelDelete extends OSModel
 	function &getData(){
 
 		$categories 	= $this->getCategoryParent();
+		$sectioncategories=0;
+
 		$lists['catid']     = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
+
+		$lists['sectioncategories']= $sectioncategories;
 
 		return $lists;
 	}
@@ -134,17 +162,15 @@ class OSContentModelDelete extends OSModel
 		$deleteContentOnly = JRequest::getVar(   'deleteContentOnly', '','POST' );
 		$where="";
 
-
-
 		if ($catid>0) //a cat is selected
 		{
-
 			if ($deleteCategory) {
 				//delete link menu-cat
 				$query = "DELETE m FROM #__menu m "
 				. "\n WHERE m.component_id = 22 "
 				. "\n AND LOCATE( \"category\", link ) >0 AND LOCATE( \"com_content\", link ) >0 AND LOCATE( \"id={$catid}\", link ) >0"
 				;
+
 				$database->setQuery( $query );
 				$database->query();
 
@@ -153,6 +179,7 @@ class OSContentModelDelete extends OSModel
 					. "\n WHERE id=$catid"
 					. $where;
 					;
+
 				$database->setQuery( $query );
 				$database->query();
 			}
@@ -176,5 +203,4 @@ class OSContentModelDelete extends OSModel
 		//delete content
 		return true;
 	}
-
 }

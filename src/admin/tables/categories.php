@@ -171,16 +171,22 @@ class TableCategories extends JTableNested
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$date = $date->toMySQL();
+		} else {
+			$date = $date->toSQL();
+		}
+
 		if ($this->id) {
 			// Existing category
-			$this->modified_time	= $date->toMySQL();
+			$this->modified_time	= $date;
 			$this->modified_user_id	= $user->get('id');
 		} else {
 			// New category
-			$this->created_time		= $date->toMySQL();
+			$this->created_time		= $date;
 			$this->created_user_id	= $user->get('id');
 		}
-	// Verify that the alias is unique
+		// Verify that the alias is unique
 		$table = JTable::getInstance('Category','JTable');
 		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'extension'=>$this->extension)) && ($table->id != $this->id || $this->id==0)) {
 

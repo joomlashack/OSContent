@@ -1,6 +1,6 @@
 <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -13,15 +13,15 @@ defined('_JEXEC') or die();
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
 
 /**
- * Mass categories view
+ * Mass Delete view
  */
 class OSContentViewDelete extends OSView
 {
-
 	function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'Mass Delete' ), 'generic.png' );
-		JToolBarHelper::custom ('delete.delete','delete.png', 'delete_f2.png','Delete',false);
+		JToolBarHelper::title(   JText::_( 'OSContent' ), 'generic.png' );
+		JToolBarHelper::custom ('delete.delete','delete.png', 'delete_f2.png',JText::_('Delete'),false);
+		JToolbarHelper::cancel('delete.cancel');
         JToolBarHelper::divider();
 		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_oscontent' );
@@ -35,5 +35,4 @@ class OSContentViewDelete extends OSView
 
 		parent::display($tpl);
 	}
-
 }

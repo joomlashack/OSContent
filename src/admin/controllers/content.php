@@ -1,6 +1,6 @@
 <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -10,46 +10,45 @@
 
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
-
-class OSContentControllerContent extends OSController
+class OSContentControllerContent extends JControllerForm
 {
-
-	function __construct()
-	{
-		parent::__construct();
-
-		 //Register Extra tasks
-		// $this->registerTask( 'create'  , 	'newOSContent' );
-	}
-
 	/**
 	 * display the form
 	 * @return void
 	 */
-	function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = array())
 	{
-		JRequest::setVar( 'view', 'content' );
+		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
+		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content'));
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false));
 		parent::display($cachable, $urlparams);
 	}
 
 	/**
-	 * save categories
+	 * save content
 	 */
-	function save()
+	public function save($key = null, $urlVar = null)
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$model = $this->getModel('content');
 		if(!$model->saveOSContent()) {
-			$msg = JText::_("ERROR_CONTENT" );
-			JRequest::setVar( 'view', 'content' );
-			parent::display();
-			return;
+			$msg = JText::_( "ERROR_CATEGORIES" );
 		} else {
-			$msg = JText::_( "SUCCESS_CONTENT" );
+			$msg = JText::_( "SUCCESS_CATEGORIES" );
 		}
 
-		$this->setRedirect( "index.php?option=com_oscontent&view=content",$msg );
+		$this->setMessage($msg);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false), $msg);
 	}
 
+	public function cancel($key = null, $urlVar = null)
+	{
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false));
+
+		return true;
+	}
 }
-?>

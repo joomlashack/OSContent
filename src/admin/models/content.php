@@ -1,6 +1,6 @@
  <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -8,39 +8,44 @@
 * Official website: http://www.baticore.com
 */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
-jimport('joomla.application.component.controller');
-
 class OSContentModelContent extends OSModel
 {
-    /** @var object JTable object */
-    var $_table = null;
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_OSCONTENT_CONTENT';
 
-/**
-     * Returns the internal table object
-     * @return JTable
-     */
-/*    function &getTable()
-    {
-        if ($this->_table == null) {
-            $this->_table = JTable::getInstance('menuTypes');
-            if ($id = JRequest::getVar('id', false, '', 'int')) {
-                $this->_table->load($id);
-            }
-        }
-        return $this->_table;
-    }    */
+	/**
+	 * Model context string.
+	 *
+	 * @var        string
+	 */
+	protected $_context = 'com_oscontent.content';
 
-/**
-* Link the content to the menu
-* @param id The id of the content to insert
-* @param title: The  title of the menu element
-* @param menuselect: The menu where to create the link
-* @param contentType:  to know the kind of content (static content or not)
-*/
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_oscontent.content', 'content', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	* Link the content to the menu
+	* @param id The id of the content to insert
+	* @param title: The  title of the menu element
+	* @param menuselect: The menu where to create the link
+	* @param contentType:  to know the kind of content (static content or not)
+	*/
 	function menuLink( $id, $title,$menuselect,$contentType,$parent, $alias = ""  ) {
 		global $mainframe;
 		$database = JFactory::getDBO();
@@ -469,18 +474,46 @@ class OSContentModelContent extends OSModel
 				$row->metadata="robots=
 								author=";
 
-			if ($post["created"])
-				$row->created = JFactory::getDate($post["created"])->toMySQL();
+			if ($post["created"]) {
+				$row->created = JFactory::getDate($post["created"]);
 
-			if ($post["publish_up"])
-				$row->publish_up = JFactory::getDate($post["publish_up"])->toMySQL();
-
-			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never'))
-				$row->publish_down = JFactory::getDate($post["publish_down"])->toMySQL();
-			else if (trim($post["publish_down"]) == JText::_('Never'))
-				{
-					$post["publish_down"] = JFactory::getDBO()->getNullDate();
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->created = $row->created->toMySQL();
+				} else {
+					$row->created = $row->created->toSQL();
 				}
+			}
+
+			if ($post["publish_up"]) {
+				$row->publish_up = JFactory::getDate($post["publish_up"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_up = $row->publish_up->toMySQL();
+				} else {
+					$row->publish_up = $row->publish_up->toSQL();
+				}
+			}
+
+			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never')) {
+				$row->publish_down = JFactory::getDate($post["publish_down"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_down = $row->publish_down->toMySQL();
+				} else {
+					$row->publish_down = $row->publish_down->toSQL();
+				}
+
+			} else if (trim($post["publish_down"]) == JText::_('Never')) {
+				$post["publish_down"] = JFactory::getDBO()->getNullDate();
+
+				$row->publish_down = JFactory::getDate($post["publish_down"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_down = $row->publish_down->toMySQL();
+				} else {
+					$row->publish_down = $row->publish_down->toSQL();
+				}
+			}
 
 
 			//handle archived
@@ -516,8 +549,8 @@ class OSContentModelContent extends OSModel
 			$row->fulltext   = ($intro_text != "" ? $full_text : "");
 			$row->metakey   = $post["metakey"][$i];
 			$row->metadesc   = $post["metadesc"][$i];
-			$row->robots   = $post["robots"];
-			$row->author   = $post["author"];
+			$row->robots   = @$post["robots"];
+			$row->author   = @$post["author"];
 			$row->catid   = $post["catid"];
 			$row->access   = $post["access"];
 			$row->language   = "*";
@@ -532,18 +565,45 @@ class OSContentModelContent extends OSModel
 				$row->metadata="robots=
 								author=";
 
-			if ($post["created"])
-				$row->created = JFactory::getDate($post["created"])->toMySQL();
+			if ($post["created"]) {
+				$row->created = JFactory::getDate($post["created"]);
 
-			if ($post["publish_up"])
-				$row->publish_up = JFactory::getDate($post["publish_up"])->toMySQL();
-
-			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never'))
-				$row->publish_down = JFactory::getDate($post["publish_down"])->toMySQL();
-			else if (trim($post["publish_down"]) == JText::_('Never'))
-				{
-					$post["publish_down"] = JFactory::getDBO()->getNullDate();
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->created = $row->created->toMySQL();
+				} else {
+					$row->created = $row->created->toSQL();
 				}
+			}
+
+			if ($post["publish_up"]) {
+				$row->publish_up = JFactory::getDate($post["publish_up"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_up = $row->publish_up->toMySQL();
+				} else {
+					$row->publish_up = $row->publish_up->toSQL();
+				}
+			}
+
+			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never')) {
+				$row->publish_down = JFactory::getDate($post["publish_down"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_down = $row->publish_down->toMySQL();
+				} else {
+					$row->publish_down = $row->publish_down->toSQL();
+				}
+			} else if (trim($post["publish_down"]) == JText::_('Never')) {
+				$post["publish_down"] = JFactory::getDBO()->getNullDate();
+
+				$row->publish_down = JFactory::getDate($post["publish_down"]);
+
+				if (version_compare(JVERSION, '3.0', '<')) {
+					$row->publish_down = $row->publish_down->toMySQL();
+				} else {
+					$row->publish_down = $row->publish_down->toSQL();
+				}
+			}
 
 
 			//handle archived
@@ -584,5 +644,4 @@ class OSContentModelContent extends OSModel
 		}
 		return true;
 	}
-
 }

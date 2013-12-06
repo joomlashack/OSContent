@@ -1,6 +1,6 @@
 <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -10,34 +10,29 @@
 
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
-
-class OSContentControllerDelete extends OSController
+class OSContentControllerDelete extends JControllerForm
 {
-
-	function __construct()
-	{
-		parent::__construct();
-
-		 //Register Extra tasks
-		 //$this->registerTask( 'create'  , 	'deleteOSContent' );
-	}
-
 	/**
 	 * display the form
 	 * @return void
 	 */
-	function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = array())
 	{
-		JRequest::setVar( 'view', 'delete' );
+		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
+		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'delete'));
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));
 		parent::display($cachable, $urlparams);
 	}
 
 	/**
-	 * save sections
+	 * delete
 	 */
-	function delete()
+	public function delete($key = null, $urlVar = null)
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$model = $this->getModel('delete');
 		if(!$model->deleteOSContent()) {
 			$msg = JText::_( "ERROR_DELETE" );
@@ -45,8 +40,15 @@ class OSContentControllerDelete extends OSController
 			$msg = JText::_( "SUCCESS_DELETE");
 		}
 
-		$this->setRedirect( "index.php?option=com_oscontent&view=delete",$msg );
+		$this->setMessage($msg);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false), $msg);
 	}
 
+	public function cancel($key = null, $urlVar = null)
+	{
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));
+
+		return true;
+	}
 }
-?>

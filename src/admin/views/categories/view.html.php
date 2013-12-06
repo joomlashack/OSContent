@@ -1,6 +1,6 @@
 <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -17,11 +17,12 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
  */
 class OSContentViewCategories extends OSView
 {
-
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
+
 		JToolBarHelper::title(   JText::_( 'Mass Categories' ), 'generic.png' );
 		JToolBarHelper::apply("categories.save");
+		JToolbarHelper::cancel('categories.cancel');
         JToolBarHelper::divider();
 		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_oscontent' );
@@ -30,7 +31,7 @@ class OSContentViewCategories extends OSView
 		$params = JComponentHelper::getParams('com_oscontent');
 		$this->assignRef('params',		$params);
 		//get data
-		$lists= $this->get('Data');
+		$lists = $this->get('Data');
 		$this->assignRef('lists',		$lists);
 
 		parent::display($tpl);

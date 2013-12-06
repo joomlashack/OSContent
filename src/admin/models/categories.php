@@ -1,6 +1,6 @@
  <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -8,12 +8,37 @@
 * Official website: http://www.baticore.com
 */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
 class OSContentModelCategories extends OSModel
 {
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_OSCONTENT_CATEGORIES';
+
+	/**
+	 * Model context string.
+	 *
+	 * @var        string
+	 */
+	protected $_context = 'com_oscontent.categories';
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_oscontent.categories', 'categories', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
+
 	protected function getCategoryParent()
 	{
 		// Initialise variables.
@@ -177,16 +202,16 @@ class OSContentModelCategories extends OSModel
 	{
 		$db =JFactory::getDBO();
 		$query = 'SELECT a.menutype, a.title' .
-                ' FROM #__menu_types AS a';
-        $db->setQuery( $query );
+				' FROM #__menu_types AS a';
+		$db->setQuery( $query );
 
 		if (version_compare(JVERSION, '3.0', '<')) {
-        	$result = $db->loadResultArray();
-        } else {
-        	$result = $db->loadObjectList();
-        }
+			$result = $db->loadResultArray();
+		} else {
+			$result = $db->loadObjectList();
+		}
 
-        return $result;
+		return $result;
 	}
 
 	function createSubMenu ()
@@ -262,8 +287,8 @@ class OSContentModelCategories extends OSModel
 			$table->setLocation($post["parent_id"], 'last-child');
 			if (!$table->store())
 				return false;
-			if ($post["addMenu"]) {
-            	$this->menuLink($table->id, $table->title,$post["menuselect"],$post["link_type"], $post["menuselect3"] , $table->alias);
+			if (@$post["addMenu"]) {
+				$this->menuLink($table->id, $table->title,$post["menuselect"],$post["link_type"], $post["menuselect3"] , $table->alias);
 			}
 		}
 		return true;
@@ -369,5 +394,4 @@ class OSContentModelCategories extends OSModel
 		// clean any existing cache files
 		//mosCache::cleanCache( 'com_content' );
 	}
-
 }

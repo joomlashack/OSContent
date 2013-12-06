@@ -1,6 +1,6 @@
 <?php
 /*
-* OSContent for Joomla 1.7.X
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.5
 * @Date 04.10.2009
 * @copyright (C) 2007-2009 Johann Eriksen
@@ -10,34 +10,29 @@
 
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/controller.php';
-
-class OSContentControllerCategories extends OSController
+class OSContentControllerCategories extends JControllerForm
 {
-
-	function __construct()
-	{
-		parent::__construct();
-
-		 //Register Extra tasks
-		 //$this->registerTask( 'create'  , 	'newOSCategories' );
-	}
-
 	/**
 	 * display the form
 	 * @return void
 	 */
-	function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = array())
 	{
-		JRequest::setVar( 'view', 'categories' );
+		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
+		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'categories'));
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false));
 		parent::display($cachable, $urlparams);
 	}
 
 	/**
 	 * save categories
 	 */
-	function save()
+	public function save($key = null, $urlVar = null)
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$model = $this->getModel('categories');
 		if(!$model->saveOSCategories()) {
 			$msg = JText::_( "ERROR_CATEGORIES" );
@@ -45,8 +40,15 @@ class OSContentControllerCategories extends OSController
 			$msg = JText::_( "SUCCESS_CATEGORIES" );
 		}
 
-		$this->setRedirect( "index.php?option=com_oscontent&view=categories",$msg );
+		$this->setMessage($msg);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false), $msg);
 	}
 
+	public function cancel($key = null, $urlVar = null)
+	{
+		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false));
+
+		return true;
+	}
 }
-?>

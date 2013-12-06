@@ -33,11 +33,20 @@ class OSContentController extends OSController
 	 *
 	 * @access	public
 	 */
-	function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = array())
 	{
-		require_once JPATH_COMPONENT.'/helpers/oscontent.php';
-		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content'));
+		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
+
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$view = JRequest::getCmd('view', 'content');
+		} else {
+			$view = JFactory::getApplication()->input->get('view');
+		}
+		OSContentHelper::addSubmenu($view);
+
 		parent::display($cachable, $urlparams);
+
+		return $this;
 	}
 }
 ?>
