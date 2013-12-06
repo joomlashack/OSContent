@@ -87,20 +87,21 @@ JHtml::_('behavior.tooltip');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
-
 <script type="text/javascript">
 	<?php if (version_compare(JVERSION, '3.0', '<')) : ?>
-		var form = document.adminForm;
-		if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-			alert(  "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>" );
-			return;
-		}
-		else if ((form.addMenu.checked) && (form.link_type.value == '')) {
-			alert( "<?php  echo  JText::_("PLEASE SELECT A MENU");?>" );
-			return;
-		}
-		else{
-			submitform( pressbutton );
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if ((form.addMenu.checked) && (form.menuselect.value == '')) {
+				alert(  "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE");?>" );
+				return;
+			}
+			else if ((form.addMenu.checked) && (form.link_type.value == '')) {
+				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU");?>" );
+				return;
+			}
+			else{
+				submitform( pressbutton );
+			}
 		}
 	<?php else : ?>
 		Joomla.submitbutton = function(task, type)
@@ -126,6 +127,7 @@ JHtml::_('behavior.tooltip');
 	//sub menus
 	$i = 0;
 	$top=0;
+
 	foreach ( $this->lists['menulist']  as $k=>$items) {
 		$top=0;
 		foreach ($items as $v) {
