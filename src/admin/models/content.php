@@ -388,13 +388,17 @@ class OSContentModelContent extends OSModel
 		$menuTypes     = $this->getMenuTypes();
 		foreach ( $menuTypes as $menuType )
 		{
+			if (version_compare(JVERSION, '3.0', '>=')) {
+				$menuType = $menuType->menutype;
+			}
+
 			//$menu = JHTML::_('select.option',  $menuType, $menuType );
 			///////////////////////////////////////////////////
 			//Create tje tree of menus
 			//http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
 			$query = 'SELECT id, parent_id, title, menutype, title AS name' .
 				' FROM #__menu' .
-				' WHERE menutype = "' . @$menuType->menutype . '"  AND published = 1'.
+				' WHERE menutype = "' . $menuType . '"  AND published = 1'.
 				' ORDER BY menutype, parent_id, '
 				;
 			if (version_compare(JVERSION, '3.0', '<')) {
