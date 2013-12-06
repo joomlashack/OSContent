@@ -1,12 +1,14 @@
 <?php
-/**
- * @version		$Id: category.php 20705 2011-02-15 06:23:47Z infograf768 $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- */
+/*
+* OSContent for Joomla 1.7.x, 2.5.x and 3.x
+* @version 1.9.1
+* @Date 04.10.2009
+* @copyright (C) 2007-2009 Johann Eriksen
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* Official website: http://www.baticore.com
+*/
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die();
 
 jimport('joomla.database.tablenested');
 
