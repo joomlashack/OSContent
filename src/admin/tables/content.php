@@ -12,6 +12,62 @@ defined('_JEXEC') or die();
 
 jimport('joomla.database.tableasset');
 
+class TableContentAbstract extends JTable
+{
+	/**
+	 * Get the parent asset id for the record
+	 *
+	 * @return	int
+	 * @since	1.6
+	 */
+	protected function _getAssetParentIdBase($table = null, $id = null)
+	{
+		// Initialise variables.
+		$assetId = null;
+		$db = $this->getDbo();
+
+		// This is a article under a category.
+		if ($this->catid) {
+			// Build the query to get the asset id for the parent category.
+			$query	= $db->getQuery(true);
+			$query->select('asset_id');
+			$query->from('#__categories');
+			$query->where('id = '.(int) $this->catid);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+
+		// Return the asset id.
+		if ($assetId) {
+			return $assetId;
+		} else {
+			return parent::_getAssetParentId($table, $id);
+		}
+	}
+}
+
+if (version_compare(JVERSION, '3.0', '<')) {
+	class TableContentBase extends TableContentAbstract
+	{
+		protected function _getAssetParentId($table = null, $id = null)
+		{
+			return parent::_getAssetParentIdBase($table, $id);
+		}
+	}
+} else {
+	class TableContentBase extends TableContentAbstract
+	{
+		protected function _getAssetParentId(JTable $table = null, $id = null)
+		{
+			return parent::_getAssetParentIdBase($table, $id);
+		}
+	}
+}
+
 /**
  * Content table
  *
@@ -19,7 +75,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class TableContent extends JTable
+class TableContent extends TableContentBase
 {
 	/**
 	 * @param	database	A database connector object
@@ -53,41 +109,6 @@ class TableContent extends JTable
 	protected function _getAssetTitle()
 	{
 		return $this->title;
-	}
-
-	/**
-	 * Get the parent asset id for the record
-	 *
-	 * @return	int
-	 * @since	1.6
-	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
-	{
-		// Initialise variables.
-		$assetId = null;
-		$db = $this->getDbo();
-
-		// This is a article under a category.
-		if ($this->catid) {
-			// Build the query to get the asset id for the parent category.
-			$query	= $db->getQuery(true);
-			$query->select('asset_id');
-			$query->from('#__categories');
-			$query->where('id = '.(int) $this->catid);
-
-			// Get the asset id from the database.
-			$this->_db->setQuery($query);
-			if ($result = $this->_db->loadResult()) {
-				$assetId = (int) $result;
-			}
-		}
-
-		// Return the asset id.
-		if ($assetId) {
-			return $assetId;
-		} else {
-			return parent::_getAssetParentId($table, $id);
-		}
 	}
 
 	/**

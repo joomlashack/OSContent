@@ -12,55 +12,14 @@ defined('_JEXEC') or die();
 
 jimport('joomla.database.tablenested');
 
-/**
- * Category table
- *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.0
- */
-class TableCategories extends JTableNested
+class TableCategoriesAbstract extends JTableNested
 {
-	/**
-	 * @param database A database connector object
-	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__categories', 'id', $db);
-
-		$this->access	= (int) JFactory::getConfig()->get('access');
-	}
-
-	/**
-	 * Method to compute the default name of the asset.
-	 * The default name is in the form `table_name.id`
-	 * where id is the value of the primary key of the table.
-	 *
-	 * @return	string
-	 */
-	protected function _getAssetName()
-	{
-		$k = $this->_tbl_key;
-		return $this->extension.'.category.'.(int) $this->$k;
-	}
-
-	/**
-	 * Method to return the title to use for the asset table.
-	 *
-	 * @return	string
-	 * @since	1.6
-	 */
-	protected function _getAssetTitle()
-	{
-		return $this->title;
-	}
-
 	/**
 	 * Get the parent asset id for the record
 	 *
 	 * @return	int
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentIdBase($table = null, $id = null)
 	{
 		// Initialise variables.
 		$assetId = null;
@@ -101,6 +60,68 @@ class TableCategories extends JTableNested
 		} else {
 			return parent::_getAssetParentId($table, $id);
 		}
+	}
+}
+
+if (version_compare(JVERSION, '3.0', '<')) {
+	class TableCategoriesBase extends TableCategoriesAbstract
+	{
+		protected function _getAssetParentId($table = null, $id = null)
+		{
+			return parent::_getAssetParentIdBase($table, $id);
+		}
+	}
+} else {
+	class TableCategoriesBase extends TableCategoriesAbstract
+	{
+		protected function _getAssetParentId(JTable $table = null, $id = null)
+		{
+			return parent::_getAssetParentIdBase($table, $id);
+		}
+	}
+}
+
+/**
+ * Category table
+ *
+ * @package		Joomla.Framework
+ * @subpackage	Table
+ * @since		1.0
+ */
+class TableCategories extends TableCategoriesBase
+{
+	/**
+	 * @param database A database connector object
+	 */
+	public function __construct(&$db)
+	{
+		parent::__construct('#__categories', 'id', $db);
+
+		$this->access	= (int) JFactory::getConfig()->get('access');
+	}
+
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return $this->extension.'.category.'.(int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
 	}
 
 	/**
