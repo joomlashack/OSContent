@@ -149,29 +149,29 @@ class OSContentModelContent extends OSModel
 		// clean any existing cache files
 		//mosCache::cleanCache( 'com_content' );
 	}
-    /**
-     * Get a list of the menu records associated with the type
-     * @param string The menu type
-     * @return array An array of records as objects
-     */
-    function getMenuItems($menutype)
-    {
+	/**
+	 * Get a list of the menu records associated with the type
+	 * @param string The menu type
+	 * @return array An array of records as objects
+	 */
+	function getMenuItems($menutype)
+	{
 
-        $table = $this->getTable();
-        if ($table->menutype == '') {
-            $table->menutype = JRequest::getString('menutype');
-        }
+		$table = $this->getTable();
+		if ($table->menutype == '') {
+			$table->menutype = JRequest::getString('menutype');
+		}
 
-        $db =$this->getDBO();
-        $query = 'SELECT a.id, a.name' .
-                ' FROM #__menu AS a' .
-                 ' WHERE a.menutype = "' .$menutype .'"' .
-                ' ORDER BY a.name';
-        $db->setQuery( $query );
+		$db =$this->getDBO();
+		$query = 'SELECT a.id, a.name' .
+				' FROM #__menu AS a' .
+				 ' WHERE a.menutype = "' .$menutype .'"' .
+				' ORDER BY a.name';
+		$db->setQuery( $query );
 
-        return $db->loadObjectList();
-        //return $db->loadResultArray();
-    }
+		return $db->loadObjectList();
+		//return $db->loadResultArray();
+	}
 
 	protected function getCategoryParent()
 	{
@@ -356,27 +356,27 @@ class OSContentModelContent extends OSModel
 	}
 
 
-    /**
-     * Get a list of the menutypes
-     * @return array An array of menu type names
-     */
-    function getMenuTypes()
-    {
-        $db = JFactory::getDBO();
-        /*$query = 'SELECT menutype' .
-                ' FROM #__menu_types';*/
-        $query = 'SELECT a.menutype, a.title' .
-                ' FROM #__menu_types AS a';
-        $db->setQuery( $query );
+	/**
+	 * Get a list of the menutypes
+	 * @return array An array of menu type names
+	 */
+	function getMenuTypes()
+	{
+		$db = JFactory::getDBO();
+		/*$query = 'SELECT menutype' .
+				' FROM #__menu_types';*/
+		$query = 'SELECT a.menutype, a.title' .
+				' FROM #__menu_types AS a';
+		$db->setQuery( $query );
 
-        if (version_compare(JVERSION, '3.0', '<')) {
-        	$result = $db->loadResultArray();
-        } else {
-        	$result = $db->loadObjectList();
-        }
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$result = $db->loadResultArray();
+		} else {
+			$result = $db->loadObjectList();
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
 
 	function createSubMenu ()
@@ -615,18 +615,18 @@ class OSContentModelContent extends OSModel
 				return false;
 
 
-            $row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
+			$row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
 
 			if ($post["addMenu"]) {
 				$type="content_item_link" ;
-            	$this->menuLink($row->id, $row->title,$post["menuselect"], $type, $post["menuselect3"], $row->alias );
+				$this->menuLink($row->id, $row->title,$post["menuselect"], $type, $post["menuselect3"], $row->alias );
 			}
 
 			if ($frontpage)
 			{
 
-            	$db        = JFactory::getDBO();
-			   	$fp = new TableFrontPage($db);
+				$db        = JFactory::getDBO();
+				$fp = new TableFrontPage($db);
 				// Is the item already viewable on the frontpage?
 				// Insert the new entry
 				$query = 'INSERT INTO #__content_frontpage' .

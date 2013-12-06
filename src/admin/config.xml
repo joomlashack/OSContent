@@ -6,20 +6,20 @@
 		>
 
 		<field name="nbOSContent" type="text" size="5" default="10" label="PARAMNBMASSCONTENT" description="PARAMNBMASSCONTENT">
-		</field>	
+		</field>
 		<field name="nbOSCategories" type="text" size="5" default="10" label="PARAMNBMASSCATEGORIES" description="PARAMNBMASSCATEGORIES">
-		</field>		
+		</field>
 		<field name="nbMassSections" type="text" size="5" default="10" label="PARAMNBMASSSECTIONS" description="PARAMNBMASSSECTIONS">
-		</field>		
-        <field name="displayWysiwyg" type="radio" default="0" label="PARAMDISPLAYWYSIWYGr" description="PARAMDISPLAYWYSIWYGr">
-	    <option value="0">Hide</option>
-	    <option value="1">Show for 1st content</option>
-	    <option value="2">Show for all contents</option>
+		</field>
+		<field name="displayWysiwyg" type="radio" default="0" label="PARAMDISPLAYWYSIWYGr" description="PARAMDISPLAYWYSIWYGr">
+		<option value="0">Hide</option>
+		<option value="1">Show for 1st content</option>
+		<option value="2">Show for all contents</option>
 		</field>
 		<field name="displayAlias" type="radio" default="1" label="PARAMDISPLAYALIAS" description="PARAMDISPLAYALIAS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</field>	
+		</field>
 		<field name="displayIntroText" type="radio" default="1" label="PARAMDISPLAYINTROTEXT" description="PARAMDISPLAYINTROTEXT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -35,16 +35,16 @@
 		<field name="displayMetaKeywords" type="radio" default="0" label="PARAMDISPLAYMETAKEYWORDS" description="PARAMDISPLAYMETAKEYWORDS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</field>	
+		</field>
 		<field name="displayMetaRobots" type="radio" default="0" label="PARAMDISPLAYMETAROBOTS" description="PARAMDISPLAYMETAROBOTS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</field>	
+		</field>
 		<field name="displayMetaAuthor" type="radio" default="0" label="PARAMDISPLAYMETAAUTHOR" description="PARAMDISPLAYMETAAUTHOR">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</field>		
-    </fieldset>
+		</field>
+	</fieldset>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
@@ -62,7 +62,7 @@
 			section="component" />
 	</fieldset>
 </config>
- 
-  
- 
- 
+
+
+
+

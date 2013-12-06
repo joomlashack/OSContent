@@ -23,7 +23,7 @@ class OSContentViewCategories extends OSView
 		JToolBarHelper::title(   JText::_( 'Mass Categories' ), 'generic.png' );
 		JToolBarHelper::apply("categories.save");
 		JToolbarHelper::cancel('categories.cancel');
-        JToolBarHelper::divider();
+		JToolBarHelper::divider();
 		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_oscontent' );
 

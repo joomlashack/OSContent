@@ -17,7 +17,7 @@
 		   <menu link="option=com_oscontent&amp;view=categories" view="categories" img="class:component" alt="Mass Content/Categories">Create mass categories</menu>
 		   <menu link="option=com_oscontent&amp;view=delete" view="delete" img="class:component" alt="Mass Content/delete">Delete mass content</menu>
 		</submenu>
-	
+
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
@@ -36,5 +36,5 @@
 			</language>
 		</languages>
 	</administration>
-	
+
 </extension>
