@@ -140,7 +140,7 @@ class OSContentModelDelete extends OSModel
 	}
 
 
-	function &getData(){
+	public function &getData(){
 
 		$categories 	= $this->getCategoryParent();
 		$sectioncategories=0;
@@ -153,7 +153,7 @@ class OSContentModelDelete extends OSModel
 	}
 
 
-	function deleteOSContent( $option=null ) {
+	public function deleteOSContent( $option=null ) {
 		global $mainframe;
 		$database = JFactory::getDBO();
 

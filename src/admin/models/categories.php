@@ -139,7 +139,7 @@ class OSContentModelCategories extends OSModel
 		return $options;
 	}
 
-	function &getData(){
+	public function &getData(){
 		global  $my, $mainframe;
 		$database = JFactory::getDBO();
 
@@ -198,7 +198,7 @@ class OSContentModelCategories extends OSModel
 	 * Get a list of the menutypes
 	 * @return array An array of menu type names
 	 */
-	function getMenuTypes()
+	public function getMenuTypes()
 	{
 		$db =JFactory::getDBO();
 		$query = 'SELECT a.menutype, a.title' .
@@ -214,7 +214,7 @@ class OSContentModelCategories extends OSModel
 		return $result;
 	}
 
-	function createSubMenu ()
+	public function createSubMenu ()
 	{
 		// build the html select list for menu selection
 
@@ -265,7 +265,7 @@ class OSContentModelCategories extends OSModel
 		///////////////////////////////////////////////////
 	}
 
-	function saveOSCategories( $option=null ){
+	public function saveOSCategories( $option=null ){
 		$post		= JRequest::get("post");
 
 		for ($i = 0; $i < count($post["title"]); $i++)
@@ -294,7 +294,7 @@ class OSContentModelCategories extends OSModel
 		return true;
 	}
 
-	function menuLink( $id, $title,$menuselect,$contentType,$parent , $alias = "" ) {
+	public function menuLink( $id, $title,$menuselect,$contentType,$parent , $alias = "" ) {
 		global $mainframe;
 		$database = JFactory::getDBO();
 

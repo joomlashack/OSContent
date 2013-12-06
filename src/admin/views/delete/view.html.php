@@ -17,7 +17,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
  */
 class OSContentViewDelete extends OSView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'OSContent' ), 'generic.png' );
 		JToolBarHelper::custom ('delete.delete','delete.png', 'delete_f2.png',JText::_('Delete'),false);

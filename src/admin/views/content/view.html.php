@@ -17,7 +17,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
  */
 class OSContentViewContent extends OSView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'OSContent' ), 'generic.png' );
 		JToolBarHelper::apply("content.save");

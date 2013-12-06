@@ -25,7 +25,7 @@ class TableContent extends JTable
 	 * @param	database	A database connector object
 	 * @since	1.0
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__content', 'id', $db);
 	}
@@ -318,7 +318,7 @@ class TableContent extends JTable
 	 * @param	boolean	Map foreign keys to text values
 	 * @since	1.5
 	 */
-	function toXML($mapKeysToText=false)
+	public function toXML($mapKeysToText=false)
 	{
 		$db = JFactory::getDbo();
 

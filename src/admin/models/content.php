@@ -46,7 +46,7 @@ class OSContentModelContent extends OSModel
 	* @param menuselect: The menu where to create the link
 	* @param contentType:  to know the kind of content (static content or not)
 	*/
-	function menuLink( $id, $title,$menuselect,$contentType,$parent, $alias = ""  ) {
+	public function menuLink( $id, $title,$menuselect,$contentType,$parent, $alias = ""  ) {
 		global $mainframe;
 		$database = JFactory::getDBO();
 
@@ -154,7 +154,7 @@ class OSContentModelContent extends OSModel
 	 * @param string The menu type
 	 * @return array An array of records as objects
 	 */
-	function getMenuItems($menutype)
+	public function getMenuItems($menutype)
 	{
 
 		$table = $this->getTable();
@@ -273,7 +273,7 @@ class OSContentModelContent extends OSModel
 		return $options;
 	}
 
-	function &getData(){
+	public function &getData(){
 		$database = JFactory::getDBO();
 
 		global $my;
@@ -360,7 +360,7 @@ class OSContentModelContent extends OSModel
 	 * Get a list of the menutypes
 	 * @return array An array of menu type names
 	 */
-	function getMenuTypes()
+	public function getMenuTypes()
 	{
 		$db = JFactory::getDBO();
 		/*$query = 'SELECT menutype' .
@@ -379,7 +379,7 @@ class OSContentModelContent extends OSModel
 	}
 
 
-	function createSubMenu ()
+	public function createSubMenu ()
 	{
 		// build the html select list for menu selection
 
@@ -433,7 +433,7 @@ class OSContentModelContent extends OSModel
 		///////////////////////////////////////////////////
 	}
 
-	function saveOSContent( $option=null ) {
+	public function saveOSContent( $option=null ) {
 
 		$post		= JRequest::get("post");
 
