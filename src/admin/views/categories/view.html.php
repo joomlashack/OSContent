@@ -29,10 +29,17 @@ class OSContentViewCategories extends OSView
 
 		//get params
 		$params = JComponentHelper::getParams('com_oscontent');
-		$this->assignRef('params',		$params);
+
 		//get data
 		$lists = $this->get('Data');
-		$this->assignRef('lists',		$lists);
+
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$this->assignRef('params',		$params);
+			$this->assignRef('lists',		$lists);
+		} else {
+			$this->params = $params;
+			$this->lists = $lists;
+		}
 
 		parent::display($tpl);
 	}
