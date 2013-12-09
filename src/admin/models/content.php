@@ -182,42 +182,51 @@ class OSContentModelContent extends OSModel
 		// Initialise variables.
 		$options = array();
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+		try
+		{
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level');
-		$query->from('#__categories AS a');
-		$query->join('LEFT', '`#__categories` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			$query->select('a.id AS value, a.title AS text, a.level');
+			$query->from('#__categories AS a');
+			$query->join('LEFT', '`#__categories` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		$extension = "com_content";
-		$query->where('(a.extension = "com_content" OR a.parent_id = 0) AND a.id <> 1');
+			$extension = "com_content";
+			$query->where('(a.extension = "com_content" OR a.parent_id = 0) AND a.id <> 1');
 
-		/*
-		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id')) {
-			$query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
-			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			/*
+			// Prevent parenting to children of this item.
+			if ($id = $this->form->getValue('id')) {
+				$query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
+				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-			$rowQuery	= $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
-			$rowQuery->from('#__categories AS a');
-			$rowQuery->where('a.id = ' . (int) $id);
-			$db->setQuery($rowQuery);
-			$row = $db->loadObject();
+				$rowQuery	= $db->getQuery(true);
+				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
+				$rowQuery->from('#__categories AS a');
+				$rowQuery->where('a.id = ' . (int) $id);
+				$db->setQuery($rowQuery);
+				$row = $db->loadObject();
+			}
+			*/
+
+			$query->where('a.published IN (0,1)');
+			$query->group('a.id');
+			$query->order('a.lft ASC');
+
+			// Get the options.
+			$db->setQuery($query);
+
+			$options = $db->loadObjectList();
+
+			if (version_compare(JVERSION, '3.0', '<')) {
+				// Check for a database error.
+				if ($db->getErrorNum()) {
+					JError::raiseWarning(500, $db->getErrorMsg());
+				}
+			}
 		}
-		*/
-
-		$query->where('a.published IN (0,1)');
-		$query->group('a.id');
-		$query->order('a.lft ASC');
-
-		// Get the options.
-		$db->setQuery($query);
-
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
+		catch (Exception $e)
+		{
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
