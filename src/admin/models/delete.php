@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * OSContent for Joomla 1.7.x, 2.5.x and 3.x
 * @version 1.9.1
 * @Date 04.10.2009
