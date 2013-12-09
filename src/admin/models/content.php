@@ -156,10 +156,14 @@ class OSContentModelContent extends OSModel
 	 */
 	public function getMenuItems($menutype)
 	{
-
+		// TODO: Check if this table is been used
 		$table = $this->getTable();
 		if ($table->menutype == '') {
-			$table->menutype = JRequest::getString('menutype');
+			if (version_compare(JVERSION, '3.0', '<')) {
+				$table->menutype = JRequest::getString('menutype');
+			} else {
+				$table->menutype = JFactory::getApplication()->input->getString('menutype');
+			}
 		}
 
 		$db =$this->getDBO();
@@ -437,12 +441,47 @@ class OSContentModelContent extends OSModel
 		///////////////////////////////////////////////////
 	}
 
+	public function getPostData() {
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$post = JRequest::get('post');
+		} else {
+			$app = JFactory::getApplication();
+			$input = $app->input;
+			$post = $input->getArray(
+				array(
+					'title' => 'ARRAY',
+					'alias' => 'ARRAY',
+					'published' => 'STRING',
+					'access' => 'INT',
+					'created_by' => 'INT',
+					'created_by_alias' => 'STRING',
+					'catid' => 'INT',
+					'created' => 'DATE',
+					'publish_up' => 'DATE',
+					'publish_down' => 'DATE',
+					'metadesc' => 'ARRAY',
+					'metakey' => 'ARRAY'
+				)
+			);
+			for ($i = 0; $i < count($post["title"]); $i++)
+			{
+				$index = $i + 1;
+				$post['introtext_' . $index] = $input->getHtml('introtext_' . $index);
+				$post['fulltext_' . $index] = $input->getHtml('fulltext_' . $index);
+			}
+		}
+
+		return $post;
+	}
+
 	public function saveOSContent($option=null) {
 
-		$post		= JRequest::get("post");
+		$post = $this->getPostData();
 
 		for ($i = 0; $i < count($post["title"]); $i++)
 		{
+			$index = $i + 1;
+
 			if ($post["title"][$i] == "")
 				continue;
 			$row = $this->getTable();
@@ -456,8 +495,8 @@ class OSContentModelContent extends OSModel
 				$row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') ."-".$i;
 			}
 
-			$intro_text = JRequest::getVar('introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$full_text = JRequest::getVar('fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$intro_text = $post['introtext_' . $index];
+			$full_text = $post['fulltext_' . $index];
 			$row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
 			$row->fulltext   = ($intro_text != "" ? $full_text : "");
 			$row->metakey   = $post["metakey"][$i];
@@ -469,9 +508,11 @@ class OSContentModelContent extends OSModel
 			$row->language   = "*";
 			$row->created_by   = $post["created_by"];
 
+			// TODO: implement the metadata/robots
 			$row->metadata="";
 			if ($row->robots!="")
 				$row->metadata="robots=".$row->robots."\n";
+			// TODO: implement the author_alias
 			if ($row->author!="")
 				$row->metadata.="author=".$row->author;
 			if ($row->metadata=="")
@@ -532,6 +573,8 @@ class OSContentModelContent extends OSModel
 		}
 		for ($i = 0; $i < count($post["title"]); $i++)
 		{
+			$index = $i + 1;
+
 			if ($post["title"][$i] == "")
 				continue;
 
@@ -547,8 +590,8 @@ class OSContentModelContent extends OSModel
 			{
 				$row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') ."-".$i;
 			}
-			$intro_text = JRequest::getVar('introtext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$full_text = JRequest::getVar('fulltext_'. ($i + 1), '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$intro_text = $post['introtext_' . $index];
+			$full_text = $post['fulltext_' . $index];
 			$row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
 			$row->fulltext   = ($intro_text != "" ? $full_text : "");
 			$row->metakey   = $post["metakey"][$i];
@@ -617,7 +660,6 @@ class OSContentModelContent extends OSModel
 
 			if (!$row->store())
 				return false;
-
 
 			$row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
 

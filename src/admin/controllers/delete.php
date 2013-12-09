@@ -21,7 +21,13 @@ class OSContentControllerDelete extends JControllerForm
 	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
-		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'delete'));
+
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$view = JRequest::getCmd('view', 'delete');
+		} else {
+			$view = JFactory::getApplication()->input->get('view', 'delete');
+		}
+		OSContentHelper::addSubmenu($view);
 
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));
 		parent::display($cachable, $urlparams);
@@ -32,6 +38,8 @@ class OSContentControllerDelete extends JControllerForm
 	 */
 	public function delete($key = null, $urlVar = null)
 	{
+		// TODO: Allow to delete multiple items
+
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 

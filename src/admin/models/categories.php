@@ -275,7 +275,22 @@ class OSContentModelCategories extends OSModel
 	}
 
 	public function saveOSCategories($option=null){
-		$post		= JRequest::get("post");
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$post = JRequest::get('post');
+		} else {
+			$post = JFactory::getApplication()->input->getArray(
+				array(
+					'title' => 'ARRAY',
+					'alias' => 'ARRAY',
+					'published' => 'INT',
+					'access' => 'INT',
+					'parent_id' => 'INT',
+					'menuselect' => 'STRING',
+					'link_type' => 'STRING',
+					'menuselect3' => 'STRING'
+				)
+			);
+		}
 
 		for ($i = 0; $i < count($post["title"]); $i++)
 		{

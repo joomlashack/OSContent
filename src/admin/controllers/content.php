@@ -21,7 +21,13 @@ class OSContentControllerContent extends JControllerForm
 	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
-		OSContentHelper::addSubmenu(JRequest::getCmd('view', 'content'));
+
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$view = JRequest::getCmd('view', 'content');
+		} else {
+			$view = JFactory::getApplication()->input->get('view', 'content');
+		}
+		OSContentHelper::addSubmenu($view);
 
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false));
 		parent::display($cachable, $urlparams);

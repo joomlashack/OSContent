@@ -157,11 +157,19 @@ class OSContentModelDelete extends OSModel
 		global $mainframe;
 		$database = JFactory::getDBO();
 
-		$catid = JRequest::getVar(  'catid', '','POST');
-		$deleteCategory = JRequest::getVar(  'deleteCategory', '' ,'POST');
-		$deleteContentOnly = JRequest::getVar(  'deleteContentOnly', '','POST');
-		$where="";
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$catid = JRequest::getVar(  'catid', '','POST');
+			$deleteCategory = JRequest::getVar(  'deleteCategory', '' ,'POST');
+			$deleteContentOnly = JRequest::getVar(  'deleteContentOnly', '','POST');
+		} else {
+			$input = JFactory::getApplication()->input;
+			$catid = $input->getInt('catid');
+			// TODO: Use int value for these fields
+			$deleteCategory = $input->getInt('deleteCategory') === 0;
+			$deleteContentOnly = $input->getInt('deleteContentOnly') === 0;
+		}
 
+		$where="";
 		if ($catid>0) //a cat is selected
 		{
 			if ($deleteCategory) {

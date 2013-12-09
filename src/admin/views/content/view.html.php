@@ -33,6 +33,9 @@ class OSContentViewContent extends OSView
 		$lists= $this->get('Data');
 		$this->assignRef('lists',		$lists);
 
+		$post = $this->getModel()->getPostData();
+		$this->assignRef('post', $post);
+
 		parent::display($tpl);
 	}
 }

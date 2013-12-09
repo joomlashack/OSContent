@@ -17,7 +17,8 @@ JHTML::_('behavior.calendar');
 
 $hidden="";
 $editor = JFactory::getEditor();
-$post = JRequest::get("post");
+// TODO: Check if this variable is really needed
+$post = $this->post;
 
 $createdate = JFactory::getDate();
 if (version_compare(JVERSION, '3.0', '<')) {
