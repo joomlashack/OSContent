@@ -13,9 +13,9 @@
 	<administration>
 		<menu img="class:component">OSContent</menu>
 		<submenu>
-		   <menu link="option=com_oscontent&amp;view=content" view="content" img="class:component" alt="Mass Content/Content">Create mass content</menu>
-		   <menu link="option=com_oscontent&amp;view=categories" view="categories" img="class:component" alt="Mass Content/Categories">Create mass categories</menu>
-		   <menu link="option=com_oscontent&amp;view=delete" view="delete" img="class:component" alt="Mass Content/delete">Delete mass content</menu>
+			<menu link="option=com_oscontent&amp;view=content" view="content" img="class:component" alt="Mass Content/Content">Create mass content</menu>
+			<menu link="option=com_oscontent&amp;view=categories" view="categories" img="class:component" alt="Mass Content/Categories">Create mass categories</menu>
+			<menu link="option=com_oscontent&amp;view=delete" view="delete" img="class:component" alt="Mass Content/delete">Delete mass content</menu>
 		</submenu>
 
 		<files folder="admin">
