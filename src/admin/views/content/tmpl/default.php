@@ -28,6 +28,15 @@ if (version_compare(JVERSION, '3.0', '<')) {
 }
 ?>
 
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+
 <script language="javascript" type="text/javascript">
 
 	function copyTitle(){
@@ -349,3 +358,4 @@ if (version_compare(JVERSION, '3.0', '<')) {
 	<?php echo JHtml::_('form.token'); ?>
 	<?php echo $hidden;?>
 </form>
+</div>

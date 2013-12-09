@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die();
 
+// TODO: Add prefix to language tags
+
 require_once 'controller.php';
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_oscontent')) {

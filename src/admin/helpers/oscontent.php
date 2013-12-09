@@ -14,19 +14,24 @@ class OSContentHelper
 {
 	public static function addSubmenu($vName)
 	{
+		if (version_compare(JVERSION, '3.0', '<')) {
+			$subMenuClass = 'JSubMenuHelper';
+		} else {
+			$subMenuClass = 'JHtmlSidebar';
+		}
 
-		JSubMenuHelper::addEntry(
+		$subMenuClass::addEntry(
 			JText::_('MASS CONTENT'),
 			'index.php?option=com_oscontent&view=content',
 			$vName == 'content'
 		);
 
-		JSubMenuHelper::addEntry(
+		$subMenuClass::addEntry(
 			JText::_('MASS CATEGORIES'),
 			'index.php?option=com_oscontent&view=categories',
 			$vName == 'categories'
 		);
-		JSubMenuHelper::addEntry(
+		$subMenuClass::addEntry(
 			JText::_('MASS DELETE'),
 			'index.php?option=com_oscontent&view=delete',
 			$vName == 'delete'

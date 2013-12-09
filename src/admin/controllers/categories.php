@@ -27,7 +27,6 @@ class OSContentControllerCategories extends JControllerForm
 		} else {
 			$view = JFactory::getApplication()->input->get('view', 'categories');
 		}
-		OSContentHelper::addSubmenu($view);
 
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false));
 		parent::display($cachable, $urlparams);

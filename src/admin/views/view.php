@@ -15,5 +15,11 @@ jimport('joomla.application.component.view');
 if (version_compare(JVERSION, '3.0', '<')) {
 	class OSView extends JView { }
 } else {
-	class OSView extends JViewLegacy { }
+	class OSView extends JViewLegacy {
+		public function display($tpl = null) {
+			$this->sidebar = JHtmlSidebar::render();
+
+			parent::display($tpl);
+		}
+	}
 }

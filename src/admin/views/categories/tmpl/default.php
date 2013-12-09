@@ -25,6 +25,15 @@ JHtml::_('behavior.tooltip');
 }
 </style>
 
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+
 <h1><?php echo JText::_("Mass Categories");?></h1>
 <form action="<?php echo JRoute::_('index.php?option=com_oscontent');?>" method="post" name="adminForm" id="categories-form" class="adminForm form-validate">
 	<table border="0" cellpadding="3" cellspacing="0" >
@@ -157,3 +166,5 @@ JHtml::_('behavior.tooltip');
 		}
 	}
 </script>
+
+</div>
