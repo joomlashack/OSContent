@@ -93,4 +93,3 @@ class OSContentController extends OSController
 		return $this;
 	}
 }
-?>
