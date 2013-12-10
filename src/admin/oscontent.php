@@ -45,3 +45,8 @@ else
 
 $controller->execute($task);
 $controller->redirect();
+
+if (defined('JDEBUG'))
+{
+	JProfiler::getInstance('Application')->mark('com_oscontent');
+}
