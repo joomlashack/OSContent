@@ -896,7 +896,7 @@ class OSContentModelContent extends OSModel
 
 			$row->reorder('catid = ' . (int) $row->catid . ' AND state >= 0');
 
-			if ($post["addMenu"] === 0)
+			if (@$post["addMenu"] === 0 || @$post['addMenu'] === 'on')
 			{
 				$type = "content_item_link";
 				$this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);

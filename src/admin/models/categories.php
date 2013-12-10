@@ -432,7 +432,7 @@ class OSContentModelCategories extends OSModel
 			if (!$table->store())
 				return false;
 
-			if (@$post["addMenu"] === 0)
+			if (@$post["addMenu"] === 0 || @$post['addMenu'] === 'on')
 			{
 				$this->menuLink($table->id, $table->title, $post["menuselect"], $post["link_type"], $post["menuselect3"], $table->alias);
 			}
