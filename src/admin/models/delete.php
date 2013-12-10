@@ -23,25 +23,42 @@ defined('_JEXEC') or die();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
+/**
+ * Model Delete
+ *
+ * @since  1.0.0
+ */
 class OSContentModelDelete extends OSModel
 {
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_OSCONTENT_DELETE';
 
 	/**
 	 * Model context string.
 	 *
-	 * @var        string
+	 * @var  string
 	 */
 	protected $_context = 'com_oscontent.delete';
 
+	/**
+	 * Get the form
+	 *
+	 * @param   array  $data      Data
+	 * @param   bool   $loadData  Load data
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  Form
+	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_oscontent.delete', 'delete', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -50,6 +67,14 @@ class OSContentModelDelete extends OSModel
 		return $form;
 	}
 
+	/**
+	 * Get parent category
+	 *
+	 * @access	protected
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
 	protected function getCategoryParent()
 	{
 		// Initialise variables.
@@ -57,8 +82,8 @@ class OSContentModelDelete extends OSModel
 
 		try
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text, a.level');
 			$query->from('#__categories AS a');
@@ -68,8 +93,9 @@ class OSContentModelDelete extends OSModel
 			$query->where('(a.extension = "com_content" OR a.parent_id = 0) AND a.id <> 1');
 
 			/*
-			// Prevent parenting to children of this item.
-			if ($id = $this->form->getValue('id')) {
+			// Prevent parenting to children of this item
+			if ($id = $this->form->getValue('id'))
+			{
 				$query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
 				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
@@ -91,9 +117,12 @@ class OSContentModelDelete extends OSModel
 
 			$options = $db->loadObjectList();
 
-			// Check for a database error.
-			if (version_compare(JVERSION, '3.0', '<')) {
-				if ($db->getErrorNum()) {
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				// Check for a database error.
+				if ($db->getErrorNum())
+				{
 					JError::raiseWarning(500, $db->getErrorMsg());
 				}
 			}
@@ -107,39 +136,46 @@ class OSContentModelDelete extends OSModel
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Translate ROOT
-			if ($options[$i]->level == 0) {
+			if ($options[$i]->level == 0)
+			{
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
-			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 		}
 
 		// Initialise variables.
 		$user = JFactory::getUser();
 
-		if (empty($id)) {
+		if (empty($id))
+		{
 			// New item, only have to check core.create.
 			foreach ($options as $i => $option)
 			{
 				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.create', $extension.'.category.'.$option->value)) {
+				if (!$user->authorise('core.create', $extension . ' . category.' . $option->value))
+				{
 					unset($options[$i]);
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Existing item is a bit more complex. Need to account for core.edit and core.edit.own.
 			foreach ($options as $i => $option)
 			{
 				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.edit', $extension.'.category.'.$option->value)) {
+				if (!$user->authorise('core.edit', $extension . '.category.' . $option->value))
+				{
 					// As a backup, check core.edit.own
-					if (!$user->authorise('core.edit.own', $extension.'.category.'.$option->value)) {
+					if (!$user->authorise('core.edit.own', $extension . '.category.' . $option->value))
+					{
 						// No core.edit nor core.edit.own - bounce this one
 						unset($options[$i]);
 					}
-					else {
-						// TODO I've got a funny feeling we need to check core.create here.
+					else
+					{
+						// TODO: I've got a funny feeling we need to check core.create here.
 						// Maybe you can only get the list of categories you are allowed to create in?
 						// Need to think about that. If so, this is the place to do the check.
 					}
@@ -147,10 +183,11 @@ class OSContentModelDelete extends OSModel
 			}
 		}
 
-
-		if (isset($row) && !isset($options[0])) {
-			if ($row->parent_id == '1') {
-				$parent = new stdClass();
+		if (isset($row) && !isset($options[0]))
+		{
+			if ($row->parent_id == '1')
+			{
+				$parent = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
@@ -159,11 +196,18 @@ class OSContentModelDelete extends OSModel
 		return $options;
 	}
 
-
-	public function &getData(){
-
+	/**
+	 * Get Data
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
+	public function &getData()
+	{
 		$categories = $this->getCategoryParent();
-		$sectioncategories=0;
+		$sectioncategories = 0;
 
 		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
 
@@ -172,63 +216,71 @@ class OSContentModelDelete extends OSModel
 		return $lists;
 	}
 
-
-	public function deleteOSContent($option=null) {
+	public function deleteOSContent($option = null)
+	{
 		global $mainframe;
 		$database = JFactory::getDBO();
 
-		if (version_compare(JVERSION, '3.0', '<')) {
-			$catid = JRequest::getVar(  'catid', '','POST');
-			$deleteCategory = JRequest::getVar(  'deleteCategory', '' ,'POST');
-			$deleteContentOnly = JRequest::getVar(  'deleteContentOnly', '','POST');
-		} else {
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$catid = JRequest::getVar('catid', '', 'POST');
+			$deleteCategory = JRequest::getVar('deleteCategory', '', 'POST');
+			$deleteContentOnly = JRequest::getVar('deleteContentOnly', '', 'POST');
+		}
+		else
+		{
 			$input = JFactory::getApplication()->input;
 			$catid = $input->getInt('catid');
+
 			// TODO: Use int value for these fields
 			$deleteCategory = $input->getInt('deleteCategory') === 0;
 			$deleteContentOnly = $input->getInt('deleteContentOnly') === 0;
 		}
 
-		$where="";
-		if ($catid>0) //a cat is selected
+		$where = "";
+
+		if ($catid > 0)
 		{
-			if ($deleteCategory) {
-				//delete link menu-cat
+			// A cat is selected
+			if ($deleteCategory)
+			{
+				// Delete link menu-cat
 				$query = "DELETE m FROM #__menu m "
-				. "\n WHERE m.component_id = 22 "
-				. "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0"
-				;
+					. "\n WHERE m.component_id = 22 "
+					. "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0";
 
 				$database->setQuery($query);
 				$database->query();
 
-				//delete cat
+				// Delete cat
 				$query = "DELETE FROM #__categories"
 					. "\n WHERE id=$catid"
 					. $where;
-					;
 
 				$database->setQuery($query);
 				$database->query();
 			}
 
-			if ($deleteContentOnly) {
-			$query = "UPDATE #__content SET `introtext`='', `fulltext`='' "
-				. "\n WHERE catid=$catid"
-				. $where ;
+			if ($deleteContentOnly)
+			{
+				$query = "UPDATE #__content SET `introtext`='', `fulltext`='' "
+					. "\n WHERE catid=$catid"
+					. $where;
 			}
-			else {
-				//delete full content (article)
+			else
+			{
+				// Delete full content (article)
 				$query = "DELETE co FROM #__content co "
-				. "\n WHERE co.catid=$catid"
-				. $where ;
+					. "\n WHERE co.catid=$catid"
+					. $where;
 			}
+
 			$database->setQuery($query);
 			$database->query();
-
 		}
 
-		//delete content
+		// Delete content
 		return true;
 	}
 }

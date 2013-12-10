@@ -23,12 +23,40 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-if (version_compare(JVERSION, '3.0', '<')) {
-	class OSView extends JView { }
-} else {
-	class OSView extends JViewLegacy {
-		public function display($tpl = null) {
-			$this->sidebar = JHtmlSidebar::render();
+// Joomla 3.x Backward Compatibility
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	/**
+	 * Alias Class for JView in Joomla! < 3.0
+	 *
+	 * @since  1.9.1
+	 */
+	class OSView extends JView {}
+}
+else
+{
+	/**
+	 * Alias Class for JViewLegacy in Joomla! >= 3.0
+	 *
+	 * @since  1.9.1
+	 */
+	class OSView extends JViewLegacy
+	{
+		/**
+		 * Method to display the view
+		 *
+		 * @param   string  $tpl  Template file
+		 *
+		 * @access	public
+		 * @return  void
+		 */
+		public function display($tpl = null)
+		{
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '>='))
+			{
+				$this->sidebar = JHtmlSidebar::render();
+			}
 
 			parent::display($tpl);
 		}

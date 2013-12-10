@@ -21,13 +21,29 @@
 
 defined('_JEXEC') or die();
 
+/**
+ * Content Helper
+ *
+ * @since  1.0.0
+ */
 class OSContentHelper
 {
+	/**
+	 * Link the content to the menu
+	 *
+	 * @param   string  $vName  View name
+	 *
+	 * @return void
+	 */
 	public static function addSubmenu($vName)
 	{
-		if (version_compare(JVERSION, '3.0', '<')) {
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
 			$subMenuClass = 'JSubMenuHelper';
-		} else {
+		}
+		else
+		{
 			$subMenuClass = 'JHtmlSidebar';
 		}
 
@@ -47,7 +63,5 @@ class OSContentHelper
 			'index.php?option=com_oscontent&view=delete',
 			$vName == 'delete'
 		);
-
 	}
 }
-?>

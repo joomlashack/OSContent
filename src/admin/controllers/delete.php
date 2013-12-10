@@ -23,19 +23,33 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.controllerform');
 
+/**
+ * Controller Delete
+ *
+ * @since  1.0.0
+ */
 class OSContentControllerDelete extends JControllerForm
 {
 	/**
-	 * display the form
-	 * @return void
+	 * Method to display the controller's view
+	 *
+	 * @param   bool   $cachable   Cachable
+	 * @param   array  $urlparams  URL Params
+	 *
+	 * @access	public
+	 * @return  OSContentController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
 
-		if (version_compare(JVERSION, '3.0', '<')) {
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
 			$view = JRequest::getCmd('view', 'delete');
-		} else {
+		}
+		else
+		{
 			$view = JFactory::getApplication()->input->get('view', 'delete');
 		}
 
@@ -44,7 +58,13 @@ class OSContentControllerDelete extends JControllerForm
 	}
 
 	/**
-	 * delete
+	 * Method to delete
+	 *
+	 * @param   string  $key     Key
+	 * @param   string  $urlVar  URL var
+	 *
+	 * @access	public
+	 * @return  void
 	 */
 	public function delete($key = null, $urlVar = null)
 	{
@@ -54,9 +74,13 @@ class OSContentControllerDelete extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('delete');
-		if(!$model->deleteOSContent()) {
+
+		if(!$model->deleteOSContent())
+		{
 			$msg = JText::_("ERROR_DELETE");
-		} else {
+		}
+		else
+		{
 			$msg = JText::_("SUCCESS_DELETE");
 		}
 
@@ -65,6 +89,15 @@ class OSContentControllerDelete extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false), $msg);
 	}
 
+	/**
+	 * Method to Cancel
+	 *
+	 * @param   string  $key     Key
+	 * @param   string  $urlVar  URL var
+	 *
+	 * @access	public
+	 * @return  void
+	 */
 	public function cancel($key = null, $urlVar = null)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));

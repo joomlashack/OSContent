@@ -23,25 +23,42 @@ defined('_JEXEC') or die();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
+/**
+ * Model Categories
+ *
+ * @since  1.0.0
+ */
 class OSContentModelCategories extends OSModel
 {
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_OSCONTENT_CATEGORIES';
 
 	/**
 	 * Model context string.
 	 *
-	 * @var        string
+	 * @var  string
 	 */
 	protected $_context = 'com_oscontent.categories';
 
+	/**
+	 * Get the form
+	 *
+	 * @param   array  $data      Data
+	 * @param   bool   $loadData  Load data
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  Form
+	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_oscontent.categories', 'categories', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -50,6 +67,14 @@ class OSContentModelCategories extends OSModel
 		return $form;
 	}
 
+	/**
+	 * Get parent category
+	 *
+	 * @access	protected
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
 	protected function getCategoryParent()
 	{
 		// Initialise variables.
@@ -57,8 +82,8 @@ class OSContentModelCategories extends OSModel
 
 		try
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text, a.level');
 			$query->from('#__categories AS a');
@@ -91,9 +116,12 @@ class OSContentModelCategories extends OSModel
 
 			$options = $db->loadObjectList();
 
-			// Check for a database error.
-			if (version_compare(JVERSION, '3.0', '<')) {
-				if ($db->getErrorNum()) {
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				// Check for a database error.
+				if ($db->getErrorNum())
+				{
 					JError::raiseWarning(500, $db->getErrorMsg());
 				}
 			}
@@ -107,22 +135,25 @@ class OSContentModelCategories extends OSModel
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Translate ROOT
-			if ($options[$i]->level == 0) {
+			if ($options[$i]->level == 0)
+			{
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
-			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 		}
 
 		// Initialise variables.
 		$user = JFactory::getUser();
 
-		if (empty($id)) {
+		if (empty($id))
+		{
 			// New item, only have to check core.create.
 			foreach ($options as $i => $option)
 			{
 				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.create', $extension.'.category.'.$option->value)) {
+				if (!$user->authorise('core.create', $extension . '.category.' . $option->value))
+				{
 					unset($options[$i]);
 				}
 			}
@@ -132,14 +163,17 @@ class OSContentModelCategories extends OSModel
 			foreach ($options as $i => $option)
 			{
 				// Unset the option if the user isn't authorised for it.
-				if (!$user->authorise('core.edit', $extension.'.category.'.$option->value)) {
+				if (!$user->authorise('core.edit', $extension . '.category.' . $option->value))
+				{
 					// As a backup, check core.edit.own
-					if (!$user->authorise('core.edit.own', $extension.'.category.'.$option->value)) {
+					if (!$user->authorise('core.edit.own', $extension . '.category.' . $option->value))
+					{
 						// No core.edit nor core.edit.own - bounce this one
 						unset($options[$i]);
 					}
-					else {
-						// TODO I've got a funny feeling we need to check core.create here.
+					else
+					{
+						// TODO: I've got a funny feeling we need to check core.create here.
 						// Maybe you can only get the list of categories you are allowed to create in?
 						// Need to think about that. If so, this is the place to do the check.
 					}
@@ -148,9 +182,11 @@ class OSContentModelCategories extends OSModel
 		}
 
 
-		if (isset($row) && !isset($options[0])) {
-			if ($row->parent_id == '1') {
-				$parent = new stdClass();
+		if (isset($row) && !isset($options[0]))
+		{
+			if ($row->parent_id == '1')
+			{
+				$parent = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
@@ -159,95 +195,130 @@ class OSContentModelCategories extends OSModel
 		return $options;
 	}
 
-	public function &getData(){
-		global  $my, $mainframe;
+	/**
+	 * Get Data
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
+	public function &getData()
+	{
+		global  $my;
+		$mainframe = JFactory::getApplication();
 		$database = JFactory::getDBO();
 
-		$uid=0;
-		$scope 		= "content";
-		$option 	= "com_oscontent";
+		$uid = 0;
+		$scope = "content";
+		$option = "com_oscontent";
 
 		$row = $this->getTable();
-		// load the row from the db table
-		$row->load((int)$uid);
 
-		$row->scope 		= $scope;
-		$row->published 	= 1;
-		$menus 				= array();
+		// Load the row from the db table
+		$row->load((int) $uid);
+
+		$row->scope = $scope;
+		$row->published = 1;
+		$menus = array();
 
 		$javascript2 = "onchange=\"changeDynaList('menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
-		$categoriesparent 	= $this->getCategoryParent();
-		$lists['cate'] 		= JHTML::_('select.genericlist',   $categoriesparent, 'parent_id', 'class="inputbox" size="1"', 'value', 'text', null);
+		$categoriesparent = $this->getCategoryParent();
+		$lists['cate'] = JHTML::_('select.genericlist', $categoriesparent, 'parent_id', 'class="inputbox" size="1"', 'value', 'text', null);
 
 
-		// build the html select list for section types
+		// Build the html select list for section types
 		$types[] = JHTML::_('select.option', '', 'Select Type');
 		$types[] = JHTML::_('select.option', 'content_category', 'Category List Layout');
 		$types[] = JHTML::_('select.option', 'content_blog_category', 'Category Blog Layout');
-		$lists['link_type'] 		= JHTMLSelect::genericList($types, 'link_type', 'class="inputbox" size="1"', 'value', 'text');
+		$lists['link_type'] = JHTMLSelect::genericList($types, 'link_type', 'class="inputbox" size="1"', 'value', 'text');
 
 
 
 		$menuTypes 	= $this->getMenuTypes();
+
 		foreach ($menuTypes as $menuType)
 		{
-			if (version_compare(JVERSION, '3.0', '<')) {
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
 				$menu[] = JHTML::_('select.option',  $menuType, $menuType);
-			} else {
+			}
+			else
+			{
 				$menu[] = JHTML::_('select.option',  $menuType->menutype, $menuType->title);
 			}
 		}
 
-
-		// build the html select list for the group access
-		if (version_compare(JVERSION, '3.0', '<')) {
-			$lists['access'] = JHTML::_('list.accesslevel',  $row);
-		} else {
+		// Build the html select list for the group access
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$lists['access'] = JHTML::_('list.accesslevel', $row);
+		}
+		else
+		{
 			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 		}
 
-		// build the html radio buttons for published
-		$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published);
+		// Vuild the html radio buttons for published
+		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published);
 
 		$stop_notice = array();
-		$lists['menuselect3'] = JHTML::_('select.genericlist',   $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null);
+		$lists['menuselect3'] = JHTML::_('select.genericlist', $stop_notice, 'menuselect3', 'class="inputbox" size="10"', 'value', 'text', null);
 
-		$lists['menulist']=  $this->createSubMenu();
+		$lists['menulist'] = $this->createSubMenu();
 
-		$lists['menuselect'] = JHTML::_('select.genericlist',   $menu, 'menuselect', 'class="inputbox" size="10" '.  $javascript2, 'value', 'text', null);
+		$lists['menuselect'] = JHTML::_('select.genericlist', $menu, 'menuselect', 'class="inputbox" size="10" ' . $javascript2, 'value', 'text', null);
+
 		return $lists;
-
 	}
+
 	/**
 	 * Get a list of the menutypes
+	 *
 	 * @return array An array of menu type names
 	 */
 	public function getMenuTypes()
 	{
-		$db =JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = 'SELECT a.menutype, a.title' .
 				' FROM #__menu_types AS a';
 		$db->setQuery($query);
 
-		if (version_compare(JVERSION, '3.0', '<')) {
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
 			$result = $db->loadResultArray();
-		} else {
+		}
+		else
+		{
 			$result = $db->loadObjectList();
 		}
 
 		return $result;
 	}
 
+	/**
+	 * Create submenu
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
 	public function createSubMenu()
 	{
-		// build the html select list for menu selection
-
+		// Build the html select list for menu selection
 		$menulist = array();
 		$database = JFactory::getDBO();
-		$menuTypes 	= $this->getMenuTypes();
-		foreach ($menuTypes as $menuType) {
+		$menuTypes = $this->getMenuTypes();
 
-			if (version_compare(JVERSION, '3.0', '>=')) {
+		foreach ($menuTypes as $menuType)
+		{
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '>='))
+			{
 				$menuType = $menuType->menutype;
 			}
 
@@ -258,11 +329,15 @@ class OSContentModelCategories extends OSModel
 			$query = 'SELECT id, parent_id, title, menutype' .
 				' FROM #__menu' .
 				' WHERE menutype = "' . $menuType .'" AND published = 1'.
-				' ORDER BY menutype, parent_id, '
-				;
-			if (version_compare(JVERSION, '3.0', '<')) {
+				' ORDER BY menutype, parent_id, ';
+
+			// Joomla 3.x Backward Compatibility
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
 				$query .= 'ordering';
-			} else {
+			}
+			else
+			{
 				$query .= 'lft';
 			}
 
@@ -271,33 +346,54 @@ class OSContentModelCategories extends OSModel
 
 			$children = array();
 
-			if ($menuItems4) {
-				// first pass - collect children
-				foreach ($menuItems4 as $v) {	// iterate through the menu items
-					$pt 	= $v->parent_id;		// we use parent as our array index
+			if ($menuItems4)
+			{
+				// First pass - collect children
+				// Iterate through the menu items
+				foreach ($menuItems4 as $v)
+				{
+					// We use parent as our array index
+					$pt = $v->parent_id;
 
-					// if an array entry for the parent doesn't exist, we create a new array
-					$list 	= @$children[$pt] ? $children[$pt] : array();
-					// we push our item onto the array (either the existing one for the specified parent or the new one
+					// If an array entry for the parent doesn't exist, we create a new array
+					$list = @$children[$pt] ? $children[$pt] : array();
+
+					// We push our item onto the array (either the existing one for the specified parent or the new one
 					array_push($list, $v);
+
 					// We put out updated list into the array
 					$children[$pt] = $list;
 				}
 			}
-			// second pass - get an indent list of the items
-			$list = JHTML::_('menu.treerecurse', @$menuItems4[0]->parent_id, '-', array(), $children, 9999, 0, 0);
-			$menulist[] = $list ;
 
+			// Second pass - get an indent list of the items
+			$list = JHTML::_('menu.treerecurse', @$menuItems4[0]->parent_id, '-', array(), $children, 9999, 0, 0);
+			$menulist[] = $list;
+			///////////////////////////////////////////////////
 		}
 
 		return $menulist;
-		///////////////////////////////////////////////////
 	}
 
-	public function saveOSCategories($option=null){
-		if (version_compare(JVERSION, '3.0', '<')) {
+	/**
+	 * Save the category
+	 *
+	 * @param   array  $option  Options
+	 *
+	 * @access	public
+	 * @since   1.0.0
+	 *
+	 * @return  array
+	 */
+	public function saveOSCategories($option = null)
+	{
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
 			$post = JRequest::get('post');
-		} else {
+		}
+		else
+		{
 			$post = JFactory::getApplication()->input->getArray(
 				array(
 					'title' => 'ARRAY',
@@ -316,70 +412,93 @@ class OSContentModelCategories extends OSModel
 		{
 			if ($post["title"][$i] == "")
 				continue;
-			$table				= $this->getTable();
-			$table->id 			= 0;
-			$table->title 		= $post["title"][$i];
-			$table->alias		= JFilterOutput::stringURLSafe($post["alias"][$i]);
+
+			$table = $this->getTable();
+			$table->id = 0;
+			$table->title = $post["title"][$i];
+			$table->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
+
 			if (trim(str_replace('-', '', $table->alias)) == '')
 			{
-				$table->alias = JFactory::getDate()->format('Y-m-d-H-i-s') ."-".$i;
+				$table->alias = JFactory::getDate()->format('Y-m-d-H-i-s') . "-" . $i;
 			}
-			$table->extension	= "com_content";
-			$table->published	= $post["published"];
-			$table->access		= $post["access"];
-			$table->language	= "*";
+
+			$table->extension = "com_content";
+			$table->published = $post["published"];
+			$table->access = $post["access"];
+			$table->language = "*";
 			$table->setLocation($post["parent_id"], 'last-child');
+
 			if (!$table->store())
 				return false;
-			if (@$post["addMenu"]) {
-				$this->menuLink($table->id, $table->title,$post["menuselect"],$post["link_type"], $post["menuselect3"] , $table->alias);
+
+			if (@$post["addMenu"])
+			{
+				$this->menuLink($table->id, $table->title, $post["menuselect"], $post["link_type"], $post["menuselect3"], $table->alias);
 			}
 		}
+
 		return true;
 	}
 
-	public function menuLink($id, $title,$menuselect,$contentType,$parent , $alias = "") {
-		global $mainframe;
+	/**
+	 * Link the content to the menu
+	 *
+	 * @param   int     $id           The id of the content to insert
+	 * @param   string  $title        The  title of the menu element
+	 * @param   string  $menuselect   The menu where to create the link
+	 * @param   string  $contentType  to know the kind of content (static content or not)
+	 * @param   int     $parent       Parent
+	 * @param   string  $alias        Alias
+	 *
+	 * @return void
+	 */
+	public function menuLink($id, $title, $menuselect, $contentType, $parent, $alias = "")
+	{
+		$mainframe = JFactory::getApplication();
 		$database = JFactory::getDBO();
-
 
 		$menu = strval($menuselect);
 		$link = strval($title);
 
-		$link	= stripslashes(JFilterOutput::ampReplace($link));
+		$link = stripslashes(JFilterOutput::ampReplace($link));
 
-		//find what kind of link needs to be created in $row->link
-		switch ($contentType){
+		// Find what kind of link needs to be created in $row->link
+		switch ($contentType)
+		{
 			case "content_section":
 				$taskLink = "section";
 				break;
+
 			case "content_blog_section":
 				$taskLink = "section&layout=blog";
-				break;            ;
+				break;
+
 			case "content_category":
 				$taskLink = "category";
 				break;
+
 			case "content_blog_category":
 				$taskLink = "category&layout=blog";
 				break;
+
 			default:
 				$taskLink = "article";
 		}
 
+		$row = JTable::getInstance('menu');
+		$row->menutype = $menu;
+		$row->title = $link;
+		$row->alias = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
+		$row->parent_id = ($parent == -1) ? 1 : $parent;
+		$row->type = 'component';
+		$row->link = 'index.php?option=com_content&view=' . $taskLink . '&id=' . $id;
+		$row->published = 1;
+		$row->language = "*";
 
-		$row  = JTable::getInstance('menu');
-		$row->menutype 		= $menu;
-		$row->title			= $link;
-		$row->alias         = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
-		$row->parent_id		= ($parent==-1)?1:$parent;
-		$row->type 			= 'component';
-		$row->link			= 'index.php?option=com_content&view='.$taskLink.'&id='. $id;
-		$row->published		= 1;
-		$row->language		= "*";
-
-		//$row->componentid	= $id;
+		// $row->componentid	= $id;
 		$row->component_id	= 22;
-		//$row->ordering =    9999;
+		// $row->ordering =    9999;
 
 
 		$params = array();
@@ -420,22 +539,25 @@ class OSContentModelCategories extends OSModel
 
 		$registry = new JRegistry;
 		$registry->loadArray($params);
-		$row->params = (string)$registry;
+		$row->params = (string) $registry;
 
 		$row->setLocation($row->parent_id, 'last-child');
 
-		if (!$row->check()) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		if (!$row->check())
+		{
+			echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
-		if (!$row->store()) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+
+		if (!$row->store())
+		{
+			echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
 
-		// clean any existing cache files
+		// Clean any existing cache files
 		//mosCache::cleanCache('com_content');
 	}
 }

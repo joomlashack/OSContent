@@ -23,19 +23,33 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.controllerform');
 
+/**
+ * Controller Categories
+ *
+ * @since  1.0.0
+ */
 class OSContentControllerCategories extends JControllerForm
 {
 	/**
-	 * display the form
-	 * @return void
+	 * Method to display the controller's view
+	 *
+	 * @param   bool   $cachable   Cachable
+	 * @param   array  $urlparams  URL Params
+	 *
+	 * @access	public
+	 * @return  OSContentController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/oscontent.php';
 
-		if (version_compare(JVERSION, '3.0', '<')) {
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
 			$view = JRequest::getCmd('view', 'categories');
-		} else {
+		}
+		else
+		{
 			$view = JFactory::getApplication()->input->get('view', 'categories');
 		}
 
@@ -44,7 +58,13 @@ class OSContentControllerCategories extends JControllerForm
 	}
 
 	/**
-	 * save categories
+	 * Method to Save
+	 *
+	 * @param   string  $key     Key
+	 * @param   string  $urlVar  URL var
+	 *
+	 * @access	public
+	 * @return  void
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -52,9 +72,13 @@ class OSContentControllerCategories extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('categories');
-		if(!$model->saveOSCategories()) {
+
+		if(!$model->saveOSCategories())
+		{
 			$msg = JText::_("ERROR_CATEGORIES");
-		} else {
+		}
+		else
+		{
 			$msg = JText::_("SUCCESS_CATEGORIES");
 		}
 
@@ -63,6 +87,15 @@ class OSContentControllerCategories extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false), $msg);
 	}
 
+	/**
+	 * Method to Cancel
+	 *
+	 * @param   string  $key     Key
+	 * @param   string  $urlVar  URL var
+	 *
+	 * @access	public
+	 * @return  void
+	 */
 	public function cancel($key = null, $urlVar = null)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=categories', false));
