@@ -285,7 +285,6 @@ class OSContentModelCategories extends OSModel
 		$query = 'SELECT a.menutype, a.title' .
 				' FROM #__menu_types AS a';
 		$db->setQuery($query);
-
 		// Joomla 3.x Backward Compatibility
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
@@ -403,7 +402,8 @@ class OSContentModelCategories extends OSModel
 					'parent_id' => 'INT',
 					'menuselect' => 'STRING',
 					'link_type' => 'STRING',
-					'menuselect3' => 'STRING'
+					'menuselect3' => 'STRING',
+					'addMenu' => 'INT'
 				)
 			);
 		}
@@ -432,7 +432,7 @@ class OSContentModelCategories extends OSModel
 			if (!$table->store())
 				return false;
 
-			if (@$post["addMenu"])
+			if (@$post["addMenu"] === 0)
 			{
 				$this->menuLink($table->id, $table->title, $post["menuselect"], $post["link_type"], $post["menuselect3"], $table->alias);
 			}
@@ -555,7 +555,11 @@ class OSContentModelCategories extends OSModel
 			exit();
 		}
 
-		$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
+		}
 
 		// Clean any existing cache files
 		//mosCache::cleanCache('com_content');

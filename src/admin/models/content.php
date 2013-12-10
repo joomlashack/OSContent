@@ -186,7 +186,11 @@ class OSContentModelContent extends OSModel
 			exit();
 		}
 
-		$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
+		// Joomla 3.x Backward Compatibility
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
+		}
 
 		// Clean any existing cache files
 		// mosCache::cleanCache('com_content');
@@ -201,7 +205,7 @@ class OSContentModelContent extends OSModel
 	 */
 	public function getMenuItems($menutype)
 	{
-		// TODO: Check if this table is been used
+		// TODO: Check if this is been used
 		$table = $this->getTable();
 
 		if ($table->menutype == '')
@@ -600,12 +604,16 @@ class OSContentModelContent extends OSModel
 					'access' => 'INT',
 					'created_by' => 'INT',
 					'created_by_alias' => 'STRING',
-					'catid' => 'INT',
 					'created' => 'DATE',
+					'catid' => 'INT',
 					'publish_up' => 'DATE',
 					'publish_down' => 'DATE',
 					'metadesc' => 'ARRAY',
-					'metakey' => 'ARRAY'
+					'metakey' => 'ARRAY',
+					'addMenu' => 'INT',
+					'menuselect' => 'STRING',
+					'menuselect3' => 'STRING',
+					'state2' => 'STRING'
 				)
 			);
 
@@ -873,7 +881,7 @@ class OSContentModelContent extends OSModel
 
 
 			//handle archived
-			if ($post["state2"])
+			if (@$post["state2"])
 			{
 				$row->state = -1;
 			}
@@ -887,10 +895,10 @@ class OSContentModelContent extends OSModel
 
 			$row->reorder('catid = ' . (int) $row->catid . ' AND state >= 0');
 
-			if ($post["addMenu"])
+			if ($post["addMenu"] === 0)
 			{
 				$type = "content_item_link";
-				$this->menuLink($row->id, $row->title, $post["menuselect"], $type, $post["menuselect3"], $row->alias);
+				$this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
 			}
 
 			if ($frontpage)
