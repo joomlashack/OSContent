@@ -116,6 +116,7 @@ class OSContentModelContent extends OSModel
 		$row->menutype = $menu;
 		$row->title = $link;
 		$row->alias = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
+
 		if (trim(str_replace('-', '', $row->alias)) == '')
 		{
 			$row->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
