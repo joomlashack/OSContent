@@ -18,6 +18,7 @@
  * @version    1.9.1
  * @link       http://www.ostraining.com/downloads/joomla-extensions/oscontent/
  */
+
 defined('_JEXEC') or die();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
