@@ -75,11 +75,11 @@ class OSContentControllerContent extends JControllerForm
 
 		if(!$model->saveOSContent())
 		{
-			$msg = JText::_("ERROR_CONTENT");
+			$msg = JText::_("COM_OSCONTENT_ERROR_CONTENT");
 		}
 		else
 		{
-			$msg = JText::_("SUCCESS_CONTENT");
+			$msg = JText::_("COM_OSCONTENT_SUCCESS_CONTENT");
 		}
 
 		$this->setMessage($msg);

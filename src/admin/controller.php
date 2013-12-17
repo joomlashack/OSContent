@@ -12,7 +12,8 @@
  *
  * @category   Joomla Component
  * @package    OSContent
- * @author     Johann Eriksen
+ * @author     Johann Eriksen <johann@baticore.com>
+ *
  * @copyright  (C) 2007-2009 Johann Eriksen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @version    1.9.1

@@ -44,21 +44,20 @@ JHtml::_('behavior.tooltip');
 	<div id="j-main-container">
 <?php endif; ?>
 
-<h1><?php echo JText::_("Mass Categories"); ?></h1>
 <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm" id="categories-form" class="adminForm form-validate">
 	<table border="0" cellpadding="3" cellspacing="0" >
 		<tr valign="top">
 			<td>
 				<fieldset>
-					<legend><?php echo  JText::_("CREATE UP TO") . " " . $this->params->get('nbOSCategories', 10) . " " . JText::_("CATEGORIES IN A ROW"); ?></legend>
+					<legend><?php echo  JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get('nbOSCategories', 10) . " " . JText::_("COM_OSCONTENT_CATEGORIES_ROW"); ?></legend>
 
 					<table border="0" cellpadding="3" cellspacing="0">
 						<?php $k = 0; ?>
 						<?php for ($i = 1; $i< $this->params->get('nbOSCategories', 10) + 1; $i++): ?>
 							<tr bgcolor="<?php echo ($k == 0) ? "#f9f9f9" : "#eeeeee"; ?>">
-								<td><?php echo JText::_("CATEGORY") . " " . $i; ?>: <?php echo JText::_("TITLE"); ?></td>
+								<td><?php echo JText::_("COM_OSCONTENT_CATEGORY") . " " . $i; ?>: <?php echo JText::_("COM_OSCONTENT_TITLE"); ?></td>
 								<td><input class="inputbox" type="text" size="25" maxlength="255" id="title_<?php echo $i; ?>" name="title[]" value="" ></td>
-								<td><?php echo JText::_("ALIAS"); ?></td>
+								<td><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></td>
 								<td><input class="inputbox" type="text" size="25" maxlength="255" id="alias_<?php echo $i; ?>" name="alias[]" value="" ></td>
 							</tr>
 							<?php $k = 1 - $k; ?>
@@ -69,40 +68,40 @@ JHtml::_('behavior.tooltip');
 
 			<td valign="top">
 				<fieldset>
-					<legend><?php echo JText::_("OPTIONS"); ?></legend>
+					<legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
 					<table border="0" cellpadding="3" cellspacing="0">
 						<tr>
-							<td><?php echo JText::_("COPY TITLE TO ALIAS"); ?></td>
+							<td><?php echo JText::_("COM_OSCONTENT_COPY_TITLE_ALIAS"); ?></td>
 							<td>
 								<input type="checkbox"  id="duplicateTitle" name="duplicateTitle" onClick="javascript:copyTitle()" >
 							</td>
 						</tr>
 
 						<tr>
-							<td><?php echo JText::_("PARENT"); ?></td>
+							<td><?php echo JText::_("COM_OSCONTENT_PARENT"); ?></td>
 							<td colspan="2"><?php echo $this->lists['cate']; ?></td>
 						</tr>
 
 						<tr>
-							<td valign="top" style="padding-top:10px;"><?php echo JText::_("ACCESS LEVEL"); ?></td>
+							<td valign="top" style="padding-top:10px;"><?php echo JText::_("COM_OSCONTENT_ACCESS_LEVEL"); ?></td>
 							<td><?php echo $this->lists['access']; ?>
 						</tr>
 
 						<tr>
-							<td><?php echo JText::_("PUBLISHED"); ?></td>
+							<td><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></td>
 							<td><?php echo $this->lists['published']; ?></td>
 						</tr>
 
 						<tr>
 							<td valign="top" style="padding-top:10px;">
-								<input type="checkbox" name="addMenu" style="margin-top:0px;"><?php echo JText::_("LINK TO MENU"); ?>
+								<input type="checkbox" name="addMenu" style="margin-top:0px;"><?php echo JText::_("COM_OSCONTENT_LINK_TO_MENU"); ?>
 							</td>
 							<td><?php echo $this->lists['menuselect']; ?><?php echo $this->lists['menuselect3']; ?></td>
 						</tr>
 
 						<tr>
-							<td valign="top" style="padding-top:10px;" ><?php echo JText::_("SELECT MENU TYPE"); ?></td>
+							<td valign="top" style="padding-top:10px;" ><?php echo JText::_("COM_OSCONTENT_SELECT_MENUTYPE"); ?></td>
 							<td><?php echo $this->lists['link_type']; ?></td>
 						</tr>
 					</table>
@@ -123,13 +122,13 @@ JHtml::_('behavior.tooltip');
 
 			if ((form.addMenu.checked) && (form.menuselect.value == ''))
 			{
-				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE"); ?>");
+				alert( "<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENUTYPE"); ?>");
 
 				return;
 			}
 			else if ((form.addMenu.checked) && (form.link_type.value == ''))
 			{
-				alert("<?php  echo  JText::_("PLEASE SELECT A MENU"); ?>");
+				alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENU"); ?>");
 
 				return;
 			}
@@ -145,13 +144,13 @@ JHtml::_('behavior.tooltip');
 
 			if ((form.addMenu.checked) && (form.menuselect.value == ''))
 			{
-				alert( "<?php  echo  JText::_("PLEASE SELECT A MENU TYPE"); ?>");
+				alert( "<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENUTYPE"); ?>");
 
 				return;
 			}
 			else if ((form.addMenu.checked) && (form.link_type.value == ''))
 			{
-				alert("<?php  echo  JText::_("PLEASE SELECT A MENU"); ?>");
+				alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENU"); ?>");
 
 				return;
 			}

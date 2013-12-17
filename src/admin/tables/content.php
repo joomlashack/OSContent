@@ -250,7 +250,7 @@ class TableContent extends TableContentBase
 	{
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('COM_OSCONTENT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}

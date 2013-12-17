@@ -720,7 +720,7 @@ class OSContentModelContent extends OSModel
 				}
 			}
 
-			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never'))
+			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('COM_OSCONTENT_NEVER'))
 			{
 				$row->publish_down = JFactory::getDate($post["publish_down"]);
 
@@ -734,7 +734,7 @@ class OSContentModelContent extends OSModel
 					$row->publish_down = $row->publish_down->toSQL();
 				}
 			}
-			elseif (trim($post["publish_down"]) == JText::_('Never'))
+			elseif (trim($post["publish_down"]) == JText::_('COM_OSCONTENT_NEVER'))
 			{
 				$post["publish_down"] = JFactory::getDBO()->getNullDate();
 
@@ -849,7 +849,7 @@ class OSContentModelContent extends OSModel
 				}
 			}
 
-			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('Never'))
+			if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('COM_OSCONTENT_NEVER'))
 			{
 				$row->publish_down = JFactory::getDate($post["publish_down"]);
 
@@ -863,7 +863,7 @@ class OSContentModelContent extends OSModel
 					$row->publish_down = $row->publish_down->toSQL();
 				}
 			}
-			elseif (trim($post["publish_down"]) == JText::_('Never'))
+			elseif (trim($post["publish_down"]) == JText::_('COM_OSCONTENT_NEVER'))
 			{
 				$post["publish_down"] = JFactory::getDBO()->getNullDate();
 

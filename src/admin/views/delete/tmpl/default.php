@@ -43,7 +43,7 @@ JHtml::_('behavior.tooltip');
 		{
 			if (pressbutton === 'delete')
 			{
-				if (confirm("<?php echo JText::_("DELETE_ALL");?>"))
+				if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
 					submitform(pressbutton);
 				else return;
 			}
@@ -57,7 +57,7 @@ JHtml::_('behavior.tooltip');
 		{
 			if (task === 'delete.delete')
 			{
-				if (confirm("<?php echo JText::_("DELETE_ALL");?>"))
+				if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
 					Joomla.submitform(task, document.id('delete-form'));
 				else return;
 			}
@@ -68,8 +68,6 @@ JHtml::_('behavior.tooltip');
 		};
 	<?php endif; ?>
 </script>
-
-<h1><?php echo JText::_("DELETE MASS CONTENT");?></h1>
 
 <form action="<?php echo JRoute::_('index.php?option=com_oscontent');?>" method="post" name="adminForm" id="delete-form" class="adminForm form-validate">
 
@@ -85,18 +83,18 @@ JHtml::_('behavior.tooltip');
 		// ?>
 	</script>
 	<fieldset>
-		<legend><?php echo JText::_("DELETE SECTIONS AND CATEGORIES");?></legend>
+		<legend><?php echo JText::_("COM_OSCONTENT_DELETE_SECTIONS_CATEGORIES");?></legend>
 		<table border="0" cellpadding="3" cellspacing="0">
 			<tr>
-				<td colspan="2"><?php echo JText::_("DESTROY_ALL");?></td>
+				<td colspan="2"><?php echo JText::_("COM_OSCONTENT_DESTROY_ALL");?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_("CATEGORY") . " " . $this->lists['catid']; ?></td>
-				<td><input type="checkbox"  id="deleteCategory" name="deleteCategory"><?php echo JText::_("DELETE_CATEGORIES");?></td>
+				<td style="white-space: nowrap;"><?php echo JText::_("COM_OSCONTENT_CATEGORY") . " " . $this->lists['catid']; ?></td>
+				<td><input type="checkbox"  id="deleteCategory" name="deleteCategory"><?php echo JText::_("COM_OSCONTENT_DELETE_CATEGORIES");?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_("CONTENT");?></td>
-				<td><input type="checkbox"  id="deleteContentOnly" name="deleteContentOnly"><?php echo JText::_("DELETE_ONLY_CONTENT");?></td>
+				<td><?php echo JText::_('COM_OSCONTENT_CONTENT');?></td>
+				<td><input type="checkbox"  id="deleteContentOnly" name="deleteContentOnly"><?php echo JText::_("COM_OSCONTENT_DELETE_CONTENT_ONLY");?></td>
 			</tr>
 		</table>
 	</fieldset>

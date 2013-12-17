@@ -77,11 +77,11 @@ class OSContentControllerDelete extends JControllerForm
 
 		if(!$model->deleteOSContent())
 		{
-			$msg = JText::_("ERROR_DELETE");
+			$msg = JText::_("COM_OSCONTENT_ERROR_DELETE");
 		}
 		else
 		{
-			$msg = JText::_("SUCCESS_DELETE");
+			$msg = JText::_("COM_OSCONTENT_SUCCESS_DELETE");
 		}
 
 		$this->setMessage($msg);

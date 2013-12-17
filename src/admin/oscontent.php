@@ -21,8 +21,11 @@
 
 defined('_JEXEC') or die();
 
-
-// TODO: Add prefix to language tags
+JFactory::getDocument()->addStyleDeclaration('
+.icon-48-oscontent {
+    background-image: url("components/com_oscontent/media/images/icon-48-oscontent.png");
+}
+');
 
 require_once 'controller.php';
 

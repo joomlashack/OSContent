@@ -1,59 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset
-		name="oscontent"
-		label="JCONFIG_OSCONTENT">
+    <fieldset
+            name="osclassroom"
+            label="Configuration">
 
-		<field name="nbOSContent" type="text" size="5" default="10" label="PARAMNBMASSCONTENT" description="PARAMNBMASSCONTENT" />
-		<field name="nbOSCategories" type="text" size="5" default="10" label="PARAMNBMASSCATEGORIES" description="PARAMNBMASSCATEGORIES" />
-		<field name="nbMassSections" type="text" size="5" default="10" label="PARAMNBMASSSECTIONS" description="PARAMNBMASSSECTIONS" />
-		<field name="displayWysiwyg" type="radio" default="0" label="PARAMDISPLAYWYSIWYGr" description="PARAMDISPLAYWYSIWYGr">
-			<option value="0">Hide</option>
-			<option value="1">Show for 1st content</option>
-			<option value="2">Show for all contents</option>
-		</field>
-		<field name="displayAlias" type="radio" default="1" label="PARAMDISPLAYALIAS" description="PARAMDISPLAYALIAS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayIntroText" type="radio" default="1" label="PARAMDISPLAYINTROTEXT" description="PARAMDISPLAYINTROTEXT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayFullText" type="radio" default="1" label="PARAMDISPLAYFULLTEXT" description="PARAMDISPLAYFULLTEXT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayMetaDescription" type="radio" default="0" label="PARAMDISPLAYMETADESCRIPTION" description="PARAMDISPLAYMETADESCRIPTION">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayMetaKeywords" type="radio" default="0" label="PARAMDISPLAYMETAKEYWORDS" description="PARAMDISPLAYMETAKEYWORDS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayMetaRobots" type="radio" default="0" label="PARAMDISPLAYMETAROBOTS" description="PARAMDISPLAYMETAROBOTS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-		<field name="displayMetaAuthor" type="radio" default="0" label="PARAMDISPLAYMETAAUTHOR" description="PARAMDISPLAYMETAAUTHOR">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</field>
-	</fieldset>
-	<fieldset
-		name="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC">
+        <field
+                name="nbOSContent"
+                type="text"
+                size="5"
+                default="10"
+                label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"
+                description="COM_OSCONTENT_PARAM_NBMASSCONTENT_DESC"/>
 
-		<field
-			name="rules"
-			type="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
-			validate="rules"
-			filter="rules"
-			component="com_oscontent"
-			section="component" />
-	</fieldset>
+        <field
+                name="nbOSCategories"
+                type="text"
+                size="5"
+                default="10"
+                label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"
+                description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
+
+        <field
+                name="nbMassSections"
+                type="text"
+                size="5"
+                default="10"
+                label="COM_OSCONTENT_PARAM_NBMASSSECTIONS_LABEL"
+                description="COM_OSCONTENT_PARAM_NBMASSSECTIONS_DESC"/>
+
+        <field
+                name="displayWysiwyg"
+                type="list"
+                default="0"
+                label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW_FIRST</option>
+            <option value="2">COM_OSCONTENT_OPTION_SHOW_ALL</option>
+        </field>
+
+        <field
+                name="displayAlias"
+                type="list"
+                default="1"
+                label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYALIAS_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayIntroText"
+                type="list"
+                default="1"
+                label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayFullText"
+                type="list"
+                default="1"
+                label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayMetaDescription"
+                type="list"
+                default="0"
+                label="COM_OSCONTENT_PARAM_DISPLAYMETADESCRIPTION_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYMETADESCRIPTION_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayMetaKeywords"
+                type="list"
+                default="0"
+                label="COM_OSCONTENT_PARAM_DISPLAYMETAKEYWORDS_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYMETAKEYWORDS_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayMetaRobots"
+                type="list"
+                default="0"
+                label="COM_OSCONTENT_PARAM_DISPLAYMETAROBOTS_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYMETAROBOTS_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+
+        <field
+                name="displayMetaAuthor"
+                type="list"
+                default="0"
+                label="COM_OSCONTENT_PARAM_DISPLAYMETAAUTHOR_LABEL"
+                description="COM_OSCONTENT_PARAM_DISPLAYMETAAUTHOR_DESC">
+            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+        </field>
+    </fieldset>
+
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            description="JCONFIG_PERMISSIONS_DESC">
+
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                validate="rules"
+                filter="rules"
+                component="com_oscontent"
+                section="component"/>
+    </fieldset>
 </config>

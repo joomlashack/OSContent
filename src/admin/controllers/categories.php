@@ -75,11 +75,11 @@ class OSContentControllerCategories extends JControllerForm
 
 		if(!$model->saveOSCategories())
 		{
-			$msg = JText::_("ERROR_CATEGORIES");
+			$msg = JText::_("COM_OSCONTENT_ERROR_CATEGORIES");
 		}
 		else
 		{
-			$msg = JText::_("SUCCESS_CATEGORIES");
+			$msg = JText::_("COM_OSCONTENT_SUCCESS_CATEGORIES");
 		}
 
 		$this->setMessage($msg);

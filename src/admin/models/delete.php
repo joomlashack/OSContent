@@ -209,7 +209,7 @@ class OSContentModelDelete extends OSModel
 		$categories = $this->getCategoryParent();
 		$sectioncategories = 0;
 
-		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'value', 'text');
+		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'style="float: none;"', 'value', 'text');
 
 		$lists['sectioncategories'] = $sectioncategories;
 
