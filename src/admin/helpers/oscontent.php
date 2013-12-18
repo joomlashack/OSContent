@@ -1,12 +1,14 @@
 <?php
 /**
- * @category      Joomla Component
- * @package       com_oscontent
- * @author        Johann Eriksen
- * @copyright (C) 2007-2009 Johann Eriksen
- * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version       1.9.1
- * @link          http://www.ostraining.com/downloads/joomla-extensions/oscontent/
+ * @category  Joomla Component
+ * @package   com_oscontent
+ * @author    Johann Eriksen
+ * @copyright 2007-2009 Johann Eriksen
+ * @copyright 2011, 2013 Open Source Training, LLC. All rights reserved
+ * @contact   www.ostraining.com, support@ostraining.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version   1.9.1
+ * @link      http://www.ostraining.com/downloads/joomla-extensions/oscontent/
  */
 
 defined('_JEXEC') or die();
