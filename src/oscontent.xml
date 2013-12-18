@@ -32,4 +32,8 @@
             <folder>views</folder>
         </files>
     </administration>
+
+    <updateservers>
+        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[http://updates.ostraining.com/oscontent.xml]]></server>
+    </updateservers>
 </extension>
