@@ -96,7 +96,6 @@ nb-configuration.xml
 # misc other files #
 ####################
 _notes/
-build.xml
 desktop.ini
 *~
 *.bak
