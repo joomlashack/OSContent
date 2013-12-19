@@ -5,17 +5,17 @@
 
     <!-- The following depend on folder structure -->
     <property name="package.folder" value="${phing.dir}/packages"/>
-    <property name="app.source"     value="src"/>
-    <property name="version.file"   value="${phing.dir}/version.txt"/>
-    <property name="local.path"     value=""/>
+    <property name="app.source" value="src"/>
+    <property name="version.file" value="${phing.dir}/version.txt"/>
+    <property name="local.path" value=""/>
 
     <!-- Derived properties: shouldn't have to change -->
     <property name="app.name.long" value="com_${app.name.short}"/>
-    <property name="app.manifest"  value="${app.source}/${app.name.short}.xml"/>
-    <property name="app.admin"     value="${app.source}/admin"/>
-    <property name="app.site"      value="${app.source}/site"/>
-    <property name="app.media"     value="${app.source}/media}"/>
-    <property name="package.file"  value="${app.name.long}.zip"/>
+    <property name="app.manifest" value="${app.source}/${app.name.short}.xml"/>
+    <property name="app.admin" value="${app.source}/admin"/>
+    <property name="app.site" value="${app.source}/site"/>
+    <property name="app.media" value="${app.source}/media}"/>
+    <property name="package.file" value="${app.name.long}.zip"/>
 
     <!-- all the above can be overridden in the properties file -->
     <available file="${phing.dir}/build.properties" property="build.properties.exists" value="1"/>
@@ -25,6 +25,10 @@
             <property file="${phing.dir}/build.properties" override="true"/>
         </then>
     </if>
+
+    <!-- version for this build file -->
+    <property name="build.version" value="1.0.0"/>
+    <echo message="Version ${build.version} for Joomla! components"/>
 
     <target name="new-release" description="Update version/creation and create package">
         <phingcall target="update-version"/>
@@ -46,14 +50,12 @@
     </target>
 
     <target name="package" description="Create installation package file">
-        <echo>${phing.project.name}: Creating Installation package</echo>
-
         <property name="package.path" value="${package.folder}/${package.file}"/>
         <available file="${package.path}" property="package.path.exists" value="1"/>
         <if>
             <equals arg1="${package.path.exists}" arg2="1"/>
             <then>
-                <delete file="${package.folder}/${package.file}" />
+                <delete file="${package.folder}/${package.file}"/>
             </then>
         </if>
         <zip destfile="${package.folder}/${package.file}" includeemptydirs="true" basedir="${app.source}"/>
@@ -64,13 +66,13 @@
         <property name="replace.creation" value=""><![CDATA[<creationDate>${build.time}</creationDate>]]></property>
 
         <tstamp>
-            <format property="build.time" pattern="%B %d, %Y" />
+            <format property="build.time" pattern="%B %d, %Y"/>
         </tstamp>
 
         <reflexive file="${app.manifest}">
             <filterchain>
                 <replaceregexp>
-                    <regexp pattern="${find.creation}" replace="${replace.creation}" />
+                    <regexp pattern="${find.creation}" replace="${replace.creation}"/>
                 </replaceregexp>
             </filterchain>
         </reflexive>
@@ -112,7 +114,7 @@
         <reflexive file="${app.manifest}">
             <filterchain>
                 <replaceregexp>
-                    <regexp pattern="${find.version}" replace="${replace.version}" />
+                    <regexp pattern="${find.version}" replace="${replace.version}"/>
                 </replaceregexp>
             </filterchain>
         </reflexive>
@@ -121,7 +123,7 @@
     </target>
 
     <target name="copy" description="Copy to local development server">
-        <echo message="${phing.project.name} - Copying to local development server" />
+        <echo message="${phing.project.name} - Copying to ${local.path}"/>
 
         <available file="${local.path}" property="local.path.exists" value="1"/>
         <if>
