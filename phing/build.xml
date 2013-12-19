@@ -26,10 +26,6 @@
         </then>
     </if>
 
-    <target name="test">
-        <echo>test.var - ${test.var}</echo>
-    </target>
-
     <target name="new-release" description="Update version/creation and create package">
         <phingcall target="update-version"/>
         <phingcall target="update-creation"/>
