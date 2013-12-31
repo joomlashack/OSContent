@@ -4,7 +4,7 @@
  * @package   com_oscontent
  * @author    Johann Eriksen <johann@baticore.com>
  * @copyright 2007-2009 Johann Eriksen
- * @copyright 2011, 2013 Open Source Training, LLC. All rights reserved
+ * @copyright 2011, 2014 Open Source Training, LLC. All rights reserved
  * @contact   www.ostraining.com, support@ostraining.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @version   1.9.1
