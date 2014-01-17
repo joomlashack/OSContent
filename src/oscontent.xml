@@ -2,12 +2,12 @@
 <extension type="component" version="2.5.0" method="upgrade">
     <name>COM_OSCONTENT</name>
     <author>OSTraining</author>
-    <creationDate>December 17, 2013</creationDate>
+    <creationDate>January 17, 2014</creationDate>
     <copyright>Copyright (C) 2011, 2013 OSTraining.com</copyright>
     <license>GPL v3</license>
     <authorEmail>info@ostraining.com</authorEmail>
     <authorUrl>http://www.ostraining.com</authorUrl>
-    <version>1.9.1</version>
+    <version>1.9.2</version>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
     <administration>
