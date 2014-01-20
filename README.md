@@ -10,7 +10,7 @@ Forked from MassContent because it was only available for Joomla 1.5.
 
 ## Requirements
 
-Joomla 1.7.x, 2.5.x and 3.x
+Joomla 2.5.x or 3.x
 
 ## License
 
