@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.controller<?php\n/**\n * @categoryform');
+jimport('joomla.application.component.controller');
 
 /**
  * Controller Categories

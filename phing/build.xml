@@ -15,6 +15,8 @@
     <property name="app.admin" value="${app.source}/admin"/>
     <property name="app.site" value="${app.source}/site"/>
     <property name="app.media" value="${app.source}/media}"/>
+    <loadfile file="${version.file}" property="app.version"/>
+
     <property name="package.file" value="${app.name.long}.zip"/>
 
     <!-- all the above can be overridden in the properties file -->
@@ -27,7 +29,7 @@
     </if>
 
     <!-- version for this build file -->
-    <property name="build.version" value="1.0.0"/>
+    <property name="build.version" value="1.0.1"/>
     <echo message="Version ${build.version} for Joomla! components"/>
 
     <target name="new-release" description="Update version/creation and create package">

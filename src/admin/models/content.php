@@ -595,8 +595,8 @@ class OSContentModelContent extends OSModel
 
             for ($i = 0; $i < count($post["title"]); $i++) {
                 $index                       = $i + 1;
-                $post['introtext_' . $index] = $input->getHtml('introtext_' . $index);
-                $post['fulltext_' . $index]  = $input->getHtml('fulltext_' . $index);
+                $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
+                $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
             }
         }
 
