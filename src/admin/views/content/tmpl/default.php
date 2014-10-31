@@ -44,6 +44,17 @@ if (version_compare(JVERSION, '3.0', '<')) {
 <?php endif; ?>
 
 <script language="javascript" type="text/javascript">
+    // Execute when page is loaded
+    window.onload = setDateTime;
+    
+    // Set date/time
+    function setDateTime() {
+        document.getElementById("created").value = "<?php echo $createdate; ?>";
+        document.getElementById("publish_up").value = "<?php echo $createdate; ?>";
+        
+        return false;
+    }
+    
     // Copy Title
     function copyTitle() {
         if (document.getElementById("duplicateTitle").checked) {
