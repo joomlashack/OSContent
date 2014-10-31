@@ -69,14 +69,7 @@ JHtml::_('behavior.tooltip');
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
-                                <tr>
-                                    <td><?php echo JText::_("COM_OSCONTENT_COPY_TITLE_ALIAS"); ?></td>
-                                    <td>
-                                        <input type="checkbox" id="duplicateTitle" name="duplicateTitle"
-                                               onClick="javascript:copyTitle()">
-                                    </td>
-                                </tr>
-
+                                
                                 <tr>
                                     <td><?php echo JText::_("COM_OSCONTENT_PARENT"); ?></td>
                                     <td colspan="2"><?php echo $this->lists['cate']; ?></td>
@@ -181,23 +174,7 @@ JHtml::_('behavior.tooltip');
                 endforeach;
             endforeach;
             ?>
-
-            function copyTitle() {
-                if (document.getElementById("duplicateTitle").checked) {
-                    for (i = 1; i < <?php echo $this->params->get('nbOSCategories', 10) + 1; ?>; i++) {
-                        if (document.getElementById("alias_" + i).value == "") {
-                            document.getElementById("alias_" + i).value = document.getElementById("title_" + i).value;
-                        }
-                    }
-                }
-                else {
-                    for (i = 1; i < <?php echo $this->params->get('nbOSCategories', 10) + 1; ?>; i++) {
-                        if (document.getElementById("alias_" + i).value == document.getElementById("title_" + i).value) {
-                            document.getElementById("alias_" + i).value = "";
-                        }
-                    }
-                }
-            }
+            
         </script>
     </div>
     <!-- #j-main-container -->

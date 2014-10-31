@@ -54,42 +54,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
         
         return false;
     }
-    
-    // Copy Title
-    function copyTitle() {
-        if (document.getElementById("duplicateTitle").checked) {
-            for (i = 1; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                if (document.getElementById("alias_" + i).value == "") {
-                    document.getElementById("alias_" + i).value = document.getElementById("title_" + i).value;
-                }
-            }
-        }
-        else {
-            for (i = 1; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                if (document.getElementById("alias_" + i).value == document.getElementById("title_" + i).value) {
-                    document.getElementById("alias_" + i).value = "";
-                }
-            }
-        }
-    }
-
-    // Copy Meta
-    function copyMeta(meta) {
-        if (document.getElementById("duplicate" + meta).checked) {
-            for (i = 2; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                if (document.getElementById(meta + "_" + i).value == "") {
-                    document.getElementById(meta + "_" + i).value = document.getElementById(meta + "_1").value;
-                }
-            }
-        }
-        else {
-            for (i = 2; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                if (document.getElementById(meta + "_" + i).value == document.getElementById(meta + "_1").value) {
-                    document.getElementById(meta + "_" + i).value = "";
-                }
-            }
-        }
-    }
 
     // Copy 1st introtext to all the other introtext
     function copyText() {
@@ -325,11 +289,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                 <table border="0" cellpadding="3" cellspacing="0">
-                    <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_COPY_TITLE_ALIAS"); ?></td>
-                        <td><input type="checkbox" id="duplicateTitle" name="duplicateTitle"
-                                   onClick="javascript:copyTitle()"></td>
-                    </tr>
 
                     <tr>
                         <td><?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?></td>
