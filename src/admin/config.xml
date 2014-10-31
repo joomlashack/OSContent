@@ -21,14 +21,6 @@
                 description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
 
         <field
-                name="nbMassSections"
-                type="text"
-                size="5"
-                default="10"
-                label="COM_OSCONTENT_PARAM_NBMASSSECTIONS_LABEL"
-                description="COM_OSCONTENT_PARAM_NBMASSSECTIONS_DESC"/>
-
-        <field
                 name="displayWysiwyg"
                 type="list"
                 default="0"
