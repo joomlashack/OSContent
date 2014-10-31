@@ -44,7 +44,7 @@
         <field
                 name="displayIntroText"
                 type="list"
-                default="1"
+                default="0"
                 label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
                 description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
