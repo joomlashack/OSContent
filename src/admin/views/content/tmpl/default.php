@@ -208,7 +208,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
                                 <td><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></td>
                                 <td><input class="inputbox" type="text" size="50" maxlength="255"
                                            id="alias_<?php echo $i; ?>" name="alias[]"
-                                           value="<?php echo(@$post["alias"][$i - 1]); ?>"></td>
+                                           value="<?php echo(@$post["alias"][$i - 1]); ?>" 
+                                           placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>"></td>
                             <?php else: ?>
                                 <?php $hidden .= '<input type="hidden" id="alias_<?php echo $i; ?>" name="alias[]" value =""  >'; ?>
                             <?php endif; ?>
