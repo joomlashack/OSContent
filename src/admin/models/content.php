@@ -841,7 +841,7 @@ class OSContentModelContent extends OSModel
                 $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
             }
 
-            if ($frontpage) {
+            if ($featured) {
                 $db = JFactory::getDBO();
                 $fp = new TableFrontPage($db);
 

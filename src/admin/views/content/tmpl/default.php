@@ -306,8 +306,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_FRONTPAGE"); ?></td>
-                        <td><input type="checkbox" id="frontpage" name="frontpage"></td>
+                        <td><?php echo JText::_("COM_OSCONTENT_FEATURED"); ?></td>
+                        <td><input type="checkbox" id="featured" name="featured"></td>
                     </tr>
 
                     <tr>
