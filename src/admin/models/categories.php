@@ -405,7 +405,7 @@ class OSContentModelCategories extends OSModel
             $table->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
 
             if (trim(str_replace('-', '', $table->alias)) == '') {
-                $table->alias = JFactory::getDate()->format('Y-m-d-H-i-s') . "-" . $i;
+                $table->alias = str_replace( ' ', '-', strtolower($post["title"][$i]) );
             }
 
             $table->extension = "com_content";
