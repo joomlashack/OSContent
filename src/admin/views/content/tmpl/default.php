@@ -310,23 +310,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
                         </tr>
 
                         <tr>
-                            <?php if ($this->params->get('displayMetaDescription') == 1): ?>
-                                <td><?php echo JText::_("COM_OSCONTENT_META_DESC"); ?></td>
-                                <td>
-                                    <textarea id="metadesc_<?php echo $i; ?>" name="metadesc[]" rows="1"
-                                              cols="35"><?php echo(@$post["metadesc"][$i - 1]); ?></textarea>
-                                </td>
-                            <?php else: ?>
-                                <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
-                            <?php endif; ?>
-
-                            <?php if ($this->params->get('displayMetaKeywords') == 1): ?>
-                                <td><?php echo JText::_("COM_OSCONTENT_META_KEY"); ?></td>
-                                <td><textarea id="metakey_<?php echo $i; ?>" name="metakey[]" rows="1"
-                                              cols="35"><?php echo(@$post["metakey"][$i - 1]); ?></textarea></td>
-                            <?php else: ?>
-                                <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
-                            <?php endif; ?>
+                            <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
+                            <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
                         </tr>
 
                         <?php $k = 1 - $k; ?>
@@ -351,22 +336,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
                         <td><input type="checkbox" id="duplicateText" name="duplicateText"
                                    onClick="javascript:copyText()"></td>
                     </tr>
-
-                    <?php if ($this->params->get('displayMetaDescription') == 1): ?>
-                        <tr>
-                            <td><?php echo JText::_("COM_OSCONTENT_COPY_FIRST_META"); ?></td>
-                            <td><input type="checkbox" id="duplicatemetadesc" name="duplicatemetadesc"
-                                       onClick="javascript:copyMeta('metadesc')"></td>
-                        </tr>
-                    <?php endif; ?>
-
-                    <?php if ($this->params->get('displayMetaKeywords') == 1): ?>
-                        <tr>
-                            <td><?php echo JText::_("COM_OSCONTENT_COPY_FIRST_KEYWORDS"); ?></td>
-                            <td><input type="checkbox" id="duplicatemetakey" name="duplicatemetakey"
-                                       onClick="javascript:copyMeta('metakey')"></td>
-                        </tr>
-                    <?php endif; ?>
 
                     <tr>
                         <td colspan="2"><?php echo JText::_("COM_OSCONTENT_PAGES_TITLE_ONLY"); ?></td>
@@ -416,20 +385,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     <tr>
                         <td colspan="2"><?php echo $this->lists['menuselect']; ?> <?php echo $this->lists['menuselect3']; ?></td>
                     </tr>
-
-                    <?php if ($this->params->get('displayMetaRobots') == 1): ?>
-                        <tr>
-                            <td><?php echo JText::_("COM_OSCONTENT_ROBOTS"); ?></td>
-                            <td><input type="text" name="robots" size="20"></td>
-                        </tr>
-                    <?php endif; ?>
-
-                    <?php if ($this->params->get('displayMetaAuthor') == 1): ?>
-                        <tr>
-                            <td><?php echo JText::_("COM_OSCONTENT_AUTHOR"); ?></td>
-                            <td><input type="text" name="author" size="20"></td>
-                        </tr>
-                    <?php endif; ?>
 
                     <tr>
                         <td><?php echo JText::_("COM_OSCONTENT_CREATED_DATE"); ?></td>
