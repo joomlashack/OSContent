@@ -56,7 +56,8 @@ JHtml::_('behavior.tooltip');
                                                    id="title_<?php echo $i; ?>" name="title[]" value=""></td>
                                         <td><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></td>
                                         <td><input class="inputbox" type="text" size="25" maxlength="255"
-                                                   id="alias_<?php echo $i; ?>" name="alias[]" value=""></td>
+                                                   id="alias_<?php echo $i; ?>" name="alias[]" value="" 
+                                                   placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>"></td>
                                     </tr>
                                     <?php $k = 1 - $k; ?>
                                 <?php endfor; ?>
