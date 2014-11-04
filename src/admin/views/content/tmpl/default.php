@@ -321,11 +321,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_ARCHIVED"); ?></td>
-                        <td><input type="checkbox" id="state2" name="state2"></td>
-                    </tr>
-
-                    <tr>
                         <td><?php echo JText::_("COM_OSCONTENT_ACCESS_LEVEL"); ?></td>
                         <td><?php echo $this->lists['access']; ?></td>
                     </tr>

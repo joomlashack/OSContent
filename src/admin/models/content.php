@@ -588,8 +588,7 @@ class OSContentModelContent extends OSModel
                     'metakey'          => 'ARRAY',
                     'addMenu'          => 'INT',
                     'menuselect'       => 'STRING',
-                    'menuselect3'      => 'STRING',
-                    'state2'           => 'STRING'
+                    'menuselect3'      => 'STRING'
                 )
             );
 
@@ -708,12 +707,7 @@ class OSContentModelContent extends OSModel
                 }
             }
 
-            // Handle archived
-            if (isset($post["state2"]) && $post["state2"]) {
-                $row->state = -1;
-            } else {
-                $row->state = 1;
-            }
+            $row->state = 1;
 
             $table = JTable::getInstance('Content', 'Table');
 
