@@ -292,7 +292,16 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 <table border="0" cellpadding="3" cellspacing="0">
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?></td>
+                        <td>
+                            <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
+                            <?php
+                            echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
+                            '',
+                            'tooltip.png',
+                            '',
+                            '');
+                            ?>
+                        </td>
                         <td><input type="checkbox" id="duplicateText" name="duplicateText"
                                    onClick="javascript:copyText()"></td>
                     </tr>
