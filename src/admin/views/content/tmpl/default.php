@@ -118,7 +118,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
         if (!document.getElementById("published").checked) {
             document.getElementById("publish_up").value = "";
-            document.getElementById("state").value = 0;
+            document.getElementById("published").value = 0;
         }
 
         if ((form.addMenu.checked) && (form.menuselect.value == '')) {
@@ -134,7 +134,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
         if (!document.getElementById("published").checked) {
             document.getElementById("publish_up").value = "";
-            document.getElementById("state").value = 0;
+            document.getElementById("published").value = 0;
         }
 
         if ((form.addMenu.checked) && (form.menuselect.value == '')) {

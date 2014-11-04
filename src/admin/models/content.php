@@ -707,7 +707,12 @@ class OSContentModelContent extends OSModel
                 }
             }
 
-            $row->state = 1;
+            // Handle state
+            if (isset($post["published"]) && $post["published"]) {
+                $row->state = 1;
+            } else {
+                $row->state = 0;
+            }
 
             $table = JTable::getInstance('Content', 'Table');
 
@@ -817,11 +822,11 @@ class OSContentModelContent extends OSModel
             }
 
 
-            //handle archived
-            if (@$post["state2"]) {
-                $row->state = -1;
-            } else {
+            // Handle state
+            if (isset($post["published"]) && $post["published"]) {
                 $row->state = 1;
+            } else {
+                $row->state = 0;
             }
 
             if (!$row->store()) {
