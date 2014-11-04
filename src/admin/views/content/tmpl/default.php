@@ -82,7 +82,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 }
 
                 if (document.getElementById("title_" + i).value == "") {
-                    document.getElementById("title_" + i).value = document.getElementById("title_1").value;
+                    document.getElementById("title_" + i).value = document.getElementById("title_1").value + " " + i;
                 }
 
                 <?php if (/*($editor->_name == "tinymce" || $editor->_name == "jce") &&*/ $this->params->get('displayWysiwyg', 0) != "0"): ?>
