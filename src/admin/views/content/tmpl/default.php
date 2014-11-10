@@ -37,6 +37,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 <?php if (!empty($this->sidebar)): ?>
 <div id="j-sidebar-container" class="span2">
     <?php echo $this->sidebar; ?>
+
 </div>
 <div id="j-main-container" class="span10">
 <?php else : ?>
@@ -185,7 +186,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
 <table border="0" cellpadding="3" cellspacing="0">
     <tr>
-        <td>
+        <td class="ost-table-cell-left">
             <fieldset>
                 <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                             'nbOSContent',
@@ -283,7 +284,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
             </fieldset>
         </td>
 
-        <td valign="top">
+        <td valign="top" class="ost-table-cell-right">
             <fieldset>
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
