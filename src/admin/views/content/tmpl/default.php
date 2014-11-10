@@ -191,11 +191,11 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             'nbOSContent',
                             10
                         ) . " " . JText::_("COM_OSCONTENT_ARTICLESINAROW"); ?></legend>
-                <table border="0" cellpadding="3" cellspacing="0">
+                <table class="table table-striped">
 
                     <?php $k = 0; ?>
                     <?php for ($i = 1; $i < $this->params->get('nbOSContent', 10) + 1; $i++): ?>
-                        <tr bgcolor="<?php echo ($k == 0) ? "#f9f9f9" : "#eeeeee"; ?>">
+                        <tr>
                             <td><?php echo JText::_("COM_OSCONTENT_TITLE"); ?> (<?php echo JText::_(
                                         "COM_OSCONTENT_PAGE"
                                     ) . " " . $i; ?>):
@@ -215,7 +215,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             <?php endif; ?>
                         </tr>
 
-                        <tr bgcolor="<?php echo ($k == 0) ? "#f9f9f9" : "#eeeeee"; ?>">
+                        <tr>
                             <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
                                 <td><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT") . " (" . JText::_(
                                             "COM_OSCONTENT_PAGE"
@@ -274,10 +274,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             <?php endif; ?>
                         </tr>
 
-                        <tr>
-                            <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
-                            <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
-                        </tr>
+                        <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
+                        <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
 
                         <?php $k = 1 - $k; ?>
                     <?php endfor; ?>
