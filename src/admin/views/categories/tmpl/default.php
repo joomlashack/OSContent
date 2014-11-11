@@ -66,7 +66,7 @@ JHtml::_('behavior.tooltip');
                     </td>
 
                     <td valign="top" class="ost-table-cell-right">
-                        <fieldset>
+                        <div class="well">
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
@@ -105,7 +105,7 @@ JHtml::_('behavior.tooltip');
                                     <td><?php echo $this->lists['link_type']; ?></td>
                                 </tr>
                             </table>
-                        </fieldset>
+                        </div>
                     </td>
                 </tr>
             </table>

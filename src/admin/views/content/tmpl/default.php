@@ -285,7 +285,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
         </td>
 
         <td valign="top" class="ost-table-cell-right">
-            <fieldset>
+            <div class="well">
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                 <table border="0" cellpadding="3" cellspacing="0">
@@ -376,7 +376,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                         <td><?php echo JHTML::_('calendar', "Never", "publish_down", "publish_down"); ?></td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
         </td>
     </tr>
 </table>
