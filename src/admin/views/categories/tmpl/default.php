@@ -39,17 +39,17 @@ JHtml::_('behavior.tooltip');
               id="categories-form" class="adminForm form-validate">
             <table border="0" cellpadding="3" cellspacing="0">
                 <tr valign="top">
-                    <td>
+                    <td class="ost-table-cell-left">
                         <fieldset>
                             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                                         'nbOSCategories',
                                         10
                                     ) . " " . JText::_("COM_OSCONTENT_CATEGORIES_ROW"); ?></legend>
 
-                            <table border="0" cellpadding="3" cellspacing="0">
+                            <table class="table table-striped">
                                 <?php $k = 0; ?>
                                 <?php for ($i = 1; $i < $this->params->get('nbOSCategories', 10) + 1; $i++): ?>
-                                    <tr bgcolor="<?php echo ($k == 0) ? "#f9f9f9" : "#eeeeee"; ?>">
+                                    <tr>
                                         <td><?php echo JText::_("COM_OSCONTENT_CATEGORY") . " " . $i; ?>
                                             : <?php echo JText::_("COM_OSCONTENT_TITLE"); ?></td>
                                         <td><input class="inputbox" type="text" size="25" maxlength="255"
@@ -65,8 +65,8 @@ JHtml::_('behavior.tooltip');
                         </fieldset>
                     </td>
 
-                    <td valign="top">
-                        <fieldset>
+                    <td valign="top" class="ost-table-cell-right">
+                        <div class="well">
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
@@ -105,7 +105,7 @@ JHtml::_('behavior.tooltip');
                                     <td><?php echo $this->lists['link_type']; ?></td>
                                 </tr>
                             </table>
-                        </fieldset>
+                        </div>
                     </td>
                 </tr>
             </table>

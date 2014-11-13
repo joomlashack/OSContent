@@ -52,5 +52,8 @@ class OSContentHelper
             'index.php?option=com_oscontent&view=delete',
             $vName == 'delete'
         );
+
+        // Load CSS
+        JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/style.css' );
     }
 }
