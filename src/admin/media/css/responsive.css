@@ -10,6 +10,13 @@
         width: 130px;
     }
 }
+@media (max-width: 900px){
+    .row-fluid.ost-oscontent-container .span8.ost-table-cell-left,
+    .row-fluid.ost-oscontent-container .span4.ost-table-cell-right{
+        float: none;
+        width: 100%;
+    }
+}
 @media (max-width: 768px){
     .ost-oscontent-container td{
         display: block;

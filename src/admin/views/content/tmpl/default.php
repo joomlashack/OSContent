@@ -147,6 +147,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
         }
     }
     <?php endif; ?>
+    alert( document.body.offsetWidth );
 </script>
 
 <style>
