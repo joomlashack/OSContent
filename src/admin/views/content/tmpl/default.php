@@ -147,7 +147,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
         }
     }
     <?php endif; ?>
-    alert( document.body.offsetWidth );
 </script>
 
 <style>
@@ -188,6 +187,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
 <div class="row-fluid ost-oscontent-container">
         <div class="span8 ost-table-cell-left">
+            <fieldset>
             <!-- articles -->
             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                         'nbOSContent',
@@ -197,10 +197,10 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 <?php $k = 0; ?>
                 <?php for ($i = 1; $i < $this->params->get('nbOSContent', 10) + 1; $i++): ?>
                     <tr>
-                        <td>
+                        <td class="ost-number">
                             <strong><?php echo $i; ?></strong>
                         </td>
-                        <td>
+                        <td class="ost-medium-sc">
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
                             <input class="inputbox span11" type="text" size="50" maxlength="255"
                                    id="title_<?php echo $i; ?>" name="title[]"
@@ -216,7 +216,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             <?php endif; ?>
                         </td>
                         <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
-                            <td>
+                            <td class="ost-medium-sc">
                                 <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT"); ?></label></div>
                                 <?php if (($i == 1 && $this->params->get(
                                             'displayWysiwyg'
@@ -243,7 +243,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                         <?php endif; ?>
 
                         <?php if ($this->params->get('displayFullText', 1) == 1): ?>
-                            <td>
+                            <td class="ost-medium-sc">
                                 <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FULL_TEXT"); ?></label></div>
                                 <?php if (($i == 1 && $this->params->get(
                                             'displayWysiwyg'
@@ -276,6 +276,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     <?php $k = 1 - $k; ?>
                 <?php endfor; ?>
             </table>
+            </fieldset>
             <!-- /articles -->
         </div>
         <div class="span4 ost-table-cell-right">

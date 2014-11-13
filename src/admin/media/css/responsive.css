@@ -16,6 +16,9 @@
         float: none;
         width: 100%;
     }
+    .ost-medium-sc{
+        border-top: none !important;
+    }
 }
 @media (max-width: 768px){
     .ost-oscontent-container td{

@@ -50,10 +50,10 @@ JHtml::_('behavior.tooltip');
                                 <?php $k = 0; ?>
                                 <?php for ($i = 1; $i < $this->params->get('nbOSCategories', 10) + 1; $i++): ?>
                                     <tr>
-                                        <td>
+                                        <td class="ost-number">
                                             <strong><?php echo $i; ?></strong>
                                         </td>
-                                        <td>
+                                        <td class="ost-medium-sc">
                                             <div class="control-label"><label>
                                                 <?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?>
                                                 <?php echo JText::_("COM_OSCONTENT_TITLE"); ?>
@@ -61,7 +61,7 @@ JHtml::_('behavior.tooltip');
                                             <input class="inputbox span11" type="text" size="25" maxlength="255"
                                                    id="title_<?php echo $i; ?>" name="title[]" value="">
                                         </td>
-                                        <td>
+                                        <td class="ost-medium-sc">
                                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
                                             <input class="inputbox span11" type="text" size="25" maxlength="255"
                                                    id="alias_<?php echo $i; ?>" name="alias[]" value="" 

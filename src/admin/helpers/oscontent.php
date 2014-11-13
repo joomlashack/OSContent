@@ -59,6 +59,8 @@ class OSContentHelper
         // Load responsive CSS
         if (version_compare(JVERSION, '3', 'ge')) {
             JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/css/responsive.css' );
+        }else{
+            JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/css/non-responsive.css' );
         }
     }
 }
