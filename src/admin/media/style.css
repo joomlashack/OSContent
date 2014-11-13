@@ -1,6 +1,7 @@
 .ost-table-cell-right{
     padding: 0px 40px;
+    vertical-align: top;
 }
 .ost-table-cell-left{
-
+    vertical-align: top;
 }

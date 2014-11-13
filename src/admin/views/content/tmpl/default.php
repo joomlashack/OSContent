@@ -184,38 +184,39 @@ if (version_compare(JVERSION, '3.0', '<')) {
     ?>
 </script>
 
-
-                <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
-                            'nbOSContent',
-                            10
-                        ) . " " . JText::_("COM_OSCONTENT_ARTICLESINAROW"); ?></legend>
-                <table class="table table-striped">
-                    <?php $k = 0; ?>
-                    <?php for ($i = 1; $i < $this->params->get('nbOSContent', 10) + 1; $i++): ?>
-                        <tr>
-                            <td>
-                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?> (<?php echo JText::_(
-                                        "COM_OSCONTENT_PAGE"
-                                    ) . " " . $i; ?>):</label></div>
+<table>
+    <tr>
+        <td class="ost-table-cell-left">
+            <!-- articles -->
+            <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
+                        'nbOSContent',
+                        10
+                    ) . " " . JText::_("COM_OSCONTENT_ARTICLESINAROW"); ?></legend>
+            <table class="table table-striped">
+                <?php $k = 0; ?>
+                <?php for ($i = 1; $i < $this->params->get('nbOSContent', 10) + 1; $i++): ?>
+                    <tr>
+                        <td>
+                            <strong><?php echo $i; ?></strong>
+                        </td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
+                            <input class="inputbox" type="text" size="50" maxlength="255"
+                                   id="title_<?php echo $i; ?>" name="title[]"
+                                   value="<?php echo(@$post["title"][$i - 1]); ?>">
+                            <?php if ($this->params->get('displayAlias', 1) == 1): ?>
+                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
                                 <input class="inputbox" type="text" size="50" maxlength="255"
-                                       id="title_<?php echo $i; ?>" name="title[]"
-                                       value="<?php echo(@$post["title"][$i - 1]); ?>">
-                                <?php if ($this->params->get('displayAlias', 1) == 1): ?>
-                                    <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                    <input class="inputbox" type="text" size="50" maxlength="255"
-                                               id="alias_<?php echo $i; ?>" name="alias[]"
-                                               value="<?php echo(@$post["alias"][$i - 1]); ?>"
-                                               placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
-                                <?php else: ?>
-                                    <?php $hidden .= '<input type="hidden" id="alias_<?php echo $i; ?>" name="alias[]" value =""  >'; ?>
-                                <?php endif; ?>
-                            </td>
-                            <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
-                                <td>
-                                    <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT") . " (" . JText::_(
-                                            "COM_OSCONTENT_PAGE"
-                                        ) . " " . $i; ?>):</label></div>
-                                </td>
+                                           id="alias_<?php echo $i; ?>" name="alias[]"
+                                           value="<?php echo(@$post["alias"][$i - 1]); ?>"
+                                           placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
+                            <?php else: ?>
+                                <?php $hidden .= '<input type="hidden" id="alias_<?php echo $i; ?>" name="alias[]" value =""  >'; ?>
+                            <?php endif; ?>
+                        </td>
+                        <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
+                            <td>
+                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT"); ?></label></div>
                                 <?php if (($i == 1 && $this->params->get(
                                             'displayWysiwyg'
                                         ) == "1") || $this->params->get('displayWysiwyg') == "2"
@@ -229,54 +230,52 @@ if (version_compare(JVERSION, '3.0', '<')) {
                                             '50'
                                         ) . "</td>"; ?>
                                 <?php else: ?>
-                                    <td>
-                                        <textarea id="<?php echo 'introtext_' . $i; ?>"
-                                                  name="<?php echo 'introtext_' . $i; ?>" rows="4"
-                                                  cols="35"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
-                                    </td>
+                                    <textarea id="<?php echo 'introtext_' . $i; ?>"
+                                              name="<?php echo 'introtext_' . $i; ?>" rows="4"
+                                              cols="35"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
                                 <?php endif; ?>
-                            <?php
-                            else:
-                                $hidden .= '<input type="hidden" id="introtext_' . $i . '" name="introtext_' . $i . '" value =""  >'; ?>
-                            <?php endif; ?>
+                            </td>
+                        <?php
+                        else:
+                            $hidden .= '<input type="hidden" id="introtext_' . $i . '" name="introtext_' . $i . '" value =""  >'; ?>
+                        <?php endif; ?>
 
-                            <?php if ($this->params->get('displayFullText', 1) == 1): ?>
-                                <td>
-                                    <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FULL_TEXT") . " (" . JText::_(
-                                            "COM_OSCONTENT_PAGE"
-                                        ) . " " . $i; ?>):</label></div>
-                                </td>
+                        <?php if ($this->params->get('displayFullText', 1) == 1): ?>
+                            <td>
+                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FULL_TEXT"); ?></label></div>
                                 <?php if (($i == 1 && $this->params->get(
                                             'displayWysiwyg'
                                         ) == "1") || $this->params->get('displayWysiwyg') == "2"
                                 ): ?>
-                                    <?php echo "<td colspan=\"4\">" . $editor->display(
+                                    <?php echo $editor->display(
                                             'fulltext_' . $i,
                                             @$post["fulltext_" . $i],
                                             '50%',
                                             '50',
                                             '20',
                                             '50'
-                                        ) . "</td>"; ?>
+                                        ); ?>
                                 <?php else: ?>
-                                    <td>
                                         <textarea id="<?php echo 'fulltext_' . $i; ?>"
                                                   name="<?php echo 'fulltext_' . $i; ?>" rows="4"
                                                   cols="35"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
-                                    </td>
+
                                 <?php endif; ?>
-                            <?php else: ?>
-                                <?php $hidden .= '<input type="hidden" id="fulltext_' . $i . '" name="fulltext_' . $i . '" value =""  >'; ?>
-                            <?php endif; ?>
-                        </tr>
+                            </td>
+                        <?php else: ?>
+                            <?php $hidden .= '<input type="hidden" id="fulltext_' . $i . '" name="fulltext_' . $i . '" value =""  >'; ?>
+                        <?php endif; ?>
+                    </tr>
 
-                        <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
-                        <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
+                    <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
+                    <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
 
-                        <?php $k = 1 - $k; ?>
-                    <?php endfor; ?>
-                </table>
-
+                    <?php $k = 1 - $k; ?>
+                <?php endfor; ?>
+            </table>
+            <!-- /articles -->
+        </td>
+        <td class="ost-table-cell-right">
             <!-- options -->
             <div class="well">
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
@@ -371,7 +370,9 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 </table>
             </div>
             <!-- /options -->
-
+        </td>
+    </tr>
+</table>
 
 <input type="hidden" name="task" value=""/>
 <?php echo JHtml::_('form.token'); ?>
