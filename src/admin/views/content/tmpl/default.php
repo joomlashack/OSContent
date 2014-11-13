@@ -34,6 +34,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 }
 ?>
 
+<div class="row-fluid">
 <?php if (!empty($this->sidebar)): ?>
 <div id="j-sidebar-container" class="span2">
     <?php echo $this->sidebar; ?>
@@ -184,7 +185,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
     ?>
 </script>
 
-<div class="ost-oscontent-container">
+<div class="row-fluid ost-oscontent-container">
         <div class="span8 ost-table-cell-left">
             <!-- articles -->
             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
@@ -200,12 +201,12 @@ if (version_compare(JVERSION, '3.0', '<')) {
                         </td>
                         <td>
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
-                            <input class="inputbox span12" type="text" size="50" maxlength="255"
+                            <input class="inputbox span11" type="text" size="50" maxlength="255"
                                    id="title_<?php echo $i; ?>" name="title[]"
                                    value="<?php echo(@$post["title"][$i - 1]); ?>">
                             <?php if ($this->params->get('displayAlias', 1) == 1): ?>
                                 <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                <input class="inputbox span12" type="text" size="50" maxlength="255"
+                                <input class="inputbox span11" type="text" size="50" maxlength="255"
                                            id="alias_<?php echo $i; ?>" name="alias[]"
                                            value="<?php echo(@$post["alias"][$i - 1]); ?>"
                                            placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
@@ -232,7 +233,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                                     <textarea id="<?php echo 'introtext_' . $i; ?>"
                                               name="<?php echo 'introtext_' . $i; ?>" rows="4"
                                               cols="35"
-                                              class="span12"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
+                                              class="span11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
                                 <?php endif; ?>
                             </td>
                         <?php
@@ -259,7 +260,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                                         <textarea id="<?php echo 'fulltext_' . $i; ?>"
                                                   name="<?php echo 'fulltext_' . $i; ?>" rows="4"
                                                   cols="35"
-                                                  class="span12"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
+                                                  class="span11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
 
                                 <?php endif; ?>
                             </td>
@@ -388,6 +389,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 </table>
             </div>
             <!-- /options -->
+    </div>
 </div>
 
 <input type="hidden" name="task" value=""/>
@@ -397,3 +399,5 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
 </div>
 <!-- #j-main-container -->
+
+</div>

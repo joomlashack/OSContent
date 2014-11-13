@@ -1,3 +1,15 @@
+@media (max-width: 1024px){
+    .ost-table-cell-right input,
+    .ost-table-cell-right select{
+        width: 160px;
+    }
+}
+@media (max-width: 960px){
+    .ost-table-cell-right input,
+    .ost-table-cell-right select{
+        width: 130px;
+    }
+}
 @media (max-width: 768px){
     .ost-oscontent-container td{
         display: block;
