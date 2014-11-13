@@ -184,7 +184,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
     ?>
 </script>
 
-<div class="row-fluid ost-oscontent-container">
+<div class="ost-oscontent-container">
         <div class="span8 ost-table-cell-left">
             <!-- articles -->
             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
@@ -280,71 +280,85 @@ if (version_compare(JVERSION, '3.0', '<')) {
             <!-- options -->
             <div class="well">
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
-
                 <table border="0" cellpadding="3" cellspacing="0">
+                    <tr>
+                        <td>
+                            <div class="control-label"><label>
+                                <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
+                                <?php
+                                echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
+                                '',
+                                'tooltip.png',
+                                '',
+                                '');
+                                ?>
+                            </label></div>
+                            <input type="checkbox" id="duplicateText" name="duplicateText"
+                                   onClick="javascript:copyText()">
+                        </td>
+                    </tr>
 
                     <tr>
                         <td>
-                            <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
-                            <?php
-                            echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
-                            '',
-                            'tooltip.png',
-                            '',
-                            '');
-                            ?>
+                            <?php echo JText::_("COM_OSCONTENT_PAGES_TITLE_ONLY"); ?>
                         </td>
-                        <td><input type="checkbox" id="duplicateText" name="duplicateText"
-                                   onClick="javascript:copyText()"></td>
                     </tr>
 
                     <tr>
-                        <td colspan="2"><?php echo JText::_("COM_OSCONTENT_PAGES_TITLE_ONLY"); ?></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></label></div>
+                            <input type="checkbox" id="published" name="published" checked>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></td>
-                        <td><input type="checkbox" id="published" name="published" checked></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FEATURED"); ?></label></div>
+                            <input type="checkbox" id="featured" name="featured">
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_FEATURED"); ?></td>
-                        <td><input type="checkbox" id="featured" name="featured"></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ACCESS_LEVEL"); ?></label></div>
+                            <?php echo $this->lists['access']; ?>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_ACCESS_LEVEL"); ?></td>
-                        <td><?php echo $this->lists['access']; ?></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_AUTHOR"); ?></label></div>
+                            <?php echo $this->lists['created_by']; ?>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_AUTHOR"); ?></td>
-                        <td><?php echo $this->lists['created_by']; ?></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_AUTHOR_ALIAS"); ?></label></div>
+                            <input type="text" name="created_by_alias" id="created_by_alias" value="" size="20"/>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_AUTHOR_ALIAS"); ?></td>
-                        <td><input type="text" name="created_by_alias" id="created_by_alias" value="" size="20"/></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?></label></div>
+                            <?php echo $this->lists['catid']; ?>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?></td>
-                        <td> <?php echo $this->lists['catid']; ?></td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2"><input type="checkbox" name="addMenu"><?php echo JText::_(
+                        <td>
+                            <div class="control-label"><label><input type="checkbox" name="addMenu"><?php echo JText::_(
                                 "COM_OSCONTENT_LINK_TO_MENU"
-                            ); ?></td>
+                            ); ?></label></div>
+                            <?php echo $this->lists['menuselect']; ?><br/><?php echo $this->lists['menuselect3']; ?>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td colspan="2"><?php echo $this->lists['menuselect']; ?> <?php echo $this->lists['menuselect3']; ?></td>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_CREATED_DATE"); ?></td>
-                        <td><?php echo JHTML::_(
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_CREATED_DATE"); ?></label></div>
+                            <?php echo JHTML::_(
                                 'calendar',
                                 JHTML::_('date', $createdate, 'Y-m-d H:i:s'),
                                 "created",
@@ -354,8 +368,9 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_PUBLISH_UP"); ?></td>
-                        <td><?php echo JHTML::_(
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_UP"); ?></label></div>
+                            <?php echo JHTML::_(
                                 'calendar',
                                 JHTML::_('date', $createdate, 'Y-m-d H:i:s'),
                                 "publish_up",
@@ -365,8 +380,10 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     </tr>
 
                     <tr>
-                        <td><?php echo JText::_("COM_OSCONTENT_PUBLISH_DOWN"); ?></td>
-                        <td><?php echo JHTML::_('calendar', "Never", "publish_down", "publish_down"); ?></td>
+                        <td>
+                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_DOWN"); ?></label></div>
+                            <?php echo JHTML::_('calendar', "Never", "publish_down", "publish_down"); ?>
+                        </td>
                     </tr>
                 </table>
             </div>
