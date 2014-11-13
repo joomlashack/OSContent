@@ -26,6 +26,7 @@ JHtml::_('behavior.tooltip');
     }
 </style>
 
+<div class="row-fluid">
 <?php if (!empty($this->sidebar)) : ?>
 <div id="j-sidebar-container" class="span2">
     <?php echo $this->sidebar; ?>
@@ -37,9 +38,8 @@ JHtml::_('behavior.tooltip');
 
         <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
               id="categories-form" class="adminForm form-validate">
-            <table border="0" cellpadding="3" cellspacing="0">
-                <tr valign="top">
-                    <td class="ost-table-cell-left">
+            <div class="row-fluid ost-oscontent-container">
+                <div class="span8 ost-table-cell-left">
                         <fieldset>
                             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                                         'nbOSCategories',
@@ -50,65 +50,80 @@ JHtml::_('behavior.tooltip');
                                 <?php $k = 0; ?>
                                 <?php for ($i = 1; $i < $this->params->get('nbOSCategories', 10) + 1; $i++): ?>
                                     <tr>
-                                        <td><?php echo JText::_("COM_OSCONTENT_CATEGORY") . " " . $i; ?>
-                                            : <?php echo JText::_("COM_OSCONTENT_TITLE"); ?></td>
-                                        <td><input class="inputbox" type="text" size="25" maxlength="255"
-                                                   id="title_<?php echo $i; ?>" name="title[]" value=""></td>
-                                        <td><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></td>
-                                        <td><input class="inputbox" type="text" size="25" maxlength="255"
+                                        <td class="ost-number">
+                                            <strong><?php echo $i; ?></strong>
+                                        </td>
+                                        <td class="ost-medium-sc">
+                                            <div class="control-label"><label>
+                                                <?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?>
+                                                <?php echo JText::_("COM_OSCONTENT_TITLE"); ?>
+                                            </label></div>
+                                            <input class="inputbox span11" type="text" size="25" maxlength="255"
+                                                   id="title_<?php echo $i; ?>" name="title[]" value="">
+                                        </td>
+                                        <td class="ost-medium-sc">
+                                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
+                                            <input class="inputbox span11" type="text" size="25" maxlength="255"
                                                    id="alias_<?php echo $i; ?>" name="alias[]" value="" 
-                                                   placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>"></td>
+                                                   placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
+                                        </td>
                                     </tr>
                                     <?php $k = 1 - $k; ?>
                                 <?php endfor; ?>
                             </table>
                         </fieldset>
-                    </td>
-
-                    <td valign="top" class="ost-table-cell-right">
+                </div>
+                <div class="span4 ost-table-cell-right">
                         <div class="well">
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
                                 
                                 <tr>
-                                    <td><?php echo JText::_("COM_OSCONTENT_PARENT"); ?></td>
-                                    <td colspan="2"><?php echo $this->lists['cate']; ?></td>
+                                    <td>
+                                        <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PARENT"); ?></label></div>
+                                        <?php echo $this->lists['cate']; ?>
+                                    </td>
                                 </tr>
 
                                 <tr>
-                                    <td valign="top" style="padding-top:10px;"><?php echo JText::_(
+                                    <td>
+                                        <div class="control-label"><label><?php echo JText::_(
                                             "COM_OSCONTENT_ACCESS_LEVEL"
-                                        ); ?></td>
-                                    <td><?php echo $this->lists['access']; ?>
+                                        ); ?></label></div>
+                                        <?php echo $this->lists['access']; ?>
+                                    </td>
                                 </tr>
 
                                 <tr>
-                                    <td><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></td>
-                                    <td><?php echo $this->lists['published']; ?></td>
+                                    <td>
+                                        <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></label></div>
+                                        <?php echo $this->lists['published']; ?>
+                                    </td>
                                 </tr>
 
                                 <tr>
-                                    <td valign="top" style="padding-top:10px;">
-                                        <input type="checkbox" name="addMenu"
+                                    <td>
+                                        <div class="control-label"><label><input type="checkbox" name="addMenu"
                                                style="margin-top:0px;"><?php echo JText::_(
                                             "COM_OSCONTENT_LINK_TO_MENU"
-                                        ); ?>
+                                        ); ?></label></div>
+                                        <?php echo $this->lists['menuselect']; ?><?php echo $this->lists['menuselect3']; ?>
                                     </td>
-                                    <td><?php echo $this->lists['menuselect']; ?><?php echo $this->lists['menuselect3']; ?></td>
                                 </tr>
 
                                 <tr>
-                                    <td valign="top" style="padding-top:10px;"><?php echo JText::_(
+                                    <td>
+                                        <div class="control-label"><label><?php echo JText::_(
                                             "COM_OSCONTENT_SELECT_MENUTYPE"
-                                        ); ?></td>
-                                    <td><?php echo $this->lists['link_type']; ?></td>
+                                        ); ?></label></div>
+                                        <?php echo $this->lists['link_type']; ?>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
 
             <input type="hidden" name="task" value=""/>
             <?php echo JHtml::_('form.token'); ?>
@@ -179,3 +194,4 @@ JHtml::_('behavior.tooltip');
         </script>
     </div>
     <!-- #j-main-container -->
+</div>
