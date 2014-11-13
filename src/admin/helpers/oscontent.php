@@ -54,6 +54,11 @@ class OSContentHelper
         );
 
         // Load CSS
-        JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/style.css' );
+        JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/css/style.css' );
+
+        // Load responsive CSS
+        if (version_compare(JVERSION, '3', 'ge')) {
+            JHtml::stylesheet( Juri::base() . 'components/com_oscontent/media/css/responsive.css' );
+        }
     }
 }

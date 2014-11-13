@@ -1,0 +1,13 @@
+@media (max-width: 960px){
+    .ost-table-cell-right, .ost-table-cell-left{
+        display: block;
+    }
+    .ost-table-cell-right{
+        padding: 0;
+    }
+}
+@media (max-width: 768px){
+    .ost-oscontent-container td{
+        display: block;
+    }
+}

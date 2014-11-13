@@ -184,7 +184,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
     ?>
 </script>
 
-<table>
+<table class="ost-oscontent-container">
     <tr>
         <td class="ost-table-cell-left">
             <!-- articles -->
