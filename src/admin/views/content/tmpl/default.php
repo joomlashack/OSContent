@@ -286,16 +286,14 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 <table border="0" cellpadding="3" cellspacing="0">
                     <tr>
                         <td>
-                            <div class="control-label"><label>
-                                <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
-                                <?php
-                                echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
-                                '',
-                                'tooltip.png',
-                                '',
-                                '');
-                                ?>
-                            </label></div>
+                            <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
+                            <?php
+                            echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
+                            '',
+                            'tooltip.png',
+                            '',
+                            '');
+                            ?> 
                             <input type="checkbox" id="duplicateText" name="duplicateText"
                                    onClick="javascript:copyText()">
                         </td>
@@ -309,14 +307,14 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
                     <tr>
                         <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?></label></div>
+                            <?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?>
                             <input type="checkbox" id="published" name="published" checked>
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FEATURED"); ?></label></div>
+                            <?php echo JText::_("COM_OSCONTENT_FEATURED"); ?>
                             <input type="checkbox" id="featured" name="featured">
                         </td>
                     </tr>
