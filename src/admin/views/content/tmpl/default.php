@@ -352,7 +352,8 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             <div class="control-label"><label><input type="checkbox" name="addMenu"><?php echo JText::_(
                                 "COM_OSCONTENT_LINK_TO_MENU"
                             ); ?></label></div>
-                            <?php echo $this->lists['menuselect']; ?><br/><?php echo $this->lists['menuselect3']; ?>
+                            <?php echo $this->lists['menuselect']; ?>
+                            <?php echo $this->lists['menuselect3']; ?>
                         </td>
                     </tr>
 
