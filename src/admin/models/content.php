@@ -434,7 +434,8 @@ class OSContentModelContent extends OSModel
         }
 
         // Build list of users
-        $lists['created_by'] = JHTML::_('list.users', 'created_by', 1);
+        $user = JFactory::getUser();
+        $lists['created_by'] = JHTML::_('list.users', 'created_by', $user->id);
 
         // Load params
         jimport('joomla.application.component.helper');
