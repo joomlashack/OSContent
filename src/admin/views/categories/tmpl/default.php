@@ -1,14 +1,9 @@
 <?php
 /**
- * @category  Joomla Component
- * @package   com_oscontent
- * @author    Johann Eriksen
- * @copyright 2007-2009 Johann Eriksen
- * @copyright 2011, 2014 Open Source Training, LLC. All rights reserved
- * @contact   www.ostraining.com, support@ostraining.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version   1.9.4
- * @link      http://www.ostraining.com/downloads/joomla-extensions/oscontent/
+ * @package   OSContent
+ * @contact   www.alledia.com, hello@alledia.com
+ * @copyright 2014 Alledia.com, All rights reserved
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
 defined('_JEXEC') or die();
@@ -64,7 +59,7 @@ JHtml::_('behavior.tooltip');
                                         <td class="ost-medium-sc">
                                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
                                             <input class="inputbox span11" type="text" size="25" maxlength="255"
-                                                   id="alias_<?php echo $i; ?>" name="alias[]" value="" 
+                                                   id="alias_<?php echo $i; ?>" name="alias[]" value=""
                                                    placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
                                         </td>
                                     </tr>
@@ -78,7 +73,7 @@ JHtml::_('behavior.tooltip');
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
-                                
+
                                 <tr>
                                     <td>
                                         <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PARENT"); ?></label></div>
@@ -190,7 +185,7 @@ JHtml::_('behavior.tooltip');
                 endforeach;
             endforeach;
             ?>
-            
+
         </script>
     </div>
     <!-- #j-main-container -->

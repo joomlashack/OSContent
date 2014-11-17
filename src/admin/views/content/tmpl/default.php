@@ -1,14 +1,9 @@
 <?php
 /**
- * @category  Joomla Component
- * @package   com_oscontent
- * @author    Johann Eriksen
- * @copyright 2007-2009 Johann Eriksen
- * @copyright 2011, 2014 Open Source Training, LLC. All rights reserved
- * @contact   www.ostraining.com, support@ostraining.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version   1.9.4
- * @link      http://www.ostraining.com/downloads/joomla-extensions/oscontent/
+ * @package   OSContent
+ * @contact   www.alledia.com, hello@alledia.com
+ * @copyright 2014 Alledia.com, All rights reserved
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
 defined('_JEXEC') or die();
@@ -48,12 +43,12 @@ if (version_compare(JVERSION, '3.0', '<')) {
 <script language="javascript" type="text/javascript">
     // Execute when page is loaded
     window.onload = setDateTime;
-    
+
     // Set date/time
     function setDateTime() {
         document.getElementById("created").value = "<?php echo $createdate; ?>";
         document.getElementById("publish_up").value = "<?php echo $createdate; ?>";
-        
+
         return false;
     }
 
@@ -293,7 +288,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             'tooltip.png',
                             '',
                             '');
-                            ?> 
+                            ?>
                             <input type="checkbox" id="duplicateText" name="duplicateText"
                                    onClick="javascript:copyText()">
                         </td>
