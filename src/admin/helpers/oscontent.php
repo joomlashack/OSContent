@@ -34,7 +34,7 @@ class OSContentHelper
         $subMenuClass::addEntry(
             JText::_('COM_OSCONTENT_SUBMENU_CREATE'),
             'index.php?option=com_oscontent&view=content',
-            $vName == 'content'
+            $vName == 'content' || empty($vName)
         );
 
         $subMenuClass::addEntry(
