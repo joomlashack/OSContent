@@ -34,6 +34,6 @@
     </administration>
 
     <updateservers>
-        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[https://deploy.ostraining.com/updates/joomla/com_oscontent.xml]]></server>
+        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
     </updateservers>
 </extension>
