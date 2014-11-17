@@ -1,12 +1,15 @@
 {
     "name"             : "Alledia/OSContent",
-    "description"      : "Create and delete articles and categories in bulk/mass",
+    "description"      : "OSContent",
     "minimum-stability": "stable",
     "license"          : "GPL-2+",
     "type"             : "joomla.component",
     "extra"            : {
-        "element": "com_oscontent",
-        "name":    "OSContent"
+        "element"        : "com_oscontent",
+        "element-short"  : "oscontent",
+        "name"           : "OSContent",
+        "client"         : "1",
+        "package-license": "free"
     },
     "authors"          : [
         {

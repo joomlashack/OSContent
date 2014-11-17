@@ -10,6 +10,28 @@
     <version>1.10.0</version>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
+    <alledia>
+        <element>oscontent</element>
+        <namespace>OSContent</namespace>
+        <license>free</license>
+        <relatedExtensions>
+            <extension
+                type="library"
+                element="allediaframework"
+                >AllediaFramework</extension>
+
+            <extension
+                type="plugin"
+                group="system"
+                element="ossystem"
+                publish="true"
+                ordering="first"
+                >OSSystem</extension>
+        </relatedExtensions>
+    </alledia>
+
+    <scriptfile>script.installer.php</scriptfile>
+
     <administration>
         <menu img="components/com_oscontent/media/images/oscontent.png">COM_OSCONTENT</menu>
         <submenu>
