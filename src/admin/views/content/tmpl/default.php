@@ -303,14 +303,14 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     <tr>
                         <td>
                             <?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?>
-                            <input type="checkbox" id="published" name="published" checked>
+                            <input type="checkbox" id="published" name="published" value="1" checked>
                         </td>
                     </tr>
 
                     <tr>
                         <td>
                             <?php echo JText::_("COM_OSCONTENT_FEATURED"); ?>
-                            <input type="checkbox" id="featured" name="featured">
+                            <input type="checkbox" id="featured" name="featured" value="1">
                         </td>
                     </tr>
 
@@ -344,7 +344,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
                     <tr>
                         <td>
-                            <div class="control-label"><label><input type="checkbox" name="addMenu"><?php echo JText::_(
+                            <div class="control-label"><label><input type="checkbox" name="addMenu" value="1"><?php echo JText::_(
                                 "COM_OSCONTENT_LINK_TO_MENU"
                             ); ?></label></div>
                             <?php echo $this->lists['menuselect']; ?>

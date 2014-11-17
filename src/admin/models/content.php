@@ -9,6 +9,7 @@
 defined('_JEXEC') or die();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';
 
 /**
  * Model Content
@@ -583,7 +584,8 @@ class OSContentModelContent extends OSModel
                     'metakey'          => 'ARRAY',
                     'addMenu'          => 'INT',
                     'menuselect'       => 'STRING',
-                    'menuselect3'      => 'STRING'
+                    'menuselect3'      => 'STRING',
+                    'featured'         => 'INT'
                 )
             );
 
@@ -824,6 +826,10 @@ class OSContentModelContent extends OSModel
                 $row->state = 0;
             }
 
+            if ((bool) $post['featured']) {
+                $row->featured = 1;
+            }
+
             if (!$row->store()) {
                 return false;
             }
@@ -835,9 +841,9 @@ class OSContentModelContent extends OSModel
                 $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
             }
 
-            if ($featured) {
+            if ((bool) $post['featured']) {
                 $db = JFactory::getDBO();
-                $fp = new TableFrontPage($db);
+                $fp = new ContentTableFeatured($db);
 
                 // Is the item already viewable on the frontpage?
                 // Insert the new entry
