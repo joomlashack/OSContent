@@ -120,6 +120,7 @@ class OSContentModelContent extends OSModel
         // $row->componentid = $id;
         $row->component_id = 22;
         // $row->ordering = 9999;
+
         $params                          = array();
         $params['display_num']           = 10;
         $params['show_headings']         = 1;
@@ -640,22 +641,24 @@ class OSContentModelContent extends OSModel
             $row->fulltext   = ($intro_text != "" ? $full_text : "");
             $row->metakey    = $post["metakey"][$i];
             $row->metadesc   = $post["metadesc"][$i];
-            $row->robots     = isset($post["robots"]) ? $post["robots"] : "";
-            $row->author     = $post["created_by"];
             $row->catid      = $post["catid"];
             $row->access     = $post["access"];
             $row->language   = "*";
             $row->created_by = $post["created_by"];
 
+            $robots     = isset($post["robots"]) ? $post["robots"] : "";
+            $author     = $post["created_by"];
+
             // TODO: implement the metadata/robots
             $row->metadata = "";
-            if ($row->robots != "") {
-                $row->metadata = "robots=" . $row->robots . "\n";
+            if ($robots != "") {
+                $row->metadata = "robots=" . $robots . "\n";
             }
             // TODO: implement the author_alias
-            if ($row->author != "") {
-                $row->metadata .= "author=" . $row->author;
+            if ($author != "") {
+                $row->metadata .= "author=" . $author;
             }
+
             if ($row->metadata == "") {
                 $row->metadata = "robots=
 								  author=";
@@ -719,6 +722,10 @@ class OSContentModelContent extends OSModel
                 'catid' => $row->catid
             );
 
+            if ((bool) $post['featured']) {
+                $row->featured = 1;
+            }
+
             if ($table->load($params) && ($table->id != $row->id || $row->id == 0)) {
                 JError::raiseWarning(
                     "Save content",
@@ -726,109 +733,6 @@ class OSContentModelContent extends OSModel
                 );
 
                 return false;
-            }
-        }
-
-        for ($i = 0; $i < count($post["title"]); $i++) {
-            $index = $i + 1;
-
-            if ($post["title"][$i] == "") {
-                continue;
-            }
-
-            $row = $this->getTable();
-
-            $row->id    = 0;
-            $row->title = $post["title"][$i];
-            if ($post["alias"][$i]) {
-                $row->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
-            } else {
-                $row->alias = JFilterOutput::stringURLSafe($row->title);
-            }
-
-            if (trim(str_replace('-', '', $row->alias)) == '') {
-                $row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') . "-" . $i;
-            }
-
-            $intro_text      = $post['introtext_' . $index];
-            $full_text       = $post['fulltext_' . $index];
-            $row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
-            $row->fulltext   = ($intro_text != "" ? $full_text : "");
-            $row->metakey    = $post["metakey"][$i];
-            $row->metadesc   = $post["metadesc"][$i];
-            $row->robots     = @$post["robots"];
-            $row->author     = @$post["author"];
-            $row->catid      = $post["catid"];
-            $row->access     = $post["access"];
-            $row->language   = "*";
-            $row->created_by = $post["created_by"];
-
-            $row->metadata = "";
-            if ($row->robots != "") {
-                $row->metadata = "robots=" . $row->robots . "\n";
-            }
-            if ($row->author != "") {
-                $row->metadata .= "author=" . $row->author;
-            }
-            if ($row->metadata == "") {
-                $row->metadata = "robots=
-								  author=";
-            }
-
-            if ($post["created"]) {
-                $row->created = JFactory::getDate($post["created"]);
-
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->created = $row->created->toMySQL();
-                } else {
-                    $row->created = $row->created->toSQL();
-                }
-            }
-
-            if ($post["publish_up"]) {
-                $row->publish_up = JFactory::getDate($post["publish_up"]);
-
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_up = $row->publish_up->toMySQL();
-                } else {
-                    $row->publish_up = $row->publish_up->toSQL();
-                }
-            }
-
-            if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('COM_OSCONTENT_NEVER')) {
-                $row->publish_down = JFactory::getDate($post["publish_down"]);
-
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_down = $row->publish_down->toMySQL();
-                } else {
-                    $row->publish_down = $row->publish_down->toSQL();
-                }
-            } elseif (trim($post["publish_down"]) == JText::_('COM_OSCONTENT_NEVER')) {
-                $post["publish_down"] = JFactory::getDBO()->getNullDate();
-
-                $row->publish_down = JFactory::getDate($post["publish_down"]);
-
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_down = $row->publish_down->toMySQL();
-                } else {
-                    $row->publish_down = $row->publish_down->toSQL();
-                }
-            }
-
-
-            // Handle state
-            if (isset($post["published"]) && $post["published"]) {
-                $row->state = 1;
-            } else {
-                $row->state = 0;
-            }
-
-            if ((bool) $post['featured']) {
-                $row->featured = 1;
             }
 
             if (!$row->store()) {
