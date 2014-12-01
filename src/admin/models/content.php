@@ -646,6 +646,10 @@ class OSContentModelContent extends OSModel
             $row->language   = "*";
             $row->created_by = $post["created_by"];
 
+            if (isset($post["created_by_alias"])) {
+                $row->created_by_alias = $post["created_by_alias"];
+            }
+
             $robots     = isset($post["robots"]) ? $post["robots"] : "";
             $author     = $post["created_by"];
 
