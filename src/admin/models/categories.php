@@ -476,6 +476,11 @@ class OSContentModelCategories extends OSModel
         $row->menutype  = $menu;
         $row->title     = $link;
         $row->alias     = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
+
+        if (trim(str_replace('-', '', $row->alias)) == '') {
+            $row->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+        }
+
         $row->parent_id = ($parent == -1) ? 1 : $parent;
         $row->type      = 'component';
         $row->link      = 'index.php?option=com_content&view=' . $taskLink . '&id=' . $id;
@@ -485,7 +490,6 @@ class OSContentModelCategories extends OSModel
         // $row->componentid	= $id;
         $row->component_id = 22;
         // $row->ordering =    9999;
-
 
         $params                          = array();
         $params['display_num']           = 10;
