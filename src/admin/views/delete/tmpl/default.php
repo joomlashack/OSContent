@@ -59,9 +59,9 @@ JHtml::_('behavior.tooltip');
                 <?php
                         // $i = 0;
                         // foreach ($this->lists['sectioncategories'] as $k=>$items) {
-                        // 	foreach ($items as $v) {
-                        // 		echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->name)."');\t";
-                        // 	}
+                        //  foreach ($items as $v) {
+                        //      echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->name)."');\t";
+                        //  }
                         // }
                         // ?>
             </script>

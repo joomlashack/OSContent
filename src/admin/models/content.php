@@ -16,7 +16,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php'
  *
  * @since  1.0.0
  */
-class OSContentModelContent extends OSModel
+class OSContentModelContent extends OSModelAbstract
 {
     /**
      * @var    string  The prefix to use with controller messages.
@@ -117,9 +117,7 @@ class OSContentModelContent extends OSModel
         $row->published = 1;
         $row->language  = "*";
 
-        // $row->componentid = $id;
-        $row->component_id = 22;
-        // $row->ordering = 9999;
+        $row->component_id = $this->getExtensionId('com_content');
 
         $params                          = array();
         $params['display_num']           = 10;
@@ -247,7 +245,7 @@ class OSContentModelContent extends OSModel
                 $query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
                 $query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-                $rowQuery	= $db->getQuery(true);
+                $rowQuery   = $db->getQuery(true);
                 $rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
                 $rowQuery->from('#__categories AS a');
                 $rowQuery->where('a.id = ' . (int) $id);
@@ -665,7 +663,7 @@ class OSContentModelContent extends OSModel
 
             if ($row->metadata == "") {
                 $row->metadata = "robots=
-								  author=";
+                                  author=";
             }
 
             if ($post["created"]) {
@@ -745,7 +743,7 @@ class OSContentModelContent extends OSModel
 
             $row->reorder('catid = ' . (int)$row->catid . ' AND state >= 0');
 
-            if (@$post["addMenu"] === 0 || @$post['addMenu'] === 'on') {
+            if (@$post["addMenu"] === 1 || @$post['addMenu'] === 'on') {
                 $type = "content_item_link";
                 $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
             }

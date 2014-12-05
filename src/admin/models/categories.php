@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
  *
  * @since  1.0.0
  */
-class OSContentModelCategories extends OSModel
+class OSContentModelCategories extends OSModelAbstract
 {
     /**
      * @var    string  The prefix to use with controller messages.
@@ -87,7 +87,7 @@ class OSContentModelCategories extends OSModel
                 $query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
                 $query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-                $rowQuery	= $db->getQuery(true);
+                $rowQuery   = $db->getQuery(true);
                 $rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
                 $rowQuery->from('#__categories AS a');
                 $rowQuery->where('a.id = ' . (int) $id);
@@ -413,7 +413,7 @@ class OSContentModelCategories extends OSModel
                 return false;
             }
 
-            if (@$post["addMenu"] === 0 || @$post['addMenu'] === 'on') {
+            if (@$post["addMenu"] === 1 || @$post['addMenu'] === 'on') {
                 $this->menuLink(
                     $table->id,
                     $table->title,
@@ -487,9 +487,7 @@ class OSContentModelCategories extends OSModel
         $row->published = 1;
         $row->language  = "*";
 
-        // $row->componentid	= $id;
-        $row->component_id = 22;
-        // $row->ordering =    9999;
+        $row->component_id = $this->getExtensionId('com_content');
 
         $params                          = array();
         $params['display_num']           = 10;

@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
  *
  * @since  1.0.0
  */
-class OSContentModelDelete extends OSModel
+class OSContentModelDelete extends OSModelAbstract
 {
     /**
      * @var    string  The prefix to use with controller messages.
@@ -88,7 +88,7 @@ class OSContentModelDelete extends OSModel
                 $query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
                 $query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-                $rowQuery	= $db->getQuery(true);
+                $rowQuery   = $db->getQuery(true);
                 $rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
                 $rowQuery->from('#__categories AS a');
                 $rowQuery->where('a.id = ' . (int) $id);
@@ -213,7 +213,7 @@ class OSContentModelDelete extends OSModel
             if ($deleteCategory) {
                 // Delete link menu-cat
                 $query = "DELETE m FROM #__menu m "
-                    . "\n WHERE m.component_id = 22 "
+                    . "\n WHERE m.component_id = " . $database->q($this->getExtensionId('com_content'))
                     . "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0";
 
                 $database->setQuery($query);

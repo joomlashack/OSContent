@@ -31,3 +31,26 @@ if (version_compare(JVERSION, '3.0', '<')) {
     }
 }
 
+abstract class OSModelAbstract extends OSModel
+{
+    /**
+     * Get the extension id
+     *
+     * @param string $extension
+     * @return int
+     */
+    protected function getExtensionId($extension, $type = 'component')
+    {
+        $db = JFactory::getDBO();
+        $query = $db->getQuery(true);
+        $query
+            ->select('extension_id')
+            ->from('#__extensions')
+            ->where('element = ' . $db->q($extension))
+            ->where('type = ' . $db->q($type))
+            ->limit(1);
+        $db->setQuery($query);
+
+        return (int) $db->loadResult();
+    }
+}
