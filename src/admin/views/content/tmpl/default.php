@@ -296,12 +296,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
                     <tr>
                         <td>
-                            <?php echo JText::_("COM_OSCONTENT_PAGES_TITLE_ONLY"); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
                             <?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?>
                             <input type="checkbox" id="published" name="published" value="1" checked>
                         </td>
