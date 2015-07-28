@@ -34,7 +34,7 @@ class OSContentControllerDelete extends JControllerForm
         if (version_compare(JVERSION, '3.0', '<')) {
             $view = JRequest::getCmd('view', 'delete');
         } else {
-            $view = JFactory::getApplication()->input->get('view', 'delete');
+            $view = JFactory::getApplication()->input->getCmd('view', 'delete');
         }
 
         $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));

@@ -68,7 +68,7 @@ class OSContentController extends OSController
         if (version_compare(JVERSION, '3.0', '<')) {
             $view = JRequest::getCmd('view', 'content');
         } else {
-            $view = JFactory::getApplication()->input->get('view');
+            $view = JFactory::getApplication()->input->getCmd('view');
         }
 
         OSContentHelper::addSubmenu($view);

@@ -28,7 +28,7 @@ $controller = OSController::getInstance('OSContent');
 if (version_compare(JVERSION, '3.0', '<')) {
     $task = JRequest::getCmd('task', 'display');
 } else {
-    $task = JFactory::getApplication()->input->get('task');
+    $task = JFactory::getApplication()->input->getCmd('task');
 }
 
 $controller->execute($task);

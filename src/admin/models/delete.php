@@ -194,9 +194,9 @@ class OSContentModelDelete extends OSModelAbstract
 
         // Joomla 3.x Backward Compatibility
         if (version_compare(JVERSION, '3.0', '<')) {
-            $catid             = JRequest::getVar('catid', '', 'POST');
-            $deleteCategory    = JRequest::getVar('deleteCategory', '', 'POST');
-            $deleteContentOnly = JRequest::getVar('deleteContentOnly', '', 'POST');
+            $catid             = JRequest::getInt('catid', '', 'POST');
+            $deleteCategory    = JRequest::getInt('deleteCategory', '', 'POST');
+            $deleteContentOnly = JRequest::getInt('deleteContentOnly', '', 'POST');
         } else {
             $input = JFactory::getApplication()->input;
             $catid = $input->getInt('catid');
