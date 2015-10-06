@@ -28,6 +28,7 @@
                 ordering="first"
                 >OSSystem</extension>
         </relatedExtensions>
+        <include>AllediaFreeDefaultFiles</include>
     </alledia>
 
     <scriptfile>script.installer.php</scriptfile>
