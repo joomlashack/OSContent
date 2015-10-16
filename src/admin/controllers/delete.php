@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.alledia.com, hello@alledia.com
- * @copyright 2014 Alledia.com, All rights reserved
+ * @copyright 2015 Alledia.com, All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
@@ -34,7 +34,7 @@ class OSContentControllerDelete extends JControllerForm
         if (version_compare(JVERSION, '3.0', '<')) {
             $view = JRequest::getCmd('view', 'delete');
         } else {
-            $view = JFactory::getApplication()->input->get('view', 'delete');
+            $view = JFactory::getApplication()->input->getCmd('view', 'delete');
         }
 
         $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));

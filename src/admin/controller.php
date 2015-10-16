@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.alledia.com, hello@alledia.com
- * @copyright 2014 Alledia.com, All rights reserved
+ * @copyright 2015 Alledia.com, All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
@@ -68,7 +68,7 @@ class OSContentController extends OSController
         if (version_compare(JVERSION, '3.0', '<')) {
             $view = JRequest::getCmd('view', 'content');
         } else {
-            $view = JFactory::getApplication()->input->get('view');
+            $view = JFactory::getApplication()->input->getCmd('view');
         }
 
         OSContentHelper::addSubmenu($view);
