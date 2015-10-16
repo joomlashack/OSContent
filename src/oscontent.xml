@@ -2,12 +2,12 @@
 <extension type="component" version="2.5.0" method="upgrade">
     <name>com_oscontent</name>
     <author>Alledia</author>
-    <creationDate>January 28, 2015</creationDate>
+    <creationDate>October 15 2015</creationDate>
     <copyright>Copyright (C) 2011, 2015 Alledia.com</copyright>
     <license>GPL v3</license>
     <authorEmail>hello@alledia.com</authorEmail>
     <authorUrl>https://www.alledia.com</authorUrl>
-    <version>1.10.2a1</version>
+    <version>1.10.3</version>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
     <alledia>
