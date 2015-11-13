@@ -43,6 +43,10 @@ if (version_compare(JVERSION, '3.0', '<')) {
                 $this->sidebar = JHtmlSidebar::render();
             }
 
+            $extension = Alledia\Framework\Factory::getExtension('OSContent', 'component');
+            $extension->loadLibrary();
+            $this->assignRef('extension', $extension);
+
             parent::display($tpl);
         }
     }

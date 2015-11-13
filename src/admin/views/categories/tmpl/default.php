@@ -190,3 +190,5 @@ JHtml::_('behavior.tooltip');
     </div>
     <!-- #j-main-container -->
 </div>
+
+<?php echo $this->extension->getFooterMarkup(); ?>

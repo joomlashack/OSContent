@@ -373,7 +373,13 @@ if (version_compare(JVERSION, '3.0', '<')) {
                     <tr>
                         <td>
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_DOWN"); ?></label></div>
-                            <?php echo JHTML::_('calendar', "Never", "publish_down", "publish_down"); ?>
+                            <?php
+                            $date = "Never";
+                            if (version_compare(JVERSION, '3.4.5', '>=')) {
+                                $date = JFactory::getDbo()->getNullDate();
+                            }
+                            ?>
+                            <?php echo JHTML::_('calendar', $date, "publish_down", "publish_down"); ?>
                         </td>
                     </tr>
                 </table>
@@ -392,3 +398,5 @@ if (version_compare(JVERSION, '3.0', '<')) {
 
 </div>
 </div>
+
+<?php echo $this->extension->getFooterMarkup(); ?>

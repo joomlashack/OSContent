@@ -93,3 +93,5 @@ JHtml::_('behavior.tooltip');
         </form>
     </div>
     <!-- #j-main-container -->
+
+<?php echo $this->extension->getFooterMarkup(); ?>
