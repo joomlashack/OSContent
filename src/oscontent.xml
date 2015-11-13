@@ -49,6 +49,7 @@
             <folder>tables</folder>
             <folder>views</folder>
             <folder>library</folder>
+            <folder>form</folder>
         </files>
     </administration>
 
@@ -56,6 +57,7 @@
         <folder>css</folder>
         <folder>js</folder>
         <folder>images</folder>
+        <folder>fonts</folder>
     </media>
 
     <updateservers>

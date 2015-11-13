@@ -2,7 +2,8 @@
 <config>
     <fieldset
             name="osclassroom"
-            label="Configuration">
+            label="Configuration"
+            addfieldpath="/administrator/components/com_oscontent/form/fields/">
 
         <field
                 name="nbOSContent"
@@ -60,6 +61,13 @@
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
         </field>
+
+        <field
+            type="customfooter"
+            name="customfooter"
+            media="com_oscontent"
+            showgoproad="1"
+            jedurl="http://extensions.joomla.org/extension/oscontent" />
     </fieldset>
 
     <fieldset
