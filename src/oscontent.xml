@@ -10,6 +10,8 @@
     <version>1.10.4</version>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
+    <variant>FREE</variant>
+
     <alledia>
         <element>oscontent</element>
         <namespace>OSContent</namespace>
