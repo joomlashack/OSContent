@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.5" method="upgrade">
+<extension version="3.5" type="component" method="upgrade">
     <name>com_oscontent</name>
     <author>Alledia</author>
-    <creationDate>May 12 2016</creationDate>
+    <creationDate>May 16 2016</creationDate>
     <copyright>Copyright (C) 2011, 2015 Alledia.com</copyright>
     <license>GPL v3</license>
     <authorEmail>hello@alledia.com</authorEmail>
     <authorUrl>https://www.alledia.com</authorUrl>
-    <version>1.10.5</version>
+    <version>1.11.0</version>
     <variant>FREE</variant>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
