@@ -8,31 +8,8 @@
     <authorEmail>hello@alledia.com</authorEmail>
     <authorUrl>https://www.alledia.com</authorUrl>
     <version>1.10.5</version>
-    <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
-
     <variant>FREE</variant>
-
-    <alledia>
-        <element>oscontent</element>
-        <namespace>OSContent</namespace>
-        <license>free</license>
-        <targetplatform>3.*</targetplatform>
-        <relatedExtensions>
-            <extension
-                type="library"
-                element="allediaframework"
-                >AllediaFramework</extension>
-
-            <extension
-                type="plugin"
-                group="system"
-                element="ossystem"
-                publish="true"
-                ordering="first"
-                >OSSystem</extension>
-        </relatedExtensions>
-        <include>AllediaFreeDefaultFiles</include>
-    </alledia>
+    <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
     <scriptfile>script.installer.php</scriptfile>
 
@@ -66,4 +43,26 @@
     <updateservers>
         <server type="extension" priority="1" name="OSContent Updates"><![CDATA[http://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
     </updateservers>
+
+    <alledia>
+        <element>oscontent</element>
+        <namespace>OSContent</namespace>
+        <license>free</license>
+        <targetplatform>3.*</targetplatform>
+        <relatedExtensions>
+            <extension
+                type="library"
+                element="allediaframework"
+                >AllediaFramework</extension>
+
+            <extension
+                type="plugin"
+                group="system"
+                element="ossystem"
+                publish="true"
+                ordering="first"
+                >OSSystem</extension>
+        </relatedExtensions>
+        <include>AllediaFreeDefaultFiles</include>
+    </alledia>
 </extension>
