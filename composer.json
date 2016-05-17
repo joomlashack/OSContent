@@ -9,7 +9,8 @@
         "element-short"  : "oscontent",
         "name"           : "OSContent",
         "client"         : "administrator",
-        "package-license": "free"
+        "package-license": "free",
+        "target-platform": "3.*"
     },
     "authors"          : [
         {
