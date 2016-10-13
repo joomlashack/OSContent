@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.5" type="component" method="upgrade">
     <name>com_oscontent</name>
-    <creationDate>May 16 2016</creationDate>
     <author>Joomlashack</author>
+    <creationDate>October 13 2016</creationDate>
     <copyright>Copyright (C) 2011-2016 Open Source Training, LLC, All rights reserved</copyright>
     <license>GPL v3</license>
-    <version>1.11.0</version>
     <authorEmail>help@joomlashack.com</authorEmail>
     <authorUrl>https://www.joomlashack.com</authorUrl>
+    <version>1.12.0</version>
     <variant>FREE</variant>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
