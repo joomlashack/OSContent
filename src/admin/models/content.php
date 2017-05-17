@@ -195,12 +195,7 @@ class OSContentModelContent extends OSModelAbstract
         $table = $this->getTable();
 
         if ($table->menutype == '') {
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                $table->menutype = JRequest::getString('menutype');
-            } else {
-                $table->menutype = JFactory::getApplication()->input->getString('menutype');
-            }
+            $table->menutype = JFactory::getApplication()->input->getString('menutype');
         }
 
         $db = $this->getDBO();
@@ -433,7 +428,7 @@ class OSContentModelContent extends OSModelAbstract
         }
 
         // Build list of users
-        $user = JFactory::getUser();
+        $user                = JFactory::getUser();
         $lists['created_by'] = JHTML::_('list.users', 'created_by', $user->id);
 
         // Load params
@@ -562,38 +557,33 @@ class OSContentModelContent extends OSModelAbstract
      */
     public function getPostData()
     {
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $post = JRequest::get('post');
-        } else {
-            $app   = JFactory::getApplication();
-            $input = $app->input;
-            $post  = $input->getArray(
-                array(
-                    'title'            => 'ARRAY',
-                    'alias'            => 'ARRAY',
-                    'published'        => 'STRING',
-                    'access'           => 'INT',
-                    'created_by'       => 'INT',
-                    'created_by_alias' => 'STRING',
-                    'created'          => 'DATE',
-                    'catid'            => 'INT',
-                    'publish_up'       => 'DATE',
-                    'publish_down'     => 'DATE',
-                    'metadesc'         => 'ARRAY',
-                    'metakey'          => 'ARRAY',
-                    'addMenu'          => 'INT',
-                    'menuselect'       => 'STRING',
-                    'menuselect3'      => 'STRING',
-                    'featured'         => 'INT'
-                )
-            );
+        $app   = JFactory::getApplication();
+        $input = $app->input;
+        $post  = $input->getArray(
+            array(
+                'title'            => 'ARRAY',
+                'alias'            => 'ARRAY',
+                'published'        => 'STRING',
+                'access'           => 'INT',
+                'created_by'       => 'INT',
+                'created_by_alias' => 'STRING',
+                'created'          => 'DATE',
+                'catid'            => 'INT',
+                'publish_up'       => 'DATE',
+                'publish_down'     => 'DATE',
+                'metadesc'         => 'ARRAY',
+                'metakey'          => 'ARRAY',
+                'addMenu'          => 'INT',
+                'menuselect'       => 'STRING',
+                'menuselect3'      => 'STRING',
+                'featured'         => 'INT'
+            )
+        );
 
-            for ($i = 0; $i < count($post["title"]); $i++) {
-                $index                       = $i + 1;
-                $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
-                $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
-            }
+        for ($i = 0; $i < count($post["title"]); $i++) {
+            $index                       = $i + 1;
+            $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
+            $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
         }
 
         return $post;
@@ -648,8 +638,8 @@ class OSContentModelContent extends OSModelAbstract
                 $row->created_by_alias = $post["created_by_alias"];
             }
 
-            $robots     = isset($post["robots"]) ? $post["robots"] : "";
-            $author     = $post["created_by"];
+            $robots = isset($post["robots"]) ? $post["robots"] : "";
+            $author = $post["created_by"];
 
             // TODO: implement the metadata/robots
             $row->metadata = "";
@@ -724,7 +714,7 @@ class OSContentModelContent extends OSModelAbstract
                 'catid' => $row->catid
             );
 
-            if ((bool) $post['featured']) {
+            if ((bool)$post['featured']) {
                 $row->featured = 1;
             }
 
@@ -748,7 +738,7 @@ class OSContentModelContent extends OSModelAbstract
                 $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
             }
 
-            if ((bool) $post['featured']) {
+            if ((bool)$post['featured']) {
                 $db = JFactory::getDBO();
                 $fp = new ContentTableFeatured($db);
 

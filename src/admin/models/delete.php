@@ -189,22 +189,14 @@ class OSContentModelDelete extends OSModelAbstract
 
     public function deleteOSContent($option = null)
     {
-        global $mainframe;
         $database = JFactory::getDBO();
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $catid             = JRequest::getInt('catid', '', 'POST');
-            $deleteCategory    = JRequest::getInt('deleteCategory', '', 'POST');
-            $deleteContentOnly = JRequest::getInt('deleteContentOnly', '', 'POST');
-        } else {
-            $input = JFactory::getApplication()->input;
-            $catid = $input->getInt('catid');
+        $input = JFactory::getApplication()->input;
+        $catid = $input->getInt('catid');
 
-            // TODO: Use int value for these fields
-            $deleteCategory    = $input->getInt('deleteCategory') === 0;
-            $deleteContentOnly = $input->getInt('deleteContentOnly') === 0;
-        }
+        // TODO: Use int value for these fields
+        $deleteCategory    = $input->getInt('deleteCategory') === 0;
+        $deleteContentOnly = $input->getInt('deleteContentOnly') === 0;
 
         $where = "";
 

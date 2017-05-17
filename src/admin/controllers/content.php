@@ -23,22 +23,16 @@ class OSContentControllerContent extends JControllerForm
      * @param   bool  $cachable  Cachable
      * @param   array $urlparams URL Params
      *
-     * @access    public
-     * @return  OSContentController
+     * @return  OSContentControllerContent
      */
     public function display($cachable = false, $urlparams = array())
     {
         require_once JPATH_COMPONENT . '/helpers/oscontent.php';
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $view = JRequest::getCmd('view', 'content');
-        } else {
-            $view = JFactory::getApplication()->input->getCmd('view', 'content');
-        }
-
         $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false));
         parent::display($cachable, $urlparams);
+
+        return $this;
     }
 
     /**

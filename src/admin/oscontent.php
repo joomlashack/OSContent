@@ -19,17 +19,12 @@ JFactory::getDocument()->addStyleDeclaration(
 require_once 'controller.php';
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_oscontent')) {
-    return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+    throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
 }
 
 $controller = OSController::getInstance('OSContent');
 
-// Joomla 3.x Backward Compatibility
-if (version_compare(JVERSION, '3.0', '<')) {
-    $task = JRequest::getCmd('task', 'display');
-} else {
-    $task = JFactory::getApplication()->input->getCmd('task');
-}
+$task = JFactory::getApplication()->input->getCmd('task');
 
 $controller->execute($task);
 $controller->redirect();

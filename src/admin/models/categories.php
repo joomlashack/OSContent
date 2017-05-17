@@ -361,33 +361,27 @@ class OSContentModelCategories extends OSModelAbstract
     /**
      * Save the category
      *
-     * @param   array $option Options
+     * @param array $option Options
      *
-     * @access    public
      * @since     1.0.0
      *
-     * @return  array
+     * @return  bool
      */
     public function saveOSCategories($option = null)
     {
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $post = JRequest::get('post');
-        } else {
-            $post = JFactory::getApplication()->input->getArray(
-                array(
-                    'title'       => 'ARRAY',
-                    'alias'       => 'ARRAY',
-                    'published'   => 'INT',
-                    'access'      => 'INT',
-                    'parent_id'   => 'INT',
-                    'menuselect'  => 'STRING',
-                    'link_type'   => 'STRING',
-                    'menuselect3' => 'STRING',
-                    'addMenu'     => 'INT'
-                )
-            );
-        }
+        $post = JFactory::getApplication()->input->getArray(
+            array(
+                'title'       => 'ARRAY',
+                'alias'       => 'ARRAY',
+                'published'   => 'INT',
+                'access'      => 'INT',
+                'parent_id'   => 'INT',
+                'menuselect'  => 'STRING',
+                'link_type'   => 'STRING',
+                'menuselect3' => 'STRING',
+                'addMenu'     => 'INT'
+            )
+        );
 
         for ($i = 0; $i < count($post["title"]); $i++) {
             if ($post["title"][$i] == "") {
@@ -400,7 +394,7 @@ class OSContentModelCategories extends OSModelAbstract
             $table->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
 
             if (trim(str_replace('-', '', $table->alias)) == '') {
-                $table->alias = str_replace( ' ', '-', strtolower($post["title"][$i]) );
+                $table->alias = str_replace(' ', '-', strtolower($post["title"][$i]));
             }
 
             $table->extension = "com_content";
@@ -472,10 +466,10 @@ class OSContentModelCategories extends OSModelAbstract
                 $taskLink = "article";
         }
 
-        $row            = JTable::getInstance('menu');
-        $row->menutype  = $menu;
-        $row->title     = $link;
-        $row->alias     = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
+        $row           = JTable::getInstance('menu');
+        $row->menutype = $menu;
+        $row->title    = $link;
+        $row->alias    = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
 
         if (trim(str_replace('-', '', $row->alias)) == '') {
             $row->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
