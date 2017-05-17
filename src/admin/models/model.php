@@ -10,28 +10,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
 
-// Joomla 3.x Backward Compatibility
-if (version_compare(JVERSION, '3.0', '<')) {
-    /**
-     * Alias Class for JModel in Joomla! < 3.0
-     *
-     * @since  1.9.1
-     */
-    class OSModel extends JModel
-    {
-    }
-} else {
-    /**
-     * Alias Class for JModelLegacy in Joomla! >= 3.0
-     *
-     * @since  1.9.1
-     */
-    class OSModel extends JModelLegacy
-    {
-    }
-}
-
-abstract class OSModelAbstract extends OSModel
+abstract class OSModelAbstract extends JModelLegacy
 {
     /**
      * Get the extension id
@@ -47,9 +26,8 @@ abstract class OSModelAbstract extends OSModel
             ->select('extension_id')
             ->from('#__extensions')
             ->where('element = ' . $db->q($extension))
-            ->where('type = ' . $db->q($type))
-            ->limit(1);
-        $db->setQuery($query);
+            ->where('type = ' . $db->q($type));
+        $db->setQuery($query, 0, 1);
 
         return (int) $db->loadResult();
     }
