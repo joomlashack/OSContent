@@ -66,8 +66,8 @@
             type="customfooter"
             name="customfooter"
             media="com_oscontent"
-            showgoproad="1"
-            jedurl="http://extensions.joomla.org/extension/oscontent" />
+            showgoproad="https://www.joomlashack.com/joomla-extensions/oscontent/"
+            jedurl="https://extensions.joomla.org/extension/oscontent" />
     </fieldset>
 
     <fieldset
