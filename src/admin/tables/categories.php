@@ -73,58 +73,31 @@ class TableCategoriesAbstract extends JTableNested
     }
 }
 
-// Joomla 3.x Backward Compatibility
-if (version_compare(JVERSION, '3.0', '<')) {
+/**
+ * Alias Class for TableCategoriesAbstract in Joomla! >= 3.0
+ *
+ * @since  1.9.1
+ */
+class TableCategoriesBase extends TableCategoriesAbstract
+{
     /**
-     * Alias Class for TableCategoriesAbstract in Joomla! < 3.0
+     * Get the parent asset id for the record.
+     * Fix the PHP Strict Warning about different method signature
      *
-     * @since  1.9.1
-     */
-    class TableCategoriesBase extends TableCategoriesAbstract
-    {
-        /**
-         * Get the parent asset id for the record
-         * * Fix the PHP Strict Warning about different method signature
-         *
-         * @param   JTable $table Table
-         * @param   int    $id    Asset ID
-         *
-         * @access    public
-         * @since     1.9.1
-         *
-         * @return  int
-         */
-        protected function _getAssetParentId($table = null, $id = null)
-        {
-            return parent::_getAssetParentIdBase($table, $id);
-        }
-    }
-} else {
-    /**
-     * Alias Class for TableCategoriesAbstract in Joomla! >= 3.0
+     * @param   JTable $table Table
+     * @param   int    $id    Asset ID
      *
-     * @since  1.9.1
+     * @access    public
+     * @since     1.9.1
+     *
+     * @return  int
      */
-    class TableCategoriesBase extends TableCategoriesAbstract
+    protected function _getAssetParentId(JTable $table = null, $id = null)
     {
-        /**
-         * Get the parent asset id for the record.
-         * Fix the PHP Strict Warning about different method signature
-         *
-         * @param   JTable $table Table
-         * @param   int    $id    Asset ID
-         *
-         * @access    public
-         * @since     1.9.1
-         *
-         * @return  int
-         */
-        protected function _getAssetParentId(JTable $table = null, $id = null)
-        {
-            return parent::_getAssetParentIdBase($table, $id);
-        }
+        return parent::_getAssetParentIdBase($table, $id);
     }
 }
+
 
 /**
  * Category table
@@ -256,12 +229,7 @@ class TableCategories extends TableCategoriesBase
         $date = JFactory::getDate();
         $user = JFactory::getUser();
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $date = $date->toMySQL();
-        } else {
-            $date = $date->toSQL();
-        }
+        $date = $date->toSQL();
 
         if ($this->id) {
             // Existing category

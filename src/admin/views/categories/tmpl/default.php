@@ -125,44 +125,19 @@ JHtml::_('behavior.tooltip');
         </form>
 
         <script type="text/javascript">
-            <?php // Joomla 3.x Backward Compatibility ?>
-            <?php if (version_compare(JVERSION, '3.0', '<')): ?>
-            function submitbutton(pressbutton) {
-                var form = document.adminForm;
-
-                if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-                    alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENUTYPE"); ?>");
-
-                    return;
-                }
-                else if ((form.addMenu.checked) && (form.link_type.value == '')) {
-                    alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENU"); ?>");
-
-                    return;
-                }
-                else {
-                    submitform(pressbutton);
-                }
-            }
-            <?php else: ?>
             Joomla.submitbutton = function (task, type) {
                 var form = document.adminForm;
 
                 if ((form.addMenu.checked) && (form.menuselect.value == '')) {
                     alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENUTYPE"); ?>");
-
-                    return;
                 }
                 else if ((form.addMenu.checked) && (form.link_type.value == '')) {
                     alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENU"); ?>");
-
-                    return;
                 }
                 else {
                     Joomla.submitform(task, document.id('categories-form'));
                 }
             };
-            <?php endif; ?>
 
             var menulist = [];
 

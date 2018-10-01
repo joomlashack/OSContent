@@ -60,54 +60,27 @@ class TableContentAbstract extends JTable
     }
 }
 
-// Joomla 3.x Backward Compatibility
-if (version_compare(JVERSION, '3.0', '<')) {
+/**
+ * Alias Class for TableContentAbstract in Joomla! >= 3.0
+ *
+ * @since  1.9.1
+ */
+class TableContentBase extends TableContentAbstract
+{
     /**
-     * Alias Class for TableContentAbstract in Joomla! < 3.0
+     * Override the _getAssetParentId mehtod to avoid a PHP Strict Standard warning.
+     * The warning was because the method signature has changed on J3.0.
      *
-     * @since  1.9.1
-     */
-    class TableContentBase extends TableContentAbstract
-    {
-        /**
-         * Override the _getAssetParentId mehtod to avoid a PHP Strict Standard warning.
-         * The warning was because the method signature was different before J3.0.
-         *
-         * @param   JTable $table Table
-         * @param   int    $id    Asset ID
-         *
-         * @access    public
-         * @since     1.9.1
-         * @return  int
-         */
-        protected function _getAssetParentId($table = null, $id = null)
-        {
-            return parent::_getAssetParentIdBase($table, $id);
-        }
-    }
-} else {
-    /**
-     * Alias Class for TableContentAbstract in Joomla! >= 3.0
+     * @param   JTable $table Table
+     * @param   int    $id    Asset ID
      *
-     * @since  1.9.1
+     * @access    public
+     * @since     1.9.1
+     * @return  int
      */
-    class TableContentBase extends TableContentAbstract
+    protected function _getAssetParentId(JTable $table = null, $id = null)
     {
-        /**
-         * Override the _getAssetParentId mehtod to avoid a PHP Strict Standard warning.
-         * The warning was because the method signature has changed on J3.0.
-         *
-         * @param   JTable $table Table
-         * @param   int    $id    Asset ID
-         *
-         * @access    public
-         * @since     1.9.1
-         * @return  int
-         */
-        protected function _getAssetParentId(JTable $table = null, $id = null)
-        {
-            return parent::_getAssetParentIdBase($table, $id);
-        }
+        return parent::_getAssetParentIdBase($table, $id);
     }
 }
 
@@ -382,15 +355,6 @@ class TableContent extends TableContentBase
             );
             $this->_db->query();
 
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                // Check for a database error.
-                if ($this->_db->getErrorNum()) {
-                    $this->setError($this->_db->getErrorMsg());
-
-                    return false;
-                }
-            }
         } catch (Exception $e) {
             $this->setError($this->_db->getErrorMsg());
 

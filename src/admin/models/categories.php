@@ -107,13 +107,6 @@ class OSContentModelCategories extends OSModelAbstract
 
             $options = $db->loadObjectList();
 
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                // Check for a database error.
-                if ($db->getErrorNum()) {
-                    JError::raiseWarning(500, $db->getErrorMsg());
-                }
-            }
         } catch (Exception $e) {
             JError::raiseWarning(500, $db->getErrorMsg());
         }
@@ -225,21 +218,11 @@ class OSContentModelCategories extends OSModelAbstract
         $menuTypes = $this->getMenuTypes();
 
         foreach ($menuTypes as $menuType) {
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                $menu[] = JHTML::_('select.option', $menuType, $menuType);
-            } else {
-                $menu[] = JHTML::_('select.option', $menuType->menutype, $menuType->title);
-            }
+            $menu[] = JHTML::_('select.option', $menuType->menutype, $menuType->title);
         }
 
         // Build the html select list for the group access
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $lists['access'] = JHTML::_('list.accesslevel', $row);
-        } else {
-            $lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
-        }
+        $lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 
         // Vuild the html radio buttons for published
         $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published);
@@ -281,12 +264,7 @@ class OSContentModelCategories extends OSModelAbstract
         $query = 'SELECT a.menutype, a.title' .
             ' FROM #__menu_types AS a';
         $db->setQuery($query);
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $result = $db->loadResultArray();
-        } else {
-            $result = $db->loadObjectList();
-        }
+        $result = $db->loadObjectList();
 
         return $result;
     }
@@ -307,27 +285,12 @@ class OSContentModelCategories extends OSModelAbstract
         $menuTypes = $this->getMenuTypes();
 
         foreach ($menuTypes as $menuType) {
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '>=')) {
-                $menuType = $menuType->menutype;
-            }
+            $menuType = $menuType->menutype;
 
-            //$menu = JHTML::_('select.option',  $menuType, $menuType);
-            ///////////////////////////////////////////////////
-            //Create tje tree of menus
-            //http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
             $query = 'SELECT id, parent_id, title, menutype' .
                 ' FROM #__menu' .
                 ' WHERE menutype = "' . $menuType . '" AND published = 1' .
-                ' ORDER BY menutype, parent_id, ';
-
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                $query .= 'ordering';
-            } else {
-                $query .= 'lft';
-            }
-
+                ' ORDER BY menutype, parent_id,mlft';
             $database->setQuery($query);
             $menuItems4 = $database->loadObjectList();
 
@@ -536,13 +499,5 @@ class OSContentModelCategories extends OSModelAbstract
             echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
             exit();
         }
-
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int)$row->parent);
-        }
-
-        // Clean any existing cache files
-        //mosCache::cleanCache('com_content');
     }
 }

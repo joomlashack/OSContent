@@ -40,14 +40,8 @@ class OSContentViewCategories extends OSView
         // Get data
         $lists = $this->get('Data');
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $this->assignRef('params', $params);
-            $this->assignRef('lists', $lists);
-        } else {
-            $this->params = $params;
-            $this->lists  = $lists;
-        }
+        $this->params = $params;
+        $this->lists  = $lists;
 
         parent::display($tpl);
     }

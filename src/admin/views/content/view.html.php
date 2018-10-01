@@ -42,16 +42,9 @@ class OSContentViewContent extends OSView
 
         $post = $this->getModel()->getPostData();
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $this->assignRef('params', $params);
-            $this->assignRef('lists', $lists);
-            $this->assignRef('post', $post);
-        } else {
-            $this->params = $params;
-            $this->lists  = $lists;
-            $this->post   = $post;
-        }
+        $this->params = $params;
+        $this->lists  = $lists;
+        $this->post   = $post;
 
         parent::display($tpl);
     }

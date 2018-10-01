@@ -174,14 +174,6 @@ class OSContentModelContent extends OSModelAbstract
 
             exit();
         }
-
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $row->reorder("menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int)$row->parent);
-        }
-
-        // Clean any existing cache files
-        // mosCache::cleanCache('com_content');
     }
 
     /**
@@ -260,13 +252,6 @@ class OSContentModelContent extends OSModelAbstract
 
             $options = $db->loadObjectList();
 
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                // Check for a database error.
-                if ($db->getErrorNum()) {
-                    JError::raiseWarning(500, $db->getErrorMsg());
-                }
-            }
         } catch (Exception $e) {
             JError::raiseWarning(500, $db->getErrorMsg());
         }
@@ -376,12 +361,7 @@ class OSContentModelContent extends OSModelAbstract
         $uid           = "";
         $row->ordering = null;
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $lists['ordering'] = JHTML::_('list.specificordering', $row, $uid, $query, 1);
-        } else {
-            $lists['ordering'] = JHTML::_('list.ordering', 'ordering', $query, '', $row->ordering, 1);
-        }
+        $lists['ordering'] = JHTML::_('list.ordering', 'ordering', $query, '', $row->ordering, 1);
 
         // build the html select list for menu selection
         $menu3     = array();
@@ -389,12 +369,7 @@ class OSContentModelContent extends OSModelAbstract
         $menuTypes = $this->getMenuTypes();
 
         foreach ($menuTypes as $menuType) {
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                $menu[] = JHTML::_('select.option', $menuType, $menuType);
-            } else {
-                $menu[] = JHTML::_('select.option', $menuType->menutype, $menuType->title);
-            }
+            $menu[] = JHTML::_('select.option', $menuType->menutype, $menuType->title);
         }
 
         $stop_notice = array();
@@ -422,12 +397,7 @@ class OSContentModelContent extends OSModelAbstract
 
 
         // Build the html select list for the group access
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $lists['access'] = JHTML::_('list.accesslevel', $row);
-        } else {
-            $lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
-        }
+        $lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 
         // Build list of users
         $user                = JFactory::getUser();
@@ -457,12 +427,7 @@ class OSContentModelContent extends OSModelAbstract
             ' FROM #__menu_types AS a';
         $db->setQuery($query);
 
-        // Joomla 3.x Backward Compatibility
-        if (version_compare(JVERSION, '3.0', '<')) {
-            $result = $db->loadResultArray();
-        } else {
-            $result = $db->loadObjectList();
-        }
+        $result = $db->loadObjectList();
 
         return $result;
     }
@@ -484,26 +449,12 @@ class OSContentModelContent extends OSModelAbstract
         $menuTypes = $this->getMenuTypes();
 
         foreach ($menuTypes as $menuType) {
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '>=')) {
-                $menuType = $menuType->menutype;
-            }
+            $menuType = $menuType->menutype;
 
-            //$menu = JHTML::_('select.option',  $menuType, $menuType);
-            ///////////////////////////////////////////////////
-            //Create tje tree of menus
-            //http://dev.joomla.org/component/option,com_jd-wiki/Itemid,/id,references:joomla.framework:html:jhtmlmenu-treerecurse/
             $query = 'SELECT id, parent_id, title, menutype, title AS name' .
                 ' FROM #__menu' .
                 ' WHERE menutype = "' . $menuType . '"  AND published = 1' .
-                ' ORDER BY menutype, parent_id, ';
-
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                $query .= 'ordering';
-            } else {
-                $query .= 'lft';
-            }
+                ' ORDER BY menutype, parent_id, lft';
 
             $database->setQuery($query);
             $menuItems4 = $database->loadObjectList();
@@ -661,45 +612,26 @@ class OSContentModelContent extends OSModelAbstract
             if ($post["created"]) {
                 $row->created = JFactory::getDate($post["created"]);
 
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->created = $row->created->toMySQL();
-                } else {
-                    $row->created = $row->created->toSQL();
-                }
+                $row->created = $row->created->toSQL();
             }
 
             if ($post["publish_up"]) {
                 $row->publish_up = JFactory::getDate($post["publish_up"]);
 
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_up = $row->publish_up->toMySQL();
-                } else {
-                    $row->publish_up = $row->publish_up->toSQL();
-                }
+                $row->publish_up = $row->publish_up->toSQL();
             }
 
             if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('COM_OSCONTENT_NEVER')) {
                 $row->publish_down = JFactory::getDate($post["publish_down"]);
 
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_down = $row->publish_down->toMySQL();
-                } else {
-                    $row->publish_down = $row->publish_down->toSQL();
-                }
+                $row->publish_down = $row->publish_down->toSQL();
+
             } elseif (trim($post["publish_down"]) == JText::_('COM_OSCONTENT_NEVER')) {
                 $post["publish_down"] = JFactory::getDBO()->getNullDate();
 
                 $row->publish_down = JFactory::getDate($post["publish_down"]);
 
-                // Joomla 3.x Backward Compatibility
-                if (version_compare(JVERSION, '3.0', '<')) {
-                    $row->publish_down = $row->publish_down->toMySQL();
-                } else {
-                    $row->publish_down = $row->publish_down->toSQL();
-                }
+                $row->publish_down = $row->publish_down->toSQL();
             }
 
             // Handle state

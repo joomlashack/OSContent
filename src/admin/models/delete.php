@@ -106,13 +106,6 @@ class OSContentModelDelete extends OSModelAbstract
 
             $options = $db->loadObjectList();
 
-            // Joomla 3.x Backward Compatibility
-            if (version_compare(JVERSION, '3.0', '<')) {
-                // Check for a database error.
-                if ($db->getErrorNum()) {
-                    JError::raiseWarning(500, $db->getErrorMsg());
-                }
-            }
         } catch (Exception $e) {
             JError::raiseWarning(500, $db->getErrorMsg());
         }

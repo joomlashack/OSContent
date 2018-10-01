@@ -21,12 +21,7 @@ $post = $this->post;
 
 $createdate = JFactory::getDate();
 
-// Joomla 3.x Backward Compatibility
-if (version_compare(JVERSION, '3.0', '<')) {
-    $createdate = $createdate->toMySQL();
-} else {
-    $createdate = $createdate->toSql();
-}
+$createdate = $createdate->toSql();
 ?>
 
 <div class="row-fluid">
@@ -108,24 +103,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
         }
     }
 
-    <?php // Joomla 3.x Backward Compatibility ?>
-    <?php if (version_compare(JVERSION, '3.0', '<')) : ?>
-    function submitbutton(pressbutton) {
-        var form = document.adminForm;
-
-        if (!document.getElementById("published").checked) {
-            document.getElementById("publish_up").value = "";
-            document.getElementById("published").value = 0;
-        }
-
-        if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-            alert("Please select a menu.");
-        }
-        else {
-            submitform(pressbutton);
-        }
-    }
-    <?php else : ?>
     Joomla.submitbutton = function (task, type) {
         var form = document.adminForm;
 
@@ -141,7 +118,6 @@ if (version_compare(JVERSION, '3.0', '<')) {
             Joomla.submitform(task, document.id('content-form'));
         }
     }
-    <?php endif; ?>
 </script>
 
 <style>
@@ -375,9 +351,7 @@ if (version_compare(JVERSION, '3.0', '<')) {
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_DOWN"); ?></label></div>
                             <?php
                             $date = "Never";
-                            if (version_compare(JVERSION, '3.4.5', '>=')) {
-                                $date = JFactory::getDbo()->getNullDate();
-                            }
+                            $date = JFactory::getDbo()->getNullDate();
                             ?>
                             <?php echo JHTML::_('calendar', $date, "publish_down", "publish_down"); ?>
                         </td>

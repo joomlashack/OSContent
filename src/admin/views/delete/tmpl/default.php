@@ -23,20 +23,6 @@ JHtml::_('behavior.tooltip');
         <?php endif; ?>
 
         <script language="javascript" type="text/javascript">
-
-            <?php // Joomla 3.x Backward Compatibility ?>
-            <?php if (version_compare(JVERSION, '3.0', '<')): ?>
-            function submitbutton(pressbutton) {
-                if (pressbutton === 'delete') {
-                    if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
-                        submitform(pressbutton);
-                    else return;
-                }
-                else {
-                    submitform(pressbutton);
-                }
-            }
-            <?php else: ?>
             Joomla.submitbutton = function (task, type) {
                 if (task === 'delete.delete') {
                     if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
@@ -47,7 +33,6 @@ JHtml::_('behavior.tooltip');
                     Joomla.submitform(task, document.id('delete-form'));
                 }
             };
-            <?php endif; ?>
         </script>
 
         <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
