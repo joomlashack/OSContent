@@ -24,7 +24,6 @@
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>language</folder>
-            <folder>media</folder>
             <folder>models</folder>
             <folder>tables</folder>
             <folder>views</folder>
@@ -41,7 +40,7 @@
     </media>
 
     <updateservers>
-        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[http://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
+        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
     </updateservers>
 
     <alledia>
@@ -50,18 +49,20 @@
         <license>free</license>
         <targetplatform>3.*</targetplatform>
         <relatedExtensions>
-            <extension
-                type="library"
-                element="allediaframework"
-                >AllediaFramework</extension>
+            <extension type="library"
+                       element="allediaframework">AllediaFramework</extension>
 
-            <extension
-                type="plugin"
-                group="system"
-                element="ossystem"
-                publish="true"
-                ordering="first"
-                >OSSystem</extension>
+            <extension type="plugin"
+                       group="system"
+                       element="ossystem"
+                       publish="true"
+                       ordering="first">OSSystem</extension>
+
+            <extension type="plugin"
+                       group="system"
+                       element="osmylicensesmanager"
+                       publish="true"
+                       ordering="last">OSMyLicensesManager</extension>
         </relatedExtensions>
         <include>AllediaFreeDefaultFiles</include>
     </alledia>
