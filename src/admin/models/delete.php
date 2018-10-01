@@ -107,7 +107,7 @@ class OSContentModelDelete extends OSModelAbstract
             $options = $db->loadObjectList();
 
         } catch (Exception $e) {
-            JError::raiseWarning(500, $db->getErrorMsg());
+            throw new Exception($db->getErrorMsg(), 500);
         }
 
         // Pad the option text with spaces using depth level as a multiplier.

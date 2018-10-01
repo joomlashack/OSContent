@@ -253,7 +253,7 @@ class OSContentModelContent extends OSModelAbstract
             $options = $db->loadObjectList();
 
         } catch (Exception $e) {
-            JError::raiseWarning(500, $db->getErrorMsg());
+            throw new Exception($db->getErrorMsg(), 500);
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
@@ -653,9 +653,7 @@ class OSContentModelContent extends OSModelAbstract
             }
 
             if ($table->load($params) && ($table->id != $row->id || $row->id == 0)) {
-                JError::raiseWarning(
-                    "Save content",
-                    JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS') . ": " . $row->alias
+                throw new Exception(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS') . ": " . $row->alias, 500);
                 );
 
                 return false;
@@ -683,7 +681,7 @@ class OSContentModelContent extends OSModelAbstract
                 $db->setQuery($query);
 
                 if (!$db->query()) {
-                    JError::raiseError(500, $db->stderr());
+                    throw new Exception($db->stderr(), 500);
 
                     return false;
                 }
