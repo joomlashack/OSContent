@@ -654,9 +654,6 @@ class OSContentModelContent extends OSModelAbstract
 
             if ($table->load($params) && ($table->id != $row->id || $row->id == 0)) {
                 throw new Exception(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS') . ": " . $row->alias, 500);
-                );
-
-                return false;
             }
 
             if (!$row->store()) {
@@ -682,8 +679,6 @@ class OSContentModelContent extends OSModelAbstract
 
                 if (!$db->query()) {
                     throw new Exception($db->stderr(), 500);
-
-                    return false;
                 }
 
                 $fp->ordering = 1;
