@@ -6,6 +6,8 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
@@ -519,7 +521,7 @@ class OSContentModelCategories extends OSModelAbstract
         $params['menu_image']            = "";
         $params['secure']                = 0;
 
-        $registry = new JRegistry;
+        $registry = new Registry();
         $registry->loadArray($params);
         $row->params = (string)$registry;
 

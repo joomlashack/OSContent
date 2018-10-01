@@ -6,6 +6,8 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
 jimport('joomla.database.tablenested');
@@ -220,7 +222,7 @@ class TableCategories extends TableCategoriesBase
     public function bind($array, $ignore = '')
     {
         if (isset($array['params']) && is_array($array['params'])) {
-            $registry = new JRegistry;
+            $registry = new Registry();
             $registry->loadArray($array['params']);
             $array['params'] = (string)$registry;
         }

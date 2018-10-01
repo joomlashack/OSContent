@@ -6,6 +6,8 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
 jimport('joomla.database.tableasset');
@@ -190,13 +192,13 @@ class TableContent extends TableContentBase
         }
 
         if (isset($array['attribs']) && is_array($array['attribs'])) {
-            $registry = new JRegistry;
+            $registry = new Registry;
             $registry->loadArray($array['attribs']);
             $array['attribs'] = (string)$registry;
         }
 
         if (isset($array['metadata']) && is_array($array['metadata'])) {
-            $registry = new JRegistry;
+            $registry = new Registry();
             $registry->loadArray($array['metadata']);
             $array['metadata'] = (string)$registry;
         }
