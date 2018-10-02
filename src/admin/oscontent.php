@@ -22,7 +22,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_oscontent')) {
     throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
 }
 
-$controller = OSController::getInstance('OSContent');
+$controller = JControllerLegacy::getInstance('OSContent');
 
 $task = JFactory::getApplication()->input->getCmd('task');
 
