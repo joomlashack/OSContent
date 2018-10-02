@@ -533,10 +533,12 @@ class OSContentModelContent extends OSModelAbstract
             )
         );
 
-        for ($i = 0; $i < count($post["title"]); $i++) {
-            $index                       = $i + 1;
-            $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
-            $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
+        if ($post['title']) {
+            for ($i = 0; $i < count($post["title"]); $i++) {
+                $index                       = $i + 1;
+                $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
+                $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
+            }
         }
 
         return $post;
