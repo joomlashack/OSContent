@@ -290,7 +290,7 @@ class OSContentModelCategories extends OSModelAbstract
             $query = 'SELECT id, parent_id, title, menutype' .
                 ' FROM #__menu' .
                 ' WHERE menutype = "' . $menuType . '" AND published = 1' .
-                ' ORDER BY menutype, parent_id,mlft';
+                ' ORDER BY menutype, parent_id,lft';
             $database->setQuery($query);
             $menuItems4 = $database->loadObjectList();
 
