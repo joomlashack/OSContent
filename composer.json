@@ -3,7 +3,7 @@
     "description"      : "OSContent",
     "minimum-stability": "stable",
     "license"          : "GPL-2+",
-    "type"             : "joomla.component",
+    "type"             : "joomla-component",
     "extra"            : {
         "element"        : "com_oscontent",
         "element-short"  : "oscontent",
