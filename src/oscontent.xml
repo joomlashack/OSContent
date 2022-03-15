@@ -2,12 +2,12 @@
 <extension version="3.7" type="component" method="upgrade">
     <name>com_oscontent</name>
     <author>Joomlashack</author>
-    <creationDate>June 07 2019</creationDate>
+    <creationDate>March 07 2022</creationDate>
     <copyright>Copyright (C) 2011-2018 Open Source Training, LLC, All rights reserved</copyright>
     <license>GPL v3</license>
     <authorEmail>help@joomlashack.com</authorEmail>
     <authorUrl>https://www.joomlashack.com</authorUrl>
-    <version>1.12.5</version>
+    <version>1.12.5a1</version>
     <variant>FREE</variant>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
@@ -34,7 +34,6 @@
 
     <media destination="com_oscontent" folder="media">
         <folder>css</folder>
-        <folder>js</folder>
         <folder>images</folder>
         <folder>fonts</folder>
     </media>
@@ -50,20 +49,16 @@
         <targetplatform>3.*</targetplatform>
         <relatedExtensions>
             <extension type="library"
-                       element="allediaframework">AllediaFramework</extension>
-
-            <extension type="plugin"
-                       group="system"
-                       element="ossystem"
-                       publish="true"
-                       ordering="first">OSSystem</extension>
+                       element="allediaframework"
+                       downgrade="false">ShackFramework</extension>
 
             <extension type="plugin"
                        group="system"
                        element="osmylicensesmanager"
                        publish="true"
-                       ordering="last">OSMyLicensesManager</extension>
+                       downgrade="false"
+                       ordering="last">ShackExtensionSupport</extension>
         </relatedExtensions>
-        <include>AllediaFreeDefaultFiles</include>
+        <include>ShackDefaultFiles</include>
     </alledia>
 </extension>
