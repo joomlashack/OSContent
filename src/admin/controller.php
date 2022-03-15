@@ -53,8 +53,6 @@ class OSContentController extends JControllerLegacy
      */
     public function display($cachable = false, $urlparams = array())
     {
-        require_once JPATH_COMPONENT . '/helpers/oscontent.php';
-
         // Joomla 3.x Backward Compatibility
         $view = JFactory::getApplication()->input->getCmd('view');
 
