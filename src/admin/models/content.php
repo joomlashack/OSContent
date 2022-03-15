@@ -25,8 +25,15 @@ use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Version;
+use Joomla\Component\Content\Administrator\Table\FeaturedTable;
+
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';
+if (Version::MAJOR_VERSION < 4) {
+    require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';    
+} else {
+    class_alias(FeaturedTable::class, 'ContentTableFeatured');
+}
 
 /**
  * Model Content
