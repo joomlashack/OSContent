@@ -15,6 +15,11 @@
 
     <administration>
         <menu img="components/com_oscontent/media/images/oscontent.png">COM_OSCONTENT</menu>
+        <submenu>
+            <menu link="option=com_oscontent&amp;view=content">COM_OSCONTENT_SUBMENU_CREATE</menu>
+            <menu link="option=com_oscontent&amp;view=categories">COM_OSCONTENT_SUBMENU_CATEGORIES</menu>
+            <menu link="option=com_oscontent&amp;view=delete">COM_OSCONTENT_SUBMENU_DELETE</menu>
+        </submenu>
 
         <files folder="admin">
             <filename>access.xml</filename>

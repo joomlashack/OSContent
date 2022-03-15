@@ -58,8 +58,6 @@ class OSContentController extends JControllerLegacy
         // Joomla 3.x Backward Compatibility
         $view = JFactory::getApplication()->input->getCmd('view');
 
-        OSContentHelper::addSubmenu($view);
-
         parent::display($cachable, $urlparams);
 
         return $this;
