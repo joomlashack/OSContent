@@ -23,9 +23,13 @@
 
 defined('_JEXEC') or die();
 
+JHtml::_('behavior.framework');
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.tooltip');
+JHTML::_('behavior.calendar');
 
 $hidden = "";
-$editor = JEditor::getInstance();
+$editor = JFactory::getEditor();
 
 // TODO: Check if this variable is really needed
 $post = $this->post;
