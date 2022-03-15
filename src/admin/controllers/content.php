@@ -42,8 +42,6 @@ class OSContentControllerContent extends JControllerForm
      */
     public function display($cachable = false, $urlparams = array())
     {
-        require_once JPATH_COMPONENT . '/helpers/oscontent.php';
-
         $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=content', false));
         parent::display($cachable, $urlparams);
 

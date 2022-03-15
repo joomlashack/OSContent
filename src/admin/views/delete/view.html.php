@@ -32,6 +32,9 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
  */
 class OSContentViewDelete extends OSView
 {
+    protected $params;
+    protected $lists;
+
     /**
      * Method to display the view
      *

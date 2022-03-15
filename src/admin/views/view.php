@@ -25,6 +25,8 @@ defined('_JEXEC') or die();
 
 class OSView extends JViewLegacy
 {
+    protected $extension;
+
     /**
      * Method to display the view
      *
@@ -35,11 +37,10 @@ class OSView extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $this->sidebar = JHtmlSidebar::render();
-
         $extension = Alledia\Framework\Factory::getExtension('OSContent', 'component');
         $extension->loadLibrary();
-        $this->assignRef('extension', $extension);
+
+        $this->extension = $extension;
 
         parent::display($tpl);
     }

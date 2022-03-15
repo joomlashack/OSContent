@@ -7,7 +7,7 @@
     <license>GPL v3</license>
     <authorEmail>help@joomlashack.com</authorEmail>
     <authorUrl>https://www.joomlashack.com</authorUrl>
-    <version>1.12.5a3</version>
+    <version>1.12.5a4</version>
     <variant>FREE</variant>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
 
@@ -16,9 +16,9 @@
     <administration>
         <menu img="components/com_oscontent/media/images/oscontent.png">COM_OSCONTENT</menu>
         <submenu>
-            <menu link="option=com_oscontent&amp;view=content">COM_OSCONTENT_SUBMENU_CREATE</menu>
-            <menu link="option=com_oscontent&amp;view=categories">COM_OSCONTENT_SUBMENU_CATEGORIES</menu>
-            <menu link="option=com_oscontent&amp;view=delete">COM_OSCONTENT_SUBMENU_DELETE</menu>
+            <menu link="option=com_oscontent&amp;view=content">COM_OSCONTENT_ADMINMENU_CREATE</menu>
+            <menu link="option=com_oscontent&amp;view=categories">COM_OSCONTENT_ADMINMENU_CATEGORIES</menu>
+            <menu link="option=com_oscontent&amp;view=delete">COM_OSCONTENT_ADMINMENU_DELETE</menu>
         </submenu>
 
         <files folder="admin">

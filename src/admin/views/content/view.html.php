@@ -32,6 +32,10 @@ require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
  */
 class OSContentViewContent extends OSView
 {
+    protected $params;
+    protected $lists;
+    protected $posts;
+
     /**
      * Method to display the view
      *
