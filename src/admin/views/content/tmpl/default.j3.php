@@ -130,7 +130,7 @@ $createdate = $createdate->toSql();
             alert("Please select a menu.");
         }
         else {
-            Joomla.submitform(task, document.id('content-form'));
+            Joomla.submitform(task, document.getElementById('content-form'));
         }
     }
 </script>

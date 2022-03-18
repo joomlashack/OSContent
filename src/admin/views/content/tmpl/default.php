@@ -126,7 +126,7 @@ $createdate = $createdate->toSql();
             alert("Please select a menu.");
         }
         else {
-            Joomla.submitform(task, document.id('content-form'));
+            Joomla.submitform(task, document.getElementById('content-form'));
         }
     }
 </script>
@@ -167,8 +167,8 @@ $createdate = $createdate->toSql();
     ?>
 </script>
 
-<div class="row-fluid ost-oscontent-container">
-        <div class="span8 ost-table-cell-left">
+<div class="row ost-oscontent-container">
+        <div class="col-lg-8 ost-table-cell-left">
             <fieldset>
             <!-- articles -->
             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
@@ -184,12 +184,12 @@ $createdate = $createdate->toSql();
                         </td>
                         <td class="ost-medium-sc">
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
-                            <input class="inputbox span11" type="text" size="50" maxlength="255"
+                            <input class="inputbox col-11" type="text" size="50" maxlength="255"
                                    id="title_<?php echo $i; ?>" name="title[]"
                                    value="<?php echo(@$post["title"][$i - 1]); ?>">
                             <?php if ($this->params->get('displayAlias', 1) == 1): ?>
                                 <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                <input class="inputbox span11" type="text" size="50" maxlength="255"
+                                <input class="inputbox col-11" type="text" size="50" maxlength="255"
                                            id="alias_<?php echo $i; ?>" name="alias[]"
                                            value="<?php echo(@$post["alias"][$i - 1]); ?>"
                                            placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
@@ -216,7 +216,7 @@ $createdate = $createdate->toSql();
                                     <textarea id="<?php echo 'introtext_' . $i; ?>"
                                               name="<?php echo 'introtext_' . $i; ?>" rows="4"
                                               cols="35"
-                                              class="span11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
+                                              class="col-11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
                                 <?php endif; ?>
                             </td>
                         <?php
@@ -243,7 +243,7 @@ $createdate = $createdate->toSql();
                                         <textarea id="<?php echo 'fulltext_' . $i; ?>"
                                                   name="<?php echo 'fulltext_' . $i; ?>" rows="4"
                                                   cols="35"
-                                                  class="span11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
+                                                  class="col-11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
 
                                 <?php endif; ?>
                             </td>
@@ -261,7 +261,7 @@ $createdate = $createdate->toSql();
             </fieldset>
             <!-- /articles -->
         </div>
-        <div class="span4 ost-table-cell-right">
+        <div class="col-lg-4 ost-table-cell-right">
             <!-- options -->
             <div class="well">
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
