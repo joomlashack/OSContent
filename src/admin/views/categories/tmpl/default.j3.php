@@ -150,7 +150,7 @@ JHtml::_('behavior.tooltip');
                     alert("<?php  echo  JText::_("COM_OSCONTENT_SELECT_MENU"); ?>");
                 }
                 else {
-                    Joomla.submitform(task, document.id('categories-form'));
+                    Joomla.submitform(task, document.getElementById('categories-form'));
                 }
             };
 
