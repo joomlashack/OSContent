@@ -168,8 +168,8 @@ $createdate = $createdate->toSql();
 </script>
 
 <div class="row ost-oscontent-container">
-        <div class="col-lg-8 ost-table-cell-left">
-            <fieldset>
+        <div class="col-lg-9 ost-table-cell-left">
+            <fieldset class="options-form">
             <!-- articles -->
             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                         'nbOSContent',
@@ -184,12 +184,12 @@ $createdate = $createdate->toSql();
                         </td>
                         <td class="ost-medium-sc">
                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
-                            <input class="inputbox col-11" type="text" size="50" maxlength="255"
+                            <input class="form-control" type="text" size="50" maxlength="255"
                                    id="title_<?php echo $i; ?>" name="title[]"
                                    value="<?php echo(@$post["title"][$i - 1]); ?>">
                             <?php if ($this->params->get('displayAlias', 1) == 1): ?>
                                 <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                <input class="inputbox col-11" type="text" size="50" maxlength="255"
+                                <input class="form-control" type="text" size="50" maxlength="255"
                                            id="alias_<?php echo $i; ?>" name="alias[]"
                                            value="<?php echo(@$post["alias"][$i - 1]); ?>"
                                            placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
@@ -215,8 +215,8 @@ $createdate = $createdate->toSql();
                                 <?php else: ?>
                                     <textarea id="<?php echo 'introtext_' . $i; ?>"
                                               name="<?php echo 'introtext_' . $i; ?>" rows="4"
-                                              cols="35"
-                                              class="col-11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
+                                              cols="18"
+                                              class="form-control"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
                                 <?php endif; ?>
                             </td>
                         <?php
@@ -242,8 +242,8 @@ $createdate = $createdate->toSql();
                                 <?php else: ?>
                                         <textarea id="<?php echo 'fulltext_' . $i; ?>"
                                                   name="<?php echo 'fulltext_' . $i; ?>" rows="4"
-                                                  cols="35"
-                                                  class="col-11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
+                                                  cols="18"
+                                                  class="form-control"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
 
                                 <?php endif; ?>
                             </td>
@@ -261,9 +261,9 @@ $createdate = $createdate->toSql();
             </fieldset>
             <!-- /articles -->
         </div>
-        <div class="col-lg-4 ost-table-cell-right">
+        <div class="col-lg-3 ost-table-cell-right">
             <!-- options -->
-            <div class="well">
+            <fieldset class="options-form">
                 <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
                 <table border="0" cellpadding="3" cellspacing="0">
                     <tr>
@@ -366,9 +366,9 @@ $createdate = $createdate->toSql();
                             ?>
                             <?php echo JHTML::_('calendar', $date, "publish_down", "publish_down"); ?>
                         </td>
-                    </tr>
+                    </tr> 
                 </table>
-            </div>
+            </fieldset>
             <!-- /options -->
     </div>
 </div>
@@ -385,3 +385,4 @@ $createdate = $createdate->toSql();
 </div>
 
 <?php echo $this->extension->getFooterMarkup(); ?>
+  

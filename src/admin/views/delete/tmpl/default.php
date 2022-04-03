@@ -25,14 +25,8 @@ defined('_JEXEC') or die();
 
 ?>
 
-<?php if (!empty($this->sidebar)): ?>
-<div id="j-sidebar-container" class="span2">
-    <?php echo $this->sidebar; ?>
-</div>
-<div id="j-main-container" class="span10">
-    <?php else : ?>
+
     <div id="j-main-container">
-        <?php endif; ?>
 
         <script language="javascript" type="text/javascript">
             Joomla.submitbutton = function (task, type) {
@@ -42,7 +36,7 @@ defined('_JEXEC') or die();
                     else return;
                 }
                 else {
-                    Joomla.submitform(task, document.id('delete-form'));
+                    Joomla.submitform(task, document.getElementById('delete-form'));
                 }
             };
         </script>
@@ -62,7 +56,7 @@ defined('_JEXEC') or die();
                         // }
                         // ?>
             </script>
-            <fieldset>
+            <fieldset class="form-control">
                 <legend><?php echo JText::_("COM_OSCONTENT_DELETE_SECTIONS_CATEGORIES"); ?></legend>
                 <table border="0" cellpadding="3" cellspacing="0">
                     <tr>

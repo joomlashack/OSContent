@@ -34,20 +34,13 @@ defined('_JEXEC') or die();
 </style>
 
 <div class="row-fluid">
-<?php if (!empty($this->sidebar)) : ?>
-<div id="j-sidebar-container" class="span2">
-    <?php echo $this->sidebar; ?>
-</div>
-<div id="j-main-container" class="span10">
-    <?php else : ?>
     <div id="j-main-container">
-        <?php endif; ?>
 
         <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
               id="categories-form" class="adminForm form-validate">
-            <div class="row-fluid ost-oscontent-container">
-                <div class="span8 ost-table-cell-left">
-                        <fieldset>
+            <div class="row ost-oscontent-container">
+                <div class="col-lg-8 ost-table-cell-left">
+                        <fieldset class="options-form">
                             <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
                                         'nbOSCategories',
                                         10
@@ -65,12 +58,12 @@ defined('_JEXEC') or die();
                                                 <?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?>
                                                 <?php echo JText::_("COM_OSCONTENT_TITLE"); ?>
                                             </label></div>
-                                            <input class="inputbox span11" type="text" size="25" maxlength="255"
+                                            <input class="inputbox  form-control" type="text" size="25" maxlength="255"
                                                    id="title_<?php echo $i; ?>" name="title[]" value="">
                                         </td>
                                         <td class="ost-medium-sc">
                                             <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                            <input class="inputbox span11" type="text" size="25" maxlength="255"
+                                            <input class="inputbox form-control" type="text" size="25" maxlength="255"
                                                    id="alias_<?php echo $i; ?>" name="alias[]" value=""
                                                    placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
                                         </td>
@@ -80,8 +73,8 @@ defined('_JEXEC') or die();
                             </table>
                         </fieldset>
                 </div>
-                <div class="span4 ost-table-cell-right">
-                        <div class="well">
+                <div class="col-lg-4 ost-table-cell-right">
+                        <fieldset class="options-form">
                             <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
 
                             <table border="0" cellpadding="3" cellspacing="0">
@@ -128,7 +121,7 @@ defined('_JEXEC') or die();
                                     </td>
                                 </tr>
                             </table>
-                        </div>
+                                    </fieldset>
                     </div>
                 </div>
 
