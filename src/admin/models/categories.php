@@ -383,7 +383,13 @@ class OSContentModelCategories extends OSModelAbstract
             $table->language  = "*";
             $table->setLocation($post["parent_id"], 'last-child');
 
+            if (\Joomla\CMS\Version::MAJOR_VERSION == 4) {
+                $table->modified_time = JFactory::getDBO()->getNullDate();
+            }
+
             if (!$table->store()) {
+                throw new Exception($table->getError());
+
                 return false;
             }
 

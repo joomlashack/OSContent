@@ -27,11 +27,13 @@ defined('_JEXEC') or die();
 
 use Joomla\CMS\Version;
 use Joomla\Component\Content\Administrator\Table\FeaturedTable;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 if (Version::MAJOR_VERSION < 4) {
-    require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';    
+    require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';
 } else {
+    class_alias(ArticleTable::class, 'TableContent');
     class_alias(FeaturedTable::class, 'ContentTableFeatured');
 }
 
@@ -588,6 +590,7 @@ class OSContentModelContent extends OSModelAbstract
                 continue;
             }
             $row        = $this->getTable();
+
             $row->title = $post["title"][$i];
 
             if ($post["alias"][$i]) {
@@ -610,6 +613,13 @@ class OSContentModelContent extends OSModelAbstract
             $row->access     = $post["access"];
             $row->language   = "*";
             $row->created_by = $post["created_by"];
+            if (Version::MAJOR_VERSION == 4) {
+                $row->images = '{"image_intro":"","image_intro_alt":"","float_intro":"","image_intro_caption":"","image_fulltext":"","image_fulltext_alt":"","float_fulltext":"","image_fulltext_caption":""}';
+                $row->urls = '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}';
+                $row->attribs = '{"article_layout":"","show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_page_title":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}';
+                $row->modified = JFactory::getDate()->format('Y-m-d-H-i-s');
+                $row->modified_by = $post['created_by'];
+            }
 
             if (isset($post["created_by_alias"])) {
                 $row->created_by_alias = $post["created_by_alias"];
@@ -680,11 +690,16 @@ class OSContentModelContent extends OSModelAbstract
                 throw new Exception(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS') . ": " . $row->alias, 500);
             }
 
-            if (!$row->store()) {
+            $articleData = $row->getProperties();
+
+            $model = \Alledia\Framework\Helper::getContentModel('article', 'Administrator');
+
+            if (!$model->save((array)$row)) {
                 return false;
             }
+            $row->id = $model->getState('article.id');
 
-            $row->reorder('catid = ' . (int)$row->catid . ' AND state >= 0');
+            // $row->reorder('catid = ' . (int)$row->catid . ' AND state >= 0');
 
             if (@$post["addMenu"] === 1 || @$post['addMenu'] === 'on') {
                 $type = "content_item_link";
