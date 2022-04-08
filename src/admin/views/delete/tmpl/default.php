@@ -32,7 +32,7 @@ defined('_JEXEC') or die();
             Joomla.submitbutton = function (task, type) {
                 if (task === 'delete.delete') {
                     if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
-                        Joomla.submitform(task, document.id('delete-form'));
+                        Joomla.submitform(task, document.getElementById('delete-form'));
                     else return;
                 }
                 else {
