@@ -48,7 +48,7 @@ class OSContentViewContent extends OSView
     {
         JToolBarHelper::title(JText::_('COM_OSCONTENT_CREATE_CONTENT'), 'oscontent.png');
         JToolBarHelper::apply("content.save");
-        JToolbarHelper::cancel('content.cancel');
+//        JToolbarHelper::cancel('content.cancel');
         JToolBarHelper::divider();
         JToolBarHelper::spacer();
         JToolBarHelper::preferences('com_oscontent');

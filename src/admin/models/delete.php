@@ -217,7 +217,7 @@ class OSContentModelDelete extends OSModelAbstract
                     . "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0";
 
                 $database->setQuery($query);
-                $database->query();
+                $database->execute();
 
                 // Delete cat
                 $query = "DELETE FROM #__categories"
@@ -225,7 +225,7 @@ class OSContentModelDelete extends OSModelAbstract
                     . $where;
 
                 $database->setQuery($query);
-                $database->query();
+                $database->execute();
             }
 
             if ($deleteContentOnly) {
@@ -240,7 +240,7 @@ class OSContentModelDelete extends OSModelAbstract
             }
 
             $database->setQuery($query);
-            $database->query();
+            $database->execute();
         }
 
         // Delete content

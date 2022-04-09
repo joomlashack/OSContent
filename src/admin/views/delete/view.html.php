@@ -47,7 +47,7 @@ class OSContentViewDelete extends OSView
     {
         JToolBarHelper::title(JText::_('COM_OSCONTENT_DELETE_CONTENT'), 'oscontent.png');
         JToolBarHelper::custom('delete.delete', 'delete.png', 'delete_f2.png', JText::_('COM_OSCONTENT_DELETE'), false);
-        JToolbarHelper::cancel('delete.cancel');
+//        JToolbarHelper::cancel('delete.cancel');
         JToolBarHelper::divider();
         JToolBarHelper::spacer();
         JToolBarHelper::preferences('com_oscontent');
