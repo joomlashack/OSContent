@@ -27,7 +27,18 @@ JHtml::_('behavior.framework');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.tooltip');
 ?>
-
+<script type="text/javascript">
+    Joomla.submitbutton = function (task, type) {
+        if (task === 'delete.delete') {
+            if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
+                Joomla.submitform(task, document.getElementById('delete-form'));
+            else return;
+        }
+        else {
+            Joomla.submitform(task, document.getElementById('delete-form'));
+        }
+    };
+</script>
 <?php if (!empty($this->sidebar)): ?>
 <div id="j-sidebar-container" class="span2">
     <?php echo $this->sidebar; ?>
@@ -36,19 +47,6 @@ JHtml::_('behavior.tooltip');
     <?php else : ?>
     <div id="j-main-container">
         <?php endif; ?>
-
-        <script language="javascript" type="text/javascript">
-            Joomla.submitbutton = function (task, type) {
-                if (task === 'delete.delete') {
-                    if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
-                        Joomla.submitform(task, document.getElementById('delete-form'));
-                    else return;
-                }
-                else {
-                    Joomla.submitform(task, document.getElementById('delete-form'));
-                }
-            };
-        </script>
 
         <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
               id="delete-form" class="adminForm form-validate">
