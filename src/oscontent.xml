@@ -41,7 +41,6 @@
     <media destination="com_oscontent" folder="media">
         <folder>css</folder>
         <folder>images</folder>
-        <folder>fonts</folder>
     </media>
 
     <updateservers>
