@@ -21,50 +21,44 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
-
-/**
- * Mass Content View
- *
- * @since  1.0.0
- */
-class OSContentViewContent extends OSView
+class OSContentViewContent extends OscontentViewAdmin
 {
-    protected $params;
-    protected $lists;
-    protected $posts;
-
     /**
-     * Method to display the view
-     *
-     * @param   string $tpl Template file
-     *
-     * @access    public
-     * @return  void
+     * @inheritDoc
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_OSCONTENT_CREATE_CONTENT'), 'oscontent.png');
-        JToolBarHelper::apply("content.save");
-//        JToolbarHelper::cancel('content.cancel');
-        JToolBarHelper::divider();
-        JToolBarHelper::spacer();
-        JToolBarHelper::preferences('com_oscontent');
+        $this->addToolbar();
 
-        // Get component params
-        $params = JComponentHelper::getParams('com_oscontent');
+        OscontentHelper::addSubmenu('content');
+        $this->sidebar = Sidebar::render();
 
-        // Get data
-        $lists = $this->get('Data');
+        //$lists = $this->get('Data');
 
         $post = $this->getModel()->getPostData();
 
-        $this->params = $params;
-        $this->lists  = $lists;
-        $this->post   = $post;
+        //$this->lists = $lists;
+        //$this->post  = $post;
 
         parent::display($tpl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function addToolbar(?string $title = null, ?string $icon = 'file-2')
+    {
+        ToolbarHelper::apply('content.save');
+
+        $title = $title ?: Text::_('COM_OSCONTENT_CREATE_CONTENT');
+
+        parent::addToolbar($title, $icon);
     }
 }
