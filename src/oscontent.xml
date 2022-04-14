@@ -16,9 +16,9 @@
     <administration>
         <menu img="components/com_oscontent/media/images/oscontent.png">COM_OSCONTENT</menu>
         <submenu>
-            <menu link="option=com_oscontent&amp;view=content">COM_OSCONTENT_ADMINMENU_CREATE</menu>
-            <menu link="option=com_oscontent&amp;view=categories">COM_OSCONTENT_ADMINMENU_CATEGORIES</menu>
-            <menu link="option=com_oscontent&amp;view=delete">COM_OSCONTENT_ADMINMENU_DELETE</menu>
+            <menu view="content">COM_OSCONTENT_ADMINMENU_CREATE</menu>
+            <menu view="categories">COM_OSCONTENT_ADMINMENU_CATEGORIES</menu>
+            <menu view="delete">COM_OSCONTENT_ADMINMENU_DELETE</menu>
         </submenu>
 
         <files folder="admin">
