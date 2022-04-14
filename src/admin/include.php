@@ -26,6 +26,7 @@ defined('_JEXEC') or die();
 use Alledia\Framework\AutoLoader;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Version;
 
 defined('_JEXEC') or die();
 
@@ -46,7 +47,19 @@ try {
         define('OSCONTENT_LIBRARY', OSCONTENT_ADMIN . '/library');
 
         AutoLoader::registerCamelBase('Oscontent', OSCONTENT_LIBRARY . '/joomla');
+
+        if (Version::MAJOR_VERSION < 4) {
+            HTMLHelper::_(
+                'stylesheet',
+                'lib_allediaframework/fontawesome/css/all.min.css',
+                ['relative' => true]
+            );
+        }
+
+        Factory::getLanguage()->load('com_oscontent.sys', OSCONTENT_ADMIN);
+
         HTMLHelper::_('stylesheet', 'com_oscontent/admin.css', ['relative' => true]);
+        JLoader::register('OscontentHelper', OSCONTENT_ADMIN . '/helpers/oscontent.php');
 
         define('OSCONTENT_LOADED', 1);
     }
