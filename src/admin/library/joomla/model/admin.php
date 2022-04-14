@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2011-2020 Joomlashack.com. All rights reserved
+ * @copyright 2011-2022 Joomlashack.com. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
@@ -21,29 +21,32 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\MVC\Model\AdminModel;
+
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.model');
-
-abstract class OSModelAbstract extends JModelLegacy
+abstract class OscontentModelAdmin extends AdminModel
 {
     /**
      * Get the extension id
      *
-     * @param string $extension
+     * @param string  $extension
+     * @param ?string $type
+     *
      * @return int
      */
-    protected function getExtensionId($extension, $type = 'component')
+    protected function getExtensionId(string $extension, ?string $type = 'component'): int
     {
-        $db = JFactory::getDBO();
-        $query = $db->getQuery(true);
-        $query
+        $db = $this->getDbo();
+
+        $query = $db->getQuery(true)
             ->select('extension_id')
             ->from('#__extensions')
-            ->where('element = ' . $db->q($extension))
-            ->where('type = ' . $db->q($type));
-        $db->setQuery($query, 0, 1);
+            ->where([
+                'element = ' . $db->quote($extension),
+                'type = ' . $db->quote($type)
+            ]);
 
-        return (int) $db->loadResult();
+        return (int)$db->setQuery($query)->loadResult();
     }
 }

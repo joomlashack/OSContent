@@ -21,65 +21,32 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die();
 
-use Joomla\CMS\Version;
-use Joomla\Component\Content\Administrator\Table\FeaturedTable;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
-
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
-if (Version::MAJOR_VERSION < 4) {
-    require_once JPATH_ADMINISTRATOR . '/components/com_content/tables/featured.php';
-} else {
-    class_alias(ArticleTable::class, 'TableContent');
-    class_alias(FeaturedTable::class, 'ContentTableFeatured');
-}
-
-/**
- * Model Content
- *
- * @since  1.0.0
- */
-class OSContentModelContent extends OSModelAbstract
+class OSContentModelContent extends OscontentModelAdmin
 {
     /**
-     * @var    string  The prefix to use with controller messages.
-     * @since  1.6
+     * @inheritdoc
      */
     protected $text_prefix = 'COM_OSCONTENT_CONTENT';
 
     /**
-     * Model context string.
-     *
-     * @var  string
+     * @inheritDoc
      */
-    protected $_context = 'com_oscontent.content';
-
-    /**
-     * Get the form
-     *
-     * @param   array $data     Data
-     * @param   bool  $loadData Load data
-     *
-     * @access    public
-     * @since     1.0.0
-     *
-     * @return  Form
-     */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_oscontent.content',
             'content',
-            array('control' => 'jform', 'load_data' => $loadData)
+            ['control' => 'jform', 'load_data' => $loadData]
         );
-
-        if (empty($form)) {
-            return false;
-        }
 
         return $form;
     }
@@ -87,45 +54,41 @@ class OSContentModelContent extends OSModelAbstract
     /**
      * Link the content to the menu
      *
-     * @param   int    $id          The id of the content to insert
-     * @param   string $title       The  title of the menu element
-     * @param   string $menuselect  The menu where to create the link
-     * @param   string $contentType to know the kind of content (static content or not)
-     * @param   int    $parent      Parent
-     * @param   string $alias       Alias
+     * @param int    $id          The id of the content to insert
+     * @param string $title       The  title of the menu element
+     * @param string $menuselect  The menu where to create the link
+     * @param string $contentType to know the kind of content (static content or not)
+     * @param int    $parent      Parent
+     * @param string $alias       Alias
      *
      * @return void
      */
-    public function menuLink($id, $title, $menuselect, $contentType, $parent, $alias = "")
+    public function menuLink($id, $title, $menuselect, $contentType, $parent, $alias = '')
     {
-        $mainframe = JFactory::getApplication();
-        $database  = JFactory::getDBO();
-
         $menu = strval($menuselect);
         $link = strval($title);
 
-        $link = stripslashes(JFilterOutput::ampReplace($link));
+        $link = stripslashes(OutputFilter::ampReplace($link));
 
-        // Find what kind of link needs to be created in $row->link
         switch ($contentType) {
-            case "content_section":
-                $taskLink = "section";
+            case 'content_section':
+                $taskLink = 'section';
                 break;
 
-            case "content_blog_section":
-                $taskLink = "section&layout=blog";
+            case 'content_blog_section':
+                $taskLink = 'section&layout=blog';
                 break;
 
-            case "content_category":
-                $taskLink = "category";
+            case 'content_category':
+                $taskLink = 'category';
                 break;
 
-            case "content_blog_category":
-                $taskLink = "category&layout=blog";
+            case 'content_blog_category':
+                $taskLink = 'category&layout=blog';
                 break;
 
             default:
-                $taskLink = "article";
+                $taskLink = 'article';
         }
 
         $row           = JTable::getInstance('menu');
@@ -141,7 +104,7 @@ class OSContentModelContent extends OSModelAbstract
         $row->type      = 'component';
         $row->link      = 'index.php?option=com_content&view=' . $taskLink . '&id=' . $id;
         $row->published = 1;
-        $row->language  = "*";
+        $row->language  = '*';
 
         $row->component_id = $this->getExtensionId('com_content');
 
@@ -149,36 +112,36 @@ class OSContentModelContent extends OSModelAbstract
         $params['display_num']           = 10;
         $params['show_headings']         = 1;
         $params['show_date']             = 0;
-        $params['date_format']           = "";
+        $params['date_format']           = '';
         $params['filter']                = 1;
-        $params['filter_type']           = "title";
-        $params['orderby_sec']           = "";
+        $params['filter_type']           = 'title';
+        $params['orderby_sec']           = '';
         $params['show_pagination']       = 1;
         $params['show_pagination_limit'] = 1;
-        $params['show_noauth']           = "";
-        $params['show_title']            = "";
-        $params['link_titles']           = "";
-        $params['show_intro']            = "";
-        $params['show_section']          = "";
-        $params['link_section']          = "";
-        $params['show_category']         = "";
-        $params['link_category']         = "";
-        $params['show_author']           = "";
-        $params['show_create_date']      = "";
-        $params['show_modify_date']      = "";
-        $params['show_item_navigation']  = "";
-        $params['show_readmore']         = "";
-        $params['show_vote']             = "";
-        $params['show_icons']            = "";
-        $params['show_pdf_icon']         = "";
-        $params['show_print_icon']       = "";
-        $params['show_email_icon']       = "";
-        $params['show_hits']             = "";
-        $params['feed_summary']          = "";
-        $params['page_title']            = "";
+        $params['show_noauth']           = '';
+        $params['show_title']            = '';
+        $params['link_titles']           = '';
+        $params['show_intro']            = '';
+        $params['show_section']          = '';
+        $params['link_section']          = '';
+        $params['show_category']         = '';
+        $params['link_category']         = '';
+        $params['show_author']           = '';
+        $params['show_create_date']      = '';
+        $params['show_modify_date']      = '';
+        $params['show_item_navigation']  = '';
+        $params['show_readmore']         = '';
+        $params['show_vote']             = '';
+        $params['show_icons']            = '';
+        $params['show_pdf_icon']         = '';
+        $params['show_print_icon']       = '';
+        $params['show_email_icon']       = '';
+        $params['show_hits']             = '';
+        $params['feed_summary']          = '';
+        $params['page_title']            = '';
         $params['show_page_title']       = 1;
-        $params['pageclass_sfx']         = "";
-        $params['menu_image']            = "";
+        $params['pageclass_sfx']         = '';
+        $params['menu_image']            = '';
         $params['secure']                = 0;
 
         $registry = new Registry();
@@ -203,13 +166,12 @@ class OSContentModelContent extends OSModelAbstract
     /**
      * Get a list of the menu records associated with the type
      *
-     * @param   string $menutype The menu type
+     * @param string $menutype The menu type
      *
      * @return  array An array of records as objects
      */
     public function getMenuItems($menutype)
     {
-        // TODO: Check if this is been used
         $table = $this->getTable();
 
         if ($table->menutype == '') {
@@ -232,9 +194,9 @@ class OSContentModelContent extends OSModelAbstract
      * Get parent category
      *
      * @access    protected
+     * @return  array
      * @since     1.0.0
      *
-     * @return  array
      */
     protected function getCategoryParent()
     {
@@ -333,19 +295,10 @@ class OSContentModelContent extends OSModelAbstract
     /**
      * Get Data
      *
-     * @access    public
-     * @since     1.0.0
-     *
      * @return  array
      */
-    public function &getData()
+    public function getData()
     {
-        $database = JFactory::getDBO();
-
-        global $my;
-
-        $mainframe         = JFactory::getApplication();
-        $contentSection    = 0;
         $lists             = null;
         $sectioncategories = 0;
 
@@ -353,19 +306,13 @@ class OSContentModelContent extends OSModelAbstract
             $id = 0;
         }
 
-        if (!isset($store)) {
-            $store = '';
-        }
-
         $row = $this->getTable();
         $row->load($id);
 
-        $javascript  = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
         $javascript2 = "onchange=\"changeDynaList('menuselect3', menulist, document.adminForm.menuselect.options[document.adminForm.menuselect.selectedIndex].value, 0, 0);\"";
 
-
         $categories     = $this->getCategoryParent();
-        $lists['catid'] = JHTML::_(
+        $lists['catid'] = HTMLHelper::_(
             'select.genericlist',
             $categories,
             'catid',
@@ -385,20 +332,18 @@ class OSContentModelContent extends OSModelAbstract
         $uid           = "";
         $row->ordering = null;
 
-        $lists['ordering'] = JHTML::_('list.ordering', 'ordering', $query, '', $row->ordering, 1);
+        $lists['ordering'] = HTMLHelper::_('list.ordering', 'ordering', $query, '', $row->ordering, 1);
 
         // build the html select list for menu selection
-        $menu3     = array();
-        $menulist  = array();
         $menuTypes = $this->getMenuTypes();
 
         foreach ($menuTypes as $menuType) {
-            $menu[] = JHTML::_('select.option', $menuType->menutype, $menuType->title);
+            $menu[] = HTMLHelper::_('select.option', $menuType->menutype, $menuType->title);
         }
 
         $stop_notice = array();
 
-        $lists['menuselect3'] = JHTML::_(
+        $lists['menuselect3'] = HTMLHelper::_(
             'select.genericlist',
             $stop_notice,
             'menuselect3',
@@ -409,7 +354,7 @@ class OSContentModelContent extends OSModelAbstract
         );
 
 
-        $lists['menuselect'] = JHTML::_(
+        $lists['menuselect'] = HTMLHelper::_(
             'select.genericlist',
             $menu,
             'menuselect',
@@ -421,11 +366,11 @@ class OSContentModelContent extends OSModelAbstract
 
 
         // Build the html select list for the group access
-        $lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
+        $lists['access'] = HTMLHelper::_('access.assetgrouplist', 'access', $row->access);
 
         // Build list of users
         $user                = JFactory::getUser();
-        $lists['created_by'] = JHTML::_('list.users', 'created_by', $user->id);
+        $lists['created_by'] = HTMLHelper::_('list.users', 'created_by', $user->id);
 
         // Load params
         jimport('joomla.application.component.helper');
@@ -460,9 +405,9 @@ class OSContentModelContent extends OSModelAbstract
      * Create Submenu
      *
      * @access    public
+     * @return  array
      * @since     1.0.0
      *
-     * @return  array
      */
     public function createSubMenu()
     {
@@ -507,7 +452,7 @@ class OSContentModelContent extends OSModelAbstract
 
             // Second pass - get an indent list of the items
             // $list = JHtmlMenu::TreeRecurse(intval($menuItems4[0]->parent_id), '', array(), $children, 9999, 0, 0);
-            $list       = JHTML::_(
+            $list       = HTMLHelper::_(
                 'menu.treerecurse',
                 intval(@$menuItems4[0]->parent_id),
                 '-',
@@ -525,39 +470,32 @@ class OSContentModelContent extends OSModelAbstract
     }
 
     /**
-     * Get Post Data
-     *
-     * @access    public
-     * @since     1.0.0
-     *
-     * @return  array
+     * @return array
      */
-    public function getPostData()
+    public function getPostData(): array
     {
-        $app   = JFactory::getApplication();
-        $input = $app->input;
-        $post  = $input->getArray(
-            array(
-                'title'            => 'ARRAY',
-                'alias'            => 'ARRAY',
-                'published'        => 'STRING',
-                'access'           => 'INT',
-                'created_by'       => 'INT',
-                'created_by_alias' => 'STRING',
-                'created'          => 'DATE',
-                'catid'            => 'INT',
-                'publish_up'       => 'DATE',
-                'publish_down'     => 'DATE',
-                'metadesc'         => 'ARRAY',
-                'metakey'          => 'ARRAY',
-                'addMenu'          => 'INT',
-                'menuselect'       => 'STRING',
-                'menuselect3'      => 'STRING',
-                'featured'         => 'INT'
-            )
-        );
+        $input  = Factory::getApplication()->input;
 
-        if ($post['title']) {
+        $post = $input->getArray([
+            'title'            => 'ARRAY',
+            'alias'            => 'ARRAY',
+            'published'        => 'STRING',
+            'access'           => 'INT',
+            'created_by'       => 'INT',
+            'created_by_alias' => 'STRING',
+            'created'          => 'DATE',
+            'catid'            => 'INT',
+            'publish_up'       => 'DATE',
+            'publish_down'     => 'DATE',
+            'metadesc'         => 'ARRAY',
+            'metakey'          => 'ARRAY',
+            'addMenu'          => 'INT',
+            'menuselect'       => 'STRING',
+            'menuselect3'      => 'STRING',
+            'featured'         => 'INT'
+        ]);
+
+        if (empty($post['title']) == false) {
             for ($i = 0; $i < count($post["title"]); $i++) {
                 $index                       = $i + 1;
                 $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
@@ -571,12 +509,12 @@ class OSContentModelContent extends OSModelAbstract
     /**
      * Save the content
      *
-     * @param   array $option Options
+     * @param array $option Options
      *
      * @access    public
+     * @return  array
      * @since     1.0.0
      *
-     * @return  array
      */
     public function saveOSContent($option = null)
     {
@@ -589,7 +527,7 @@ class OSContentModelContent extends OSModelAbstract
             if ($post["title"][$i] == "") {
                 continue;
             }
-            $row        = $this->getTable();
+            $row = $this->getTable();
 
             $row->title = $post["title"][$i];
 
@@ -614,10 +552,10 @@ class OSContentModelContent extends OSModelAbstract
             $row->language   = "*";
             $row->created_by = $post["created_by"];
             if (Version::MAJOR_VERSION == 4) {
-                $row->images = '{"image_intro":"","image_intro_alt":"","float_intro":"","image_intro_caption":"","image_fulltext":"","image_fulltext_alt":"","float_fulltext":"","image_fulltext_caption":""}';
-                $row->urls = '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}';
-                $row->attribs = '{"article_layout":"","show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_page_title":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}';
-                $row->modified = JFactory::getDate()->format('Y-m-d-H-i-s');
+                $row->images      = '{"image_intro":"","image_intro_alt":"","float_intro":"","image_intro_caption":"","image_fulltext":"","image_fulltext_alt":"","float_fulltext":"","image_fulltext_caption":""}';
+                $row->urls        = '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}';
+                $row->attribs     = '{"article_layout":"","show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_page_title":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}';
+                $row->modified    = JFactory::getDate()->format('Y-m-d-H-i-s');
                 $row->modified_by = $post['created_by'];
             }
 
