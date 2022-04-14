@@ -25,6 +25,7 @@ defined('_JEXEC') or die();
 
 use Alledia\Framework\AutoLoader;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 defined('_JEXEC') or die();
 
@@ -45,6 +46,7 @@ try {
         define('OSCONTENT_LIBRARY', OSCONTENT_ADMIN . '/library');
 
         AutoLoader::registerCamelBase('Oscontent', OSCONTENT_LIBRARY . '/joomla');
+        HTMLHelper::_('stylesheet', 'com_oscontent/admin.css', ['relative' => true]);
 
         define('OSCONTENT_LOADED', 1);
     }

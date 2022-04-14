@@ -21,14 +21,6 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-JFactory::getDocument()->addStyleDeclaration(
-    '
-    .icon-48-oscontent {
-        background-image: url("components/com_oscontent/media/images/icon-48-oscontent.png");
-    }
-    '
-);
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
