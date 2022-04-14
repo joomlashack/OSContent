@@ -2,7 +2,7 @@
     "name"             : "joomlashack/oscontent",
     "description"      : "OSContent",
     "minimum-stability": "stable",
-    "license"          : "GPL-2+",
+    "license"          : "GPL-2.0-or-later",
     "type"             : "joomla-component",
     "extra"            : {
         "element"        : "com_oscontent",
@@ -10,7 +10,7 @@
         "name"           : "OSContent",
         "client"         : "administrator",
         "package-license": "free",
-        "target-platform": "3.*",
+        "target-platform": ".*",
         "infourl"        : "/changelog/oscontent/"
     },
     "authors"          : [
@@ -20,6 +20,6 @@
         }
     ],
     "require"          : {
-        "php"       : ">= 5.3"
+        "php"       : ">=7.2.5"
     }
 }
