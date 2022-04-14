@@ -21,7 +21,6 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-defined('_JEXEC') or die();
 
 JFactory::getDocument()->addStyleDeclaration(
     '
@@ -30,20 +29,18 @@ JFactory::getDocument()->addStyleDeclaration(
     }
     '
 );
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
-require_once 'controller.php';
+defined('_JEXEC') or die();
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_oscontent')) {
-    throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
+if (!Factory::getUser()->authorise('core.manage', 'com_focalpoint')) {
+    throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller = JControllerLegacy::getInstance('OSContent');
-
-$task = JFactory::getApplication()->input->getCmd('task');
-
-$controller->execute($task);
-$controller->redirect();
-
-if (defined('JDEBUG')) {
-    JProfiler::getInstance('Application')->mark('com_oscontent');
+if (include __DIR__ . '/include.php') {
+    $controller = BaseController::getInstance('Oscontent');
+    $controller->execute(Factory::getApplication()->input->getCmd('task'));
+    $controller->redirect();
 }
