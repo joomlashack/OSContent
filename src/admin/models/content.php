@@ -201,16 +201,9 @@ class OSContentModelContent extends OscontentModelAdmin
     }
 
     /**
-     * Save the content
-     *
-     * @param array $option Options
-     *
-     * @access    public
-     * @return  array
-     * @since     1.0.0
-     *
+     * @inheritDoc
      */
-    public function saveOSContent($option = null)
+    public function save($data)
     {
 
         $post = $this->getPostData();

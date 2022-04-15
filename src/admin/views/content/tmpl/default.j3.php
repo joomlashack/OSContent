@@ -56,14 +56,14 @@ $columnWidth = ($displayIntroText xor $displayFullText)
     ? 'span6'
     : ($displayFullText && $displayIntroText ? 'span4' : '');
 
-$editor       = Editor::getInstance($this->app->get('editor'));
+$editor = Editor::getInstance($this->app->get('editor'));
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_oscontent'); ?>"
+<form name="adminForm"
+      id="adminForm"
+      action="<?php echo Route::_('index.php?option=com_oscontent'); ?>"
       method="post"
-      name="adminForm"
-      id="content-form"
-      class="adminForm form-validate">
+      class="form-validate">
 
     <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
@@ -142,7 +142,7 @@ $editor       = Editor::getInstance($this->app->get('editor'));
                                             );
                                         else: ?>
                                             <textarea id="<?php echo $introTextId ?>"
-                                                      name="<?php echo $introTextId; ?>"
+                                                      name="introtext[]"
                                                       rows="4"
                                                       cols="35"
                                                       class="span12"><?php echo(@$post[$introTextId]); ?></textarea>
@@ -200,4 +200,7 @@ $editor       = Editor::getInstance($this->app->get('editor'));
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="task" value=""/>
+    <?php echo HTMLHelper::_('form.token'); ?>
 </form>
