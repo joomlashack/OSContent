@@ -1,87 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <fieldset
-            name="osclassroom"
-            label="Configuration"
-            addfieldpath="/administrator/components/com_oscontent/form/fields/">
+    <fieldset name="oscontent"
+              label="COM_OSCONTENT_CONFIGURATION"
+              addfieldpath="/administrator/components/com_oscontent/form/fields/">
 
-        <field
-                name="nbOSContent"
-                type="text"
-                size="5"
-                default="10"
-                label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"
-                description="COM_OSCONTENT_PARAM_NBMASSCONTENT_DESC"/>
+        <field name="nbOSContent"
+               type="text"
+               size="5"
+               default="10"
+               label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"
+               description="COM_OSCONTENT_PARAM_NBMASSCONTENT_DESC"/>
 
-        <field
-                name="nbOSCategories"
-                type="text"
-                size="5"
-                default="10"
-                label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"
-                description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
+        <field name="nbOSCategories"
+               type="text"
+               size="5"
+               default="10"
+               label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"
+               description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
 
-        <field
-                name="displayWysiwyg"
-                type="list"
-                default="0"
-                label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL"
-                description="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_DESC">
+        <field name="displayWysiwyg"
+               type="list"
+               default="0"
+               label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL"
+               description="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_DESC">
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW_FIRST</option>
             <option value="2">COM_OSCONTENT_OPTION_SHOW_ALL</option>
         </field>
 
-        <field
-                name="displayAlias"
-                type="list"
-                default="1"
-                label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL"
-                description="COM_OSCONTENT_PARAM_DISPLAYALIAS_DESC">
+        <field name="displayAlias"
+               type="list"
+               default="1"
+               label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL"
+               description="COM_OSCONTENT_PARAM_DISPLAYALIAS_DESC">
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
         </field>
 
-        <field
-                name="displayIntroText"
-                type="list"
-                default="0"
-                label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
-                description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
+        <field name="displayIntroText"
+               type="list"
+               default="0"
+               label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
+               description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
         </field>
 
-        <field
-                name="displayFullText"
-                type="list"
-                default="1"
-                label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL"
-                description="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_DESC">
+        <field name="displayFullText"
+               type="list"
+               default="1"
+               label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL"
+               description="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_DESC">
             <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
         </field>
 
-        <field
-            type="customfooter"
-            name="customfooter"
-            media="com_oscontent"
-            showgoproad="https://www.joomlashack.com/joomla-extensions/oscontent/"
-            jedurl="https://extensions.joomla.org/extension/oscontent" />
+        <field type="customfooter"
+               name="customfooter"
+               media="com_oscontent"
+               showgoproad="https://www.joomlashack.com/joomla-extensions/oscontent/"
+               jedurl="https://extensions.joomla.org/extension/oscontent"/>
     </fieldset>
 
-    <fieldset
-            name="permissions"
-            label="JCONFIG_PERMISSIONS_LABEL"
-            description="JCONFIG_PERMISSIONS_DESC">
+    <fieldset name="permissions"
+              label="JCONFIG_PERMISSIONS_LABEL"
+              description="JCONFIG_PERMISSIONS_DESC">
 
-        <field
-                name="rules"
-                type="rules"
-                label="JCONFIG_PERMISSIONS_LABEL"
-                validate="rules"
-                filter="rules"
-                component="com_oscontent"
-                section="component"/>
+        <field name="rules"
+               type="rules"
+               label="JCONFIG_PERMISSIONS_LABEL"
+               validate="rules"
+               filter="rules"
+               component="com_oscontent"
+               section="component"/>
     </fieldset>
 </config>
