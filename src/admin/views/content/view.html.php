@@ -31,21 +31,24 @@ defined('_JEXEC') or die();
 class OSContentViewContent extends OscontentViewAdmin
 {
     /**
+     * @var string[]
+     */
+    protected $options = null;
+
+    /**
      * @inheritDoc
      */
     public function display($tpl = null)
     {
+        $this->model = $this->getModel();
+        $this->form = $this->model->getForm();
+
+        $this->setOptions();
+
         $this->addToolbar();
 
         OscontentHelper::addSubmenu('content');
         $this->sidebar = Sidebar::render();
-
-        //$lists = $this->get('Data');
-
-        $post = $this->getModel()->getPostData();
-
-        //$this->lists = $lists;
-        //$this->post  = $post;
 
         parent::display($tpl);
     }
@@ -60,5 +63,24 @@ class OSContentViewContent extends OscontentViewAdmin
         $title = $title ?: Text::_('COM_OSCONTENT_CREATE_CONTENT');
 
         parent::addToolbar($title, $icon);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setOptions()
+    {
+        if ($this->options === null) {
+            $this->options = [
+                'contentRows'      => $this->params->get('nbOSContent'),
+                'displayAlias'     => (bool)$this->params->get('displayAlias'),
+                'displayIntroText' => (bool)$this->params->get('displayIntroText'),
+                'displayFullText'  => (bool)$this->params->get('displayFullText'),
+                'displayWysiwyg'   => (int)$this->params->get('displayWysiwyg')
+            ];
+            foreach ($this->options as $key => $value) {
+                $this->document->addScriptOptions('oscontent.' . $key, $value);
+            }
+        }
     }
 }

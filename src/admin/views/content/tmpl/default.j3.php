@@ -21,12 +21,42 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die();
 
-$contentRows = $this->params->get('nbOSContent', 10);
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', 'select');
+
+/**
+ * @var OSContentViewContent $this
+ * @var string               $template
+ * @var string               $layout
+ * @var string               $layoutTemplate
+ * @var Language             $lang
+ * @var string               $filetofind
+ */
+
+extract($this->options);
+/**
+ * @var string $contentRows
+ * @var bool   $displayAlias
+ * @var bool   $displayIntroText
+ * @var bool   $displayFullText
+ * @var int    $displayWysiwyg
+ */
+
+$columnWidth = ($displayIntroText xor $displayFullText)
+    ? 'span6'
+    : ($displayFullText && $displayIntroText ? 'span4' : '');
+
+$editor       = Editor::getInstance($this->app->get('editor'));
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_oscontent'); ?>"
@@ -40,104 +70,133 @@ $contentRows = $this->params->get('nbOSContent', 10);
     </div>
 
     <div id="j-main-container" class="span10">
-        <div class="row-fluid">
+        <div class="row-fluid form-vertical">
             <div class="span8">
                 <fieldset>
                     <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
                     <table class="table table-striped">
                         <?php
-                        for ($row = 0; $row < $contentRows + 1; $row++) :
+                        for ($row = 0; $row < $contentRows; $row++) :
+                            $titleId = 'title_' . $row;
+                            $wysiwyg = $displayWysiwyg == 2 || ($row == 0 && $displayWysiwyg == 1);
                             ?>
                             <tr>
-                                <td class="ost-number">
+                                <td class="span1">
                                     <strong><?php echo number_format($row + 1); ?></strong>
                                 </td>
-                                <td class="ost-medium-sc">
-                                    <div class="control-label">
-                                        <label><?php echo Text::_('COM_OSCONTENT_TITLE'); ?></label>
+
+                                <td class="<?php echo $columnWidth; ?>">
+                                    <div class="control-group">
+                                        <div class="control-label">
+                                            <label for="<?php echo $titleId; ?>">
+                                                <?php echo Text::_('COM_OSCONTENT_TITLE'); ?>
+                                            </label>
+                                        </div>
+                                        <div class="controls">
+                                            <input class="span12"
+                                                   type="text"
+                                                   size="50"
+                                                   maxlength="255"
+                                                   id="<?php echo $titleId; ?>"
+                                                   name="title[]"
+                                                   value="<?php echo(@$post["title"][$row]); ?>">
+                                        </div>
+                                        <?php
+                                        if ($displayAlias) :
+                                            $aliasId = 'alias_' . $row;
+                                            ?>
+                                            <label for="<?php echo $aliasId; ?>">
+                                                <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                            </label>
+                                            <input class="span12"
+                                                   type="text"
+                                                   maxlength="255"
+                                                   id="<?php echo $aliasId; ?>"
+                                                   name="alias[]"
+                                                   value="<?php echo(@$post["alias"][$i - 1]); ?>"
+                                                   placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
+                                        <?php endif;
+                                        ?>
                                     </div>
-                                    <input class="inputbox span11"
-                                           type="text"
-                                           maxlength="255"
-                                           id="<?php echo 'title_' . $row; ?>"
-                                           name="title[]"
-                                           value="<?php echo(@$post["title"][$i - 1]); ?>">
-                                    <?php if ($this->params->get('displayAlias', 1) == 1): ?>
-                                        <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                        <input class="inputbox span11" type="text" size="50" maxlength="255"
-                                               id="alias_<?php echo $i; ?>" name="alias[]"
-                                               value="<?php echo(@$post["alias"][$i - 1]); ?>"
-                                               placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
-                                    <?php else: ?>
-                                        <?php $hidden .= '<input type="hidden" id="alias_<?php echo $i; ?>" name="alias[]" value =""  >'; ?>
-                                    <?php endif; ?>
                                 </td>
-                                <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
-                                    <td class="ost-medium-sc">
-                                        <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT"); ?></label></div>
-                                        <?php if (($i == 1 && $this->params->get(
-                                                    'displayWysiwyg'
-                                                ) == "1") || $this->params->get('displayWysiwyg') == "2"
-                                        ): ?>
-                                            <?php echo "<td colspan=\"4\">" . $editor->display(
-                                                    'introtext_' . $i,
-                                                    @$post["introtext_" . $i],
-                                                    '50%',
-                                                    '50',
-                                                    '20',
-                                                    '50'
-                                                ) . "</td>"; ?>
-                                        <?php else: ?>
-                                            <textarea id="<?php echo 'introtext_' . $i; ?>"
-                                                      name="<?php echo 'introtext_' . $i; ?>" rows="4"
+
+                                <?php
+                                if ($displayIntroText) :
+                                    $introTextId = 'introtext_' . $row;
+                                    ?>
+                                    <td class="<?php echo $columnWidth; ?>">
+                                        <label for="<?php echo $introTextId; ?>">
+                                            <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
+                                        </label>
+                                        <?php
+                                        if ($wysiwyg) :
+                                            echo $editor->display(
+                                                'introtext[]',
+                                                @$post[$introTextId],
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                true,
+                                                $introTextId
+                                            );
+                                        else: ?>
+                                            <textarea id="<?php echo $introTextId ?>"
+                                                      name="<?php echo $introTextId; ?>"
+                                                      rows="4"
                                                       cols="35"
-                                                      class="span11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
+                                                      class="span12"><?php echo(@$post[$introTextId]); ?></textarea>
                                         <?php endif; ?>
                                     </td>
-                                <?php
-                                else:
-                                    $hidden .= '<input type="hidden" id="introtext_' . $i . '" name="introtext_' . $i . '" value =""  >'; ?>
                                 <?php endif; ?>
 
-                                <?php if ($this->params->get('displayFullText', 1) == 1): ?>
-                                    <td class="ost-medium-sc">
-                                        <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FULL_TEXT"); ?></label></div>
-                                        <?php if (($i == 1 && $this->params->get(
-                                                    'displayWysiwyg'
-                                                ) == "1") || $this->params->get('displayWysiwyg') == "2"
-                                        ): ?>
-                                            <?php echo $editor->display(
-                                                'fulltext_' . $i,
-                                                @$post["fulltext_" . $i],
-                                                '50%',
-                                                '50',
-                                                '20',
-                                                '50'
+                                <?php
+                                if ($displayFullText) :
+                                    $fullTextId = 'fulltext_' . $row;
+                                    ?>
+                                    <td class="<?php echo $columnWidth; ?>">
+                                        <label for="<?php echo $fullTextId; ?>">
+                                            <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
+                                        </label>
+                                        <?php
+                                        if ($wysiwyg):
+                                            echo $editor->display(
+                                                'fulltext[]',
+                                                @$post[$fullTextId],
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                true,
+                                                $fullTextId
                                             ); ?>
-                                        <?php else: ?>
-                                            <textarea id="<?php echo 'fulltext_' . $i; ?>"
-                                                      name="<?php echo 'fulltext_' . $i; ?>" rows="4"
+                                        <?php else : ?>
+                                            <textarea id="<?php echo $fullTextId; ?>"
+                                                      name="fulltext[]"
+                                                      rows="4"
                                                       cols="35"
-                                                      class="span11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
-
+                                                      class="span12"><?php echo(@$post[$fullTextId]); ?></textarea>
                                         <?php endif; ?>
                                     </td>
-                                <?php else: ?>
-                                    <?php $hidden .= '<input type="hidden" id="fulltext_' . $i . '" name="fulltext_' . $i . '" value =""  >'; ?>
                                 <?php endif; ?>
                             </tr>
-
-                            <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
-                            <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
-
-                            <?php $k = 1 - $k; ?>
                         <?php endfor; ?>
                     </table>
                 </fieldset>
-
             </div>
-            <div class="4">
-                <p>options here</p>
+            <div class="row-fluid well span4">
+                <fieldset>
+                    <legend><?php echo Text::_('COM_OSCONTENT_OPTIONS'); ?></legend>
+                    <div class="control-group">
+                        <span class="hasTooltip"
+                              title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP'); ?>">
+                            <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE'); ?>
+                        </span>
+                        <button id="duplicateText" type="button" class="btn btn-primary">Copy</button>
+                    </div>
+
+                    <?php echo $this->form->renderFieldset('options'); ?>
+                </fieldset>
             </div>
         </div>
     </div>

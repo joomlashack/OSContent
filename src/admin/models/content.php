@@ -45,7 +45,7 @@ class OSContentModelContent extends OscontentModelAdmin
         $form = $this->loadForm(
             'com_oscontent.content',
             'content',
-            ['control' => 'jform', 'load_data' => $loadData]
+            ['load_data' => $loadData]
         );
 
         return $form;
