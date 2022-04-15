@@ -24,6 +24,7 @@
 use Alledia\Framework\Factory;
 use Alledia\Framework\Joomla\View\Admin\AbstractForm;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
 
@@ -41,9 +42,31 @@ abstract class OscontentViewAdmin extends AbstractForm
      */
     protected $sidebar = null;
 
+    /**
+     * @inheritDoc
+     */
     protected function setup()
     {
         $this->params = ComponentHelper::getParams('com_oscontent');
+
+        // Check and set defaults
+        $configPath = OSCONTENT_ADMIN . '/config.xml';
+        if (is_file($configPath)) {
+            $config = Form::getInstance('config', $configPath, [], null, '/config');
+
+            $fieldSets = $config->getFieldsets();
+            foreach ($fieldSets as $fieldSet) {
+                if ($fieldSet->name !== 'permissions') {
+                    $fields = $config->getFieldset($fieldSet->name);
+                    foreach ($fields as $field) {
+                        if ($field->value) {
+                            $key = join('.', array_filter([$field->group, $field->fieldname]));
+                            $this->params->def($key, $field->value);
+                        }
+                    }
+                }
+            }
+        }
 
         parent::setup();
     }
