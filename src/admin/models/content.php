@@ -23,10 +23,14 @@
 
 use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Content as ContentTable;
-use Joomla\Registry\Registry;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Version;
 
 defined('_JEXEC') or die();
 
@@ -42,146 +46,80 @@ class OSContentModelContent extends OscontentModelAdmin
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm(
+        return $this->loadForm(
             'com_oscontent.content',
             'content',
             ['load_data' => $loadData]
         );
-
-        return $form;
     }
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     protected function loadFormData()
     {
-        $data = Factory::getApplication()->getUserState('com_oscontent.edit.content.data', []);
-
-        return $data;
+        return Factory::getApplication()->getUserState('com_oscontent.edit.content.data', []);
     }
 
     /**
-     * Link the content to the menu
-     *
-     * @param int    $id          The id of the content to insert
-     * @param string $title       The  title of the menu element
-     * @param string $menuselect  The menu where to create the link
-     * @param string $contentType to know the kind of content (static content or not)
-     * @param int    $parent      Parent
-     * @param string $alias       Alias
+     * @param int   $menuId
+     * @param array $article
+     * @param int   $index
      *
      * @return void
+     * @throws Exception
      */
-    public function menuLink($id, $title, $menuselect, $contentType, $parent, $alias = '')
+    protected function menuLink(int $menuId, array $article, int $index)
     {
-        $menu = strval($menuselect);
-        $link = strval($title);
+        if ($menuId) {
+            $articleId = $article['id'] ?? null;
+            $title     = stripslashes(OutputFilter::ampReplace($article['title'] ?? null));
+            $alias     = $article['alias'] ?? $title;
 
-        $link = stripslashes(OutputFilter::ampReplace($link));
+            if ($articleId && $title && $alias) {
+                $menus      = AbstractMenu::getInstance('site');
+                $parentMenu = $menus->getItem($menuId);
 
-        switch ($contentType) {
-            case 'content_section':
-                $taskLink = 'section';
-                break;
+                $model = $this->getMenuModel();
+                $model->setState('menu.id');
 
-            case 'content_blog_section':
-                $taskLink = 'section&layout=blog';
-                break;
+                $data = [
+                    'menutype'     => $parentMenu->menutype,
+                    'title'        => $title,
+                    'alias'        => OutputFilter::stringURLSafe($alias),
+                    'link'         => 'index.php?option=com_content&view=article&id=' . $articleId,
+                    'type'         => 'component',
+                    'component_id' => ComponentHelper::getComponent('com_content')->id,
+                    'parent_id'    => $parentMenu->id,
+                    'component'    => 'com_content',
+                    'published'    => 1,
+                    'language'     => '*'
 
-            case 'content_category':
-                $taskLink = 'category';
-                break;
-
-            case 'content_blog_category':
-                $taskLink = 'category&layout=blog';
-                break;
-
-            default:
-                $taskLink = 'article';
-        }
-
-        $row           = JTable::getInstance('menu');
-        $row->menutype = $menu;
-        $row->title    = $link;
-        $row->alias    = $alias ? JFilterOutput::stringURLSafe($alias) : JFilterOutput::stringURLSafe($link);
-
-        if (trim(str_replace('-', '', $row->alias)) == '') {
-            $row->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
-        }
-
-        $row->parent_id = ($parent == -1) ? 1 : $parent;
-        $row->type      = 'component';
-        $row->link      = 'index.php?option=com_content&view=' . $taskLink . '&id=' . $id;
-        $row->published = 1;
-        $row->language  = '*';
-
-        $row->component_id = $this->getExtensionId('com_content');
-
-        $params                          = [];
-        $params['display_num']           = 10;
-        $params['show_headings']         = 1;
-        $params['show_date']             = 0;
-        $params['date_format']           = '';
-        $params['filter']                = 1;
-        $params['filter_type']           = 'title';
-        $params['orderby_sec']           = '';
-        $params['show_pagination']       = 1;
-        $params['show_pagination_limit'] = 1;
-        $params['show_noauth']           = '';
-        $params['show_title']            = '';
-        $params['link_titles']           = '';
-        $params['show_intro']            = '';
-        $params['show_section']          = '';
-        $params['link_section']          = '';
-        $params['show_category']         = '';
-        $params['link_category']         = '';
-        $params['show_author']           = '';
-        $params['show_create_date']      = '';
-        $params['show_modify_date']      = '';
-        $params['show_item_navigation']  = '';
-        $params['show_readmore']         = '';
-        $params['show_vote']             = '';
-        $params['show_icons']            = '';
-        $params['show_pdf_icon']         = '';
-        $params['show_print_icon']       = '';
-        $params['show_email_icon']       = '';
-        $params['show_hits']             = '';
-        $params['feed_summary']          = '';
-        $params['page_title']            = '';
-        $params['show_page_title']       = 1;
-        $params['pageclass_sfx']         = '';
-        $params['menu_image']            = '';
-        $params['secure']                = 0;
-
-        $registry = new Registry();
-        $registry->loadArray($params);
-        $row->params = (string)$registry;
-
-        $row->setLocation($row->parent_id, 'last-child');
-
-        if (!$row->check()) {
-            echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
-
-            exit();
-        }
-
-        if (!$row->store()) {
-            echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
-
-            exit();
+                ];
+                if ($model->save($data) == false) {
+                    Factory::getApplication()->enqueueMessage(
+                        sprintf(
+                            '%s. %s (%s): %s',
+                            $index,
+                            $title,
+                            $alias,
+                            $model->getError()
+                        ));
+                }
+            }
         }
     }
 
     /**
      * @return array
+     * @throws Exception
      */
     public function getPostData(): array
     {
         $input = Factory::getApplication()->input;
 
-        $post = $input->getArray([
+        return $input->getArray([
             'title'            => 'array',
             'alias'            => 'array',
             'introtext'        => 'array',
@@ -200,12 +138,11 @@ class OSContentModelContent extends OscontentModelAdmin
             'menuselect'       => 'int',
             'featured'         => 'int'
         ]);
-
-        return $post;
     }
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function validate($form, $data, $group = null)
     {
@@ -214,6 +151,7 @@ class OSContentModelContent extends OscontentModelAdmin
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function save($data)
     {
@@ -306,12 +244,16 @@ class OSContentModelContent extends OscontentModelAdmin
 
             if ($model->save($newArticle) == false) {
                 $errors[] = sprintf(
-                    '%02d. %s/%s: %s',
+                    '%02d. %s (%s): %s',
                     $index + 1,
                     $newArticle['title'],
                     $newArticle['alias'],
                     $model->getError()
                 );
+
+            } elseif (empty($data['menuselect']) == false) {
+                $newArticle['id'] = $model->getState('article.id');
+                $this->menuLink($data['menuselect'], $newArticle, $index);
             }
         }
 
@@ -319,15 +261,29 @@ class OSContentModelContent extends OscontentModelAdmin
             Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'warning');
         }
 
-        /*
-        for ($i = 0; $i < count($post["title"]); $i++) {
-            if (@$post["addMenu"] === 1 || @$post['addMenu'] === 'on') {
-                $type = "content_item_link";
-                $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
-            }
-        }
-        */
-
         return true;
+    }
+
+    /**
+     * @return MenusModelItem
+     */
+    protected function getMenuModel()
+    {
+        if (Version::MAJOR_VERSION < 4) {
+            $path = JPATH_ADMINISTRATOR . '/components/com_menus';
+            BaseDatabaseModel::addIncludePath($path . '/models');
+            Table::addIncludePath($path . '/tables');
+
+            /** @var MenusModelItem $model */
+            $model = BaseDatabaseModel::getInstance('Item', 'MenusModel');
+
+        } else {
+            /*
+            $model = Factory::getApplication()->bootComponent('com_content')
+                ->getMVCFactory()->createModel($name, $appName, $options);
+            */
+        }
+
+        return $model;
     }
 }
