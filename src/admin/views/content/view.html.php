@@ -36,12 +36,18 @@ class OSContentViewContent extends OscontentViewAdmin
     protected $options = null;
 
     /**
+     * @var Registry
+     */
+    protected $formData = null;
+
+    /**
      * @inheritDoc
      */
     public function display($tpl = null)
     {
-        $this->model = $this->getModel();
-        $this->form = $this->model->getForm();
+        $this->model    = $this->getModel();
+        $this->form     = $this->model->getForm();
+        $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.content.data'));
 
         $this->setOptions();
 

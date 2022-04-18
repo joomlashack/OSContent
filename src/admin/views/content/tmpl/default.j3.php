@@ -99,7 +99,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                    maxlength="255"
                                                    id="<?php echo $titleId; ?>"
                                                    name="title[]"
-                                                   value="<?php echo(@$post["title"][$row]); ?>">
+                                                   value="<?php echo $this->formData->get('title.' . $row); ?>">
                                         </div>
                                         <?php
                                         if ($displayAlias) :
@@ -113,7 +113,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                    maxlength="255"
                                                    id="<?php echo $aliasId; ?>"
                                                    name="alias[]"
-                                                   value="<?php echo(@$post["alias"][$i - 1]); ?>"
+                                                   value="<?php echo $this->formData->get('alias.' . $row); ?>"
                                                    placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
                                         <?php endif;
                                         ?>
@@ -132,7 +132,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         if ($wysiwyg) :
                                             echo $editor->display(
                                                 'introtext[]',
-                                                @$post[$introTextId],
+                                                $this->formData->get('introtext.' . $row),
                                                 null,
                                                 null,
                                                 null,
@@ -145,7 +145,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                       name="introtext[]"
                                                       rows="4"
                                                       cols="35"
-                                                      class="span12"><?php echo(@$post[$introTextId]); ?></textarea>
+                                                      class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
                                         <?php endif; ?>
                                     </td>
                                 <?php endif; ?>
@@ -162,7 +162,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         if ($wysiwyg):
                                             echo $editor->display(
                                                 'fulltext[]',
-                                                @$post[$fullTextId],
+                                                $this->formData->get('fulltext.' . $row),
                                                 null,
                                                 null,
                                                 null,
@@ -175,7 +175,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                       name="fulltext[]"
                                                       rows="4"
                                                       cols="35"
-                                                      class="span12"><?php echo(@$post[$fullTextId]); ?></textarea>
+                                                      class="span12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
                                         <?php endif; ?>
                                     </td>
                                 <?php endif; ?>

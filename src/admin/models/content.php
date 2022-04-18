@@ -21,10 +21,11 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Joomla\CMS\Factory;
+use Alledia\Framework\Factory;
+use Alledia\Framework\Helper;
 use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Version;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Content as ContentTable;
 use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die();
@@ -49,6 +50,16 @@ class OSContentModelContent extends OscontentModelAdmin
         );
 
         return $form;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function loadFormData()
+    {
+        $data = Factory::getApplication()->getUserState('com_oscontent.edit.content.data', []);
+
+        return $data;
     }
 
     /**
@@ -108,7 +119,7 @@ class OSContentModelContent extends OscontentModelAdmin
 
         $row->component_id = $this->getExtensionId('com_content');
 
-        $params                          = array();
+        $params                          = [];
         $params['display_num']           = 10;
         $params['show_headings']         = 1;
         $params['show_date']             = 0;
@@ -168,34 +179,27 @@ class OSContentModelContent extends OscontentModelAdmin
      */
     public function getPostData(): array
     {
-        $input  = Factory::getApplication()->input;
+        $input = Factory::getApplication()->input;
 
         $post = $input->getArray([
-            'title'            => 'ARRAY',
-            'alias'            => 'ARRAY',
-            'published'        => 'STRING',
-            'access'           => 'INT',
-            'created_by'       => 'INT',
-            'created_by_alias' => 'STRING',
-            'created'          => 'DATE',
-            'catid'            => 'INT',
-            'publish_up'       => 'DATE',
-            'publish_down'     => 'DATE',
-            'metadesc'         => 'ARRAY',
-            'metakey'          => 'ARRAY',
-            'addMenu'          => 'INT',
-            'menuselect'       => 'STRING',
-            'menuselect3'      => 'STRING',
-            'featured'         => 'INT'
+            'title'            => 'array',
+            'alias'            => 'array',
+            'introtext'        => 'array',
+            'fulltext'         => 'array',
+            'state'            => 'int',
+            'access'           => 'int',
+            'created_by'       => 'int',
+            'created_by_alias' => 'string',
+            'created'          => 'date',
+            'catid'            => 'int',
+            'publish_up'       => 'date',
+            'publish_down'     => 'date',
+            'metadesc'         => 'array',
+            'metakey'          => 'array',
+            'addmenu'          => 'int',
+            'menuselect'       => 'int',
+            'featured'         => 'int'
         ]);
-
-        if (empty($post['title']) == false) {
-            for ($i = 0; $i < count($post["title"]); $i++) {
-                $index                       = $i + 1;
-                $post['introtext_' . $index] = $input->get('introtext_' . $index, '', 'raw');
-                $post['fulltext_' . $index]  = $input->get('fulltext_' . $index, '', 'raw');
-            }
-        }
 
         return $post;
     }
@@ -203,152 +207,126 @@ class OSContentModelContent extends OscontentModelAdmin
     /**
      * @inheritDoc
      */
+    public function validate($form, $data, $group = null)
+    {
+        return $this->getPostData();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function save($data)
     {
+        /**
+         * @var ContentModelArticle $model
+         * @var ContentTable        $table
+         */
+        $model = Helper::getContentModel('Article', 'Administrator');
+        $table = $model->getTable();
 
-        $post = $this->getPostData();
+        $metadata = array_filter([
+            empty($post['robots']) ? '' : 'robots=' . $post['robots'],
+            empty($author) ? '' : 'author=' . $author
+        ]);
 
-        for ($i = 0; $i < count($post["title"]); $i++) {
-            $index = $i + 1;
+        if (empty($metadata)) {
+            $metadata = [
+                'robots=',
+                'author='
+            ];
+        }
+        $metadata = join("\n", $metadata);
 
-            if ($post["title"][$i] == "") {
+        $commonData = array_filter([
+            'featured'         => (int)$data['featured'],
+            'created_by'       => $data['created_by'] ?? '',
+            'created_by_alias' => $data['created_by_alias'] ?? '',
+            'state'            => (int)$data['state'],
+            'catid'            => (int)$data['catid'] ?: 0,
+            'access'           => (int)$data['access'] ?: '',
+            'language'         => '*',
+            'metadata'         => $metadata,
+            'created'          => empty($data['created'])
+                ? ''
+                : Factory::getDate($data['created'])->toSql(),
+            'publish_up'       => empty($data['publish_up'])
+                ? ''
+                : Factory::getDate($data['publish_up'])->toSql(),
+            'publish_down'     => empty($data['publish_down'])
+                ? ''
+                : Factory::getDate($data['publish_down'])->toSql(),
+        ]);
+
+        $newArticles = [];
+        $errors      = [];
+        foreach ($data['title'] as $index => $title) {
+            if (empty($title)) {
                 continue;
             }
-            $row = $this->getTable();
 
-            $row->title = $post["title"][$i];
+            $alias = $data['alias'][$index] ?: $title;
 
-            if ($post["alias"][$i]) {
-                $row->alias = JFilterOutput::stringURLSafe($post["alias"][$i]);
-            } else {
-                $row->alias = JFilterOutput::stringURLSafe($row->title);
+            $currentArticle = [
+                'title'     => $title,
+                'alias'     => OutputFilter::stringURLSafe($alias),
+                'introtext' => $data['introtext'][$index] ?? '',
+                'fulltext'  => $data['fulltext'][$index] ?? '',
+            ];
+
+            foreach ($commonData as $property => $value) {
+                $currentArticle[$property] = $value;
             }
 
-            if (trim(str_replace('-', '', $row->alias)) == '') {
-                $row->alias = JFactory::getDate()->format('Y-m-d-H-i-s') . "-" . $i;
+            if (
+                $table->load([
+                    'alias' => $currentArticle['alias'],
+                    'catid' => $currentArticle['catid']
+                ])
+            ) {
+                $errors[] = sprintf(
+                    '%02d. %s: %s',
+                    $index + 1,
+                    $currentArticle['alias'],
+                    Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS')
+                );
+
+                continue;
             }
 
-            $intro_text      = $post['introtext_' . $index];
-            $full_text       = $post['fulltext_' . $index];
-            $row->introtext  = ($intro_text != "" ? $intro_text : $full_text);
-            $row->fulltext   = ($intro_text != "" ? $full_text : "");
-            $row->metakey    = $post["metakey"][$i];
-            $row->metadesc   = $post["metadesc"][$i];
-            $row->catid      = $post["catid"];
-            $row->access     = $post["access"];
-            $row->language   = "*";
-            $row->created_by = $post["created_by"];
-            if (Version::MAJOR_VERSION == 4) {
-                $row->images      = '{"image_intro":"","image_intro_alt":"","float_intro":"","image_intro_caption":"","image_fulltext":"","image_fulltext_alt":"","float_fulltext":"","image_fulltext_caption":""}';
-                $row->urls        = '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}';
-                $row->attribs     = '{"article_layout":"","show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_page_title":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}';
-                $row->modified    = JFactory::getDate()->format('Y-m-d-H-i-s');
-                $row->modified_by = $post['created_by'];
+            $newArticles[$index] = $currentArticle;
+        }
+
+        if ($errors) {
+            $this->setError('<br>' . join('<br>', $errors));
+            return false;
+        }
+
+        foreach ($newArticles as $index => $newArticle) {
+            $model->setState('article.id', null);
+
+            if ($model->save($newArticle) == false) {
+                $errors[] = sprintf(
+                    '%02d. %s/%s: %s',
+                    $index + 1,
+                    $newArticle['title'],
+                    $newArticle['alias'],
+                    $model->getError()
+                );
             }
+        }
 
-            if (isset($post["created_by_alias"])) {
-                $row->created_by_alias = $post["created_by_alias"];
-            }
+        if ($errors) {
+            Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'warning');
+        }
 
-            $robots = isset($post["robots"]) ? $post["robots"] : "";
-            $author = $post["created_by"];
-
-            // TODO: implement the metadata/robots
-            $row->metadata = "";
-            if ($robots != "") {
-                $row->metadata = "robots=" . $robots . "\n";
-            }
-            // TODO: implement the author_alias
-            if ($author != "") {
-                $row->metadata .= "author=" . $author;
-            }
-
-            if ($row->metadata == "") {
-                $row->metadata = "robots=
-                                  author=";
-            }
-
-            if ($post["created"]) {
-                $row->created = JFactory::getDate($post["created"]);
-
-                $row->created = $row->created->toSQL();
-            }
-
-            if ($post["publish_up"]) {
-                $row->publish_up = JFactory::getDate($post["publish_up"]);
-
-                $row->publish_up = $row->publish_up->toSQL();
-            }
-
-            if ($post["publish_down"] && trim($post["publish_down"]) != JText::_('COM_OSCONTENT_NEVER')) {
-                $row->publish_down = JFactory::getDate($post["publish_down"]);
-
-                $row->publish_down = $row->publish_down->toSQL();
-
-            } elseif (trim($post["publish_down"]) == JText::_('COM_OSCONTENT_NEVER')) {
-                $post["publish_down"] = JFactory::getDBO()->getNullDate();
-
-                $row->publish_down = JFactory::getDate($post["publish_down"]);
-
-                $row->publish_down = $row->publish_down->toSQL();
-            }
-
-            // Handle state
-            if (isset($post["published"]) && $post["published"]) {
-                $row->state = 1;
-            } else {
-                $row->state = 0;
-            }
-
-            $table = JTable::getInstance('Content', 'Table');
-
-            $params = array(
-                'alias' => $row->alias,
-                'catid' => $row->catid
-            );
-
-            if ((bool)$post['featured']) {
-                $row->featured = 1;
-            }
-
-            if ($table->load($params) && ($table->id != $row->id || $row->id == 0)) {
-                throw new Exception(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS') . ": " . $row->alias, 500);
-            }
-
-            $articleData = $row->getProperties();
-
-            $model = \Alledia\Framework\Helper::getContentModel('article', 'Administrator');
-
-            if (!$model->save((array)$row)) {
-                return false;
-            }
-            $row->id = $model->getState('article.id');
-
-            // $row->reorder('catid = ' . (int)$row->catid . ' AND state >= 0');
-
+        /*
+        for ($i = 0; $i < count($post["title"]); $i++) {
             if (@$post["addMenu"] === 1 || @$post['addMenu'] === 'on') {
                 $type = "content_item_link";
                 $this->menuLink($row->id, $row->title, @$post["menuselect"], $type, @$post["menuselect3"], $row->alias);
             }
-
-            if ((bool)$post['featured']) {
-                $db = JFactory::getDBO();
-                $fp = new ContentTableFeatured($db);
-
-                // Is the item already viewable on the frontpage?
-                // Insert the new entry
-                $query = 'INSERT INTO #__content_frontpage' .
-                    ' VALUES (' . (int)$row->id . ', 1)';
-                $db->setQuery($query);
-
-                if (!$db->query()) {
-                    throw new Exception($db->stderr(), 500);
-                }
-
-                $fp->ordering = 1;
-                $fp->reorder();
-            }
         }
+        */
 
         return true;
     }

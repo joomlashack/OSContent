@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="options">
-        <field name="published"
+        <field name="state"
                type="radio"
                class="btn-group btn-broup-yesno"
                label="COM_OSCONTENT_PUBLISHED"
