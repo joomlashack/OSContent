@@ -188,11 +188,18 @@ $editor = Editor::getInstance($this->app->get('editor'));
                 <fieldset>
                     <legend><?php echo Text::_('COM_OSCONTENT_OPTIONS'); ?></legend>
                     <div class="control-group">
-                        <span class="hasTooltip"
-                              title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP'); ?>">
-                            <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE'); ?>
-                        </span>
-                        <button id="duplicateText" type="button" class="btn btn-primary">Copy</button>
+                        <div class="control-label">
+                            <label id="duplicateText-lbl" class="hasTooltip"
+                                   title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP'); ?>">
+                                <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE'); ?>
+                            </label>
+                        </div>
+                        <div class="controls">
+                            <fieldset class="btn-group radio">
+                                <a id="duplicateText" type="button" class="btn btn-success">Copy</a>
+                                <a id="clearText" type="button" class="btn btn-danger">Clear</a>
+                            </fieldset>
+                        </div>
                     </div>
 
                     <?php echo $this->form->renderFieldset('options'); ?>

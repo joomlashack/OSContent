@@ -42,6 +42,7 @@
     <media destination="com_oscontent" folder="media">
         <folder>css</folder>
         <folder>images</folder>
+        <folder>js</folder>
     </media>
 
     <updateservers>
