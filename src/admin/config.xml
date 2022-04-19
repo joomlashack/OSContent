@@ -21,7 +21,7 @@
                default="0"
                label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL"
                description="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_DESC">
-            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
+            <option value="0">JHIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW_FIRST</option>
             <option value="2">COM_OSCONTENT_OPTION_SHOW_ALL</option>
         </field>
@@ -33,8 +33,8 @@
                default="1"
                label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL"
                description="COM_OSCONTENT_PARAM_DISPLAYALIAS_DESC">
-            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
-            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
 
         <field name="displayIntroText"
@@ -44,8 +44,8 @@
                default="1"
                label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
                description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
-            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
-            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
 
         <field name="displayFullText"
@@ -55,8 +55,8 @@
                default="1"
                label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL"
                description="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_DESC">
-            <option value="0">COM_OSCONTENT_OPTION_HIDE</option>
-            <option value="1">COM_OSCONTENT_OPTION_SHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
 
         <field type="customfooter"
