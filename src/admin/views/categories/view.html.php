@@ -40,7 +40,9 @@ class OSContentViewCategories extends OscontentViewAdmin
      */
     public function display($tpl = null)
     {
-        $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.content.data'));
+        $this->model    = $this->getModel();
+        $this->form     = $this->model->getForm();
+        $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.categories.data'));
 
         $this->addToolbar();
 

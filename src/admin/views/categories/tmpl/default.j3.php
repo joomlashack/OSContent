@@ -113,7 +113,6 @@ HTMLHelper::_('formbehavior.chosen', 'select');
                                                placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
                                     </div>
                                 </td>
-
                             </tr>
                         <?php endfor; ?>
                     </table>
