@@ -139,7 +139,7 @@ class OSContentModelContent extends OscontentModelAdmin
      */
     public function getPostData(): array
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->input->post;
 
         return $input->getArray([
             'title'            => 'array',
@@ -180,28 +180,15 @@ class OSContentModelContent extends OscontentModelAdmin
         $model = $this->getModel();
         $table = $model->getTable();
 
-        $metadata = array_filter([
-            empty($post['robots']) ? '' : 'robots=' . $post['robots'],
-            empty($author) ? '' : 'author=' . $author
-        ]);
-
-        if (empty($metadata)) {
-            $metadata = [
-                'robots=',
-                'author='
-            ];
-        }
-        $metadata = join("\n", $metadata);
-
         $commonData = array_filter([
             'featured'         => (int)$data['featured'],
-            'created_by'       => $data['created_by'] ?? '',
-            'created_by_alias' => $data['created_by_alias'] ?? '',
+            'created_by'       => $data['created_by'] ?: null,
+            'created_by_alias' => $data['created_by_alias'] ?: null,
             'state'            => (int)$data['state'],
-            'catid'            => (int)$data['catid'] ?: 0,
-            'access'           => (int)$data['access'] ?: '',
+            'catid'            => (int)$data['catid'],
+            'access'           => (int)$data['access'],
             'language'         => '*',
-            'metadata'         => $metadata,
+            'note'             => Text::_('COM_OSCONTENT_NOTE_CREATEDBY'),
             'created'          => empty($data['created'])
                 ? ''
                 : Factory::getDate($data['created'])->toSql(),
@@ -222,16 +209,14 @@ class OSContentModelContent extends OscontentModelAdmin
 
             $alias = $data['alias'][$index] ?: $title;
 
-            $currentArticle = [
-                'title'     => $title,
-                'alias'     => OutputFilter::stringURLSafe($alias),
-                'introtext' => $data['introtext'][$index] ?? '',
-                'fulltext'  => $data['fulltext'][$index] ?? '',
-            ];
-
-            foreach ($commonData as $property => $value) {
-                $currentArticle[$property] = $value;
-            }
+            $currentArticle = array_merge(
+                $commonData,
+                [
+                    'title'     => $title,
+                    'alias'     => OutputFilter::stringURLSafe($alias),
+                    'introtext' => $data['introtext'][$index] ?? '',
+                    'fulltext'  => $data['fulltext'][$index] ?? '',
+                ]);
 
             if (
                 $table->load([
