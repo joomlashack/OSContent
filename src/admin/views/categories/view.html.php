@@ -21,46 +21,45 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
-
-/**
- * Mass Category View
- *
- * @since  1.0.0
- */
-class OSContentViewCategories extends OSView
+class OSContentViewCategories extends OscontentViewAdmin
 {
-    protected $params;
-    protected $lists;
+    /**
+     * @var Registry
+     */
+    protected $formData = null;
 
     /**
-     * Method to display the view
-     *
-     * @param   string $tpl Template file
-     *
-     * @access    public
-     * @return  void
+     * @inheritDoc
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_OSCONTENT_MASS_CATEGORIES'), 'oscontent.png');
-        JToolBarHelper::apply("categories.save");
-//        JToolbarHelper::cancel('categories.cancel');
-        JToolBarHelper::divider();
-        JToolBarHelper::spacer();
-        JToolBarHelper::preferences('com_oscontent');
+        $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.content.data'));
 
-        // Get component params
-        $params = JComponentHelper::getParams('com_oscontent');
+        $this->addToolbar();
 
-        // Get data
-        $lists = $this->get('Data');
-
-        $this->params = $params;
-        $this->lists  = $lists;
+        OscontentHelper::addSubmenu('categories');
+        $this->sidebar = Sidebar::render();
 
         parent::display($tpl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function addToolbar(?string $title = null, ?string $icon = 'folder')
+    {
+        ToolbarHelper::apply('categories.save');
+        ToolbarHelper::cancel('categories.cancel');
+
+        $title = $title ?: Text::_('COM_OSCONTENT_MASS_CATEGORIES');
+
+        parent::addToolbar($title, $icon);
     }
 }

@@ -21,57 +21,42 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die();
-
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
 
 /**
  * Model Categories
  *
  * @since  1.0.0
  */
-class OSContentModelCategories extends OSModelAbstract
+class OSContentModelCategories extends OscontentModelAdmin
 {
     /**
-     * @var    string  The prefix to use with controller messages.
-     * @since  1.6
+     * @inheritdoc
      */
     protected $text_prefix = 'COM_OSCONTENT_CATEGORIES';
 
     /**
-     * Model context string.
-     *
-     * @var  string
+     * @inheritDoc
      */
-    protected $_context = 'com_oscontent.categories';
-
-    /**
-     * Get the form
-     *
-     * @param   array $data     Data
-     * @param   bool  $loadData Load data
-     *
-     * @access    public
-     * @since     1.0.0
-     *
-     * @return  Form
-     */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
-        $form = $this->loadForm(
+        return $this->loadForm(
             'com_oscontent.categories',
             'categories',
-            array('control' => 'jform', 'load_data' => $loadData)
+            ['load_data' => $loadData]
         );
+    }
 
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    protected function loadFormData()
+    {
+        return Factory::getApplication()->getUserState('com_oscontent.edit.categories.data', []);
     }
 
     /**
@@ -88,30 +73,19 @@ class OSContentModelCategories extends OSModelAbstract
         $options = array();
 
         try {
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true);
+            $db    = Factory::getDbo();
 
-            $query->select('a.id AS value, a.title AS text, a.level');
-            $query->from('#__categories AS a');
-            $query->join('LEFT', '`#__categories` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+            $query = $db->getQuery(true)
+                ->select([
+                    'a.id AS value',
+                    'a.title AS text',
+                    'a.level'
+                ])
+                ->from('#__categories AS a')
+            ->leftJoin('`#__categories` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
             $extension = "com_content";
             $query->where('(a.extension = "com_content" OR a.parent_id = 0)');
-
-            /*
-            // Prevent parenting to children of this item.
-            if ($id = $this->form->getValue('id')) {
-                $query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
-                $query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
-
-                $rowQuery   = $db->getQuery(true);
-                $rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
-                $rowQuery->from('#__categories AS a');
-                $rowQuery->where('a.id = ' . (int) $id);
-                $db->setQuery($rowQuery);
-                $row = $db->loadObject();
-            }
-            */
 
             $query->where('a.published IN (0,1)');
             $query->group('a.id');
