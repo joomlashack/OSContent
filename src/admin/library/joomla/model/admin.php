@@ -21,7 +21,13 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Version;
 
 defined('_JEXEC') or die();
@@ -49,5 +55,64 @@ abstract class OscontentModelAdmin extends AdminModel
         }
 
         return $model;
+    }
+
+    /**
+     * @param int      $menuId
+     * @param string[] $linkVars
+     * @param string   $title
+     * @param string   $alias
+     * @param int      $index
+     *
+     * @return void
+     * @throws Exception
+     */
+    protected function menuLink(int $menuId, array $linkVars, string $title, string $alias, int $index)
+    {
+        if ($menuId) {
+            try {
+                $title = stripslashes(OutputFilter::ampReplace($title));
+                $alias = $alias ?: $title;
+
+                $option    = $linkVars['option'] ?? null;
+                $component = $option ? ComponentHelper::getComponent($option) : null;
+
+                if ($component && $title && $alias) {
+                    $menus      = AbstractMenu::getInstance('site');
+                    $parentMenu = $menus->getItem($menuId);
+
+                    $model = $this->getMenuModel();
+                    $model->setState('menu.id');
+
+                    $data = [
+                        'menutype'     => $parentMenu->menutype,
+                        'title'        => $title,
+                        'alias'        => OutputFilter::stringURLSafe($alias),
+                        'link'         => 'index.php?' . http_build_query($linkVars),
+                        'type'         => 'component',
+                        'component_id' => $component->id,
+                        'parent_id'    => $parentMenu->id,
+                        'component'    => $option,
+                        'published'    => 1,
+                        'language'     => '*'
+
+                    ];
+                    if ($model->save($data) == false) {
+                        throw new Exception($model->getError());
+                    }
+                }
+            } catch (Throwable $error) {
+                Factory::getApplication()->enqueueMessage(
+                    sprintf(
+                        '%s. %s (%s): %s',
+                        $index,
+                        $title,
+                        $alias,
+                        $error->getMessage()
+                    ),
+                    'warning'
+                );
+            }
+        }
     }
 }

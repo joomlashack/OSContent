@@ -23,10 +23,8 @@
 
 use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Component\Content\Site\Model\ArticleModel;
 
 defined('_JEXEC') or die();
@@ -82,55 +80,6 @@ class OSContentModelContent extends OscontentModelAdmin
     public function getTable($name = '', $prefix = 'Table', $options = [])
     {
         return $this->getModel()->getTable();
-    }
-
-    /**
-     * @param int   $menuId
-     * @param array $article
-     * @param int   $index
-     *
-     * @return void
-     * @throws Exception
-     */
-    protected function menuLink(int $menuId, array $article, int $index)
-    {
-        if ($menuId) {
-            $articleId = $article['id'] ?? null;
-            $title     = stripslashes(OutputFilter::ampReplace($article['title'] ?? null));
-            $alias     = $article['alias'] ?? $title;
-
-            if ($articleId && $title && $alias) {
-                $menus      = AbstractMenu::getInstance('site');
-                $parentMenu = $menus->getItem($menuId);
-
-                $model = $this->getMenuModel();
-                $model->setState('menu.id');
-
-                $data = [
-                    'menutype'     => $parentMenu->menutype,
-                    'title'        => $title,
-                    'alias'        => OutputFilter::stringURLSafe($alias),
-                    'link'         => 'index.php?option=com_content&view=article&id=' . $articleId,
-                    'type'         => 'component',
-                    'component_id' => ComponentHelper::getComponent('com_content')->id,
-                    'parent_id'    => $parentMenu->id,
-                    'component'    => 'com_content',
-                    'published'    => 1,
-                    'language'     => '*'
-
-                ];
-                if ($model->save($data) == false) {
-                    Factory::getApplication()->enqueueMessage(
-                        sprintf(
-                            '%s. %s (%s): %s',
-                            $index,
-                            $title,
-                            $alias,
-                            $model->getError()
-                        ));
-                }
-            }
-        }
     }
 
     /**
@@ -239,24 +188,42 @@ class OSContentModelContent extends OscontentModelAdmin
 
         if ($errors) {
             $this->setError('<br>' . join('<br>', $errors));
+
             return false;
         }
 
         foreach ($newArticles as $index => $newArticle) {
-            $model->setState('article.id', null);
+            try {
+                $model->setState('article.id', null);
 
-            if ($model->save($newArticle) == false) {
-                $errors[] = sprintf(
-                    '%02d. %s (%s): %s',
-                    $index + 1,
-                    $newArticle['title'],
-                    $newArticle['alias'],
-                    $model->getError()
-                );
+                if ($model->save($newArticle) == false) {
+                    throw new Exception(
+                        sprintf(
+                        '%02d. %s (%s): %s',
+                        $index + 1,
+                        $newArticle['title'],
+                        $newArticle['alias'],
+                        $model->getError()
+                    )
+                    );
 
-            } elseif (empty($data['menuselect']) == false) {
-                $newArticle['id'] = $model->getState('article.id');
-                $this->menuLink($data['menuselect'], $newArticle, $index);
+                } elseif (empty($data['menuselect']) == false) {
+                    $newArticle['id'] = $model->getState('article.id');
+                    $this->menuLink(
+                        $data['menuselect'],
+                        [
+                            'option' => 'com_content',
+                            'view'   => 'article',
+                            'id'     => $newArticle['id']
+                        ],
+                        $newArticle['title'],
+                        $newArticle['alias'],
+                        $index
+                    );
+                }
+
+            } catch (Throwable $error) {
+                $errors[] = $error->getMessage();
             }
         }
 
