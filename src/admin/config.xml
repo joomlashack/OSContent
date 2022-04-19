@@ -5,15 +5,13 @@
               addfieldpath="/administrator/components/com_oscontent/form/fields/">
 
         <field name="nbOSContent"
-               type="text"
-               size="5"
+               type="number"
                default="10"
                label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"
                description="COM_OSCONTENT_PARAM_NBMASSCONTENT_DESC"/>
 
         <field name="nbOSCategories"
-               type="text"
-               size="5"
+               type="number"
                default="10"
                label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"
                description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
