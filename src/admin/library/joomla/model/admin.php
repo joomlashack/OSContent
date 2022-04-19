@@ -22,31 +22,32 @@
  */
 
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Version;
 
 defined('_JEXEC') or die();
 
 abstract class OscontentModelAdmin extends AdminModel
 {
     /**
-     * Get the extension id
-     *
-     * @param string  $extension
-     * @param ?string $type
-     *
-     * @return int
+     * @return MenusModelItem
      */
-    protected function getExtensionId(string $extension, ?string $type = 'component'): int
+    protected function getMenuModel()
     {
-        $db = $this->getDbo();
+        if (Version::MAJOR_VERSION < 4) {
+            $path = JPATH_ADMINISTRATOR . '/components/com_menus';
+            BaseDatabaseModel::addIncludePath($path . '/models');
+            Table::addIncludePath($path . '/tables');
 
-        $query = $db->getQuery(true)
-            ->select('extension_id')
-            ->from('#__extensions')
-            ->where([
-                'element = ' . $db->quote($extension),
-                'type = ' . $db->quote($type)
-            ]);
+            /** @var MenusModelItem $model */
+            $model = BaseDatabaseModel::getInstance('Item', 'MenusModel');
 
-        return (int)$db->setQuery($query)->loadResult();
+        } else {
+            /*
+            $model = Factory::getApplication()->bootComponent('com_content')
+                ->getMVCFactory()->createModel($name, $appName, $options);
+            */
+        }
+
+        return $model;
     }
 }

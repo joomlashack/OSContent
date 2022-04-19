@@ -31,11 +31,6 @@ defined('_JEXEC') or die();
 class OSContentViewContent extends OscontentViewAdmin
 {
     /**
-     * @var string[]
-     */
-    protected $options = null;
-
-    /**
      * @var Registry
      */
     protected $formData = null;
@@ -48,8 +43,6 @@ class OSContentViewContent extends OscontentViewAdmin
         $this->model    = $this->getModel();
         $this->form     = $this->model->getForm();
         $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.content.data'));
-
-        $this->setOptions();
 
         $this->addToolbar();
 
@@ -69,24 +62,5 @@ class OSContentViewContent extends OscontentViewAdmin
         $title = $title ?: Text::_('COM_OSCONTENT_CREATE_CONTENT');
 
         parent::addToolbar($title, $icon);
-    }
-
-    /**
-     * @return void
-     */
-    protected function setOptions()
-    {
-        if ($this->options === null) {
-            $this->options = [
-                'contentRows'      => $this->params->get('nbOSContent'),
-                'displayAlias'     => (bool)$this->params->get('displayAlias'),
-                'displayIntroText' => (bool)$this->params->get('displayIntroText'),
-                'displayFullText'  => (bool)$this->params->get('displayFullText'),
-                'displayWysiwyg'   => (int)$this->params->get('displayWysiwyg')
-            ];
-            foreach ($this->options as $key => $value) {
-                $this->document->addScriptOptions('oscontent.' . $key, $value);
-            }
-        }
     }
 }

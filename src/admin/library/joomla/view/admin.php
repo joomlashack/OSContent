@@ -38,6 +38,11 @@ abstract class OscontentViewAdmin extends AbstractForm
     protected $params = null;
 
     /**
+     * @var string[]
+     */
+    protected $options = null;
+
+    /**
      * @var string
      */
     protected $sidebar = null;
@@ -47,6 +52,8 @@ abstract class OscontentViewAdmin extends AbstractForm
      */
     protected function setup()
     {
+        parent::setup();
+
         $this->params = ComponentHelper::getParams('com_oscontent');
 
         // Check and set defaults
@@ -68,7 +75,7 @@ abstract class OscontentViewAdmin extends AbstractForm
             }
         }
 
-        parent::setup();
+        $this->setOptions();
     }
 
     /**
@@ -86,6 +93,26 @@ abstract class OscontentViewAdmin extends AbstractForm
         $user = Factory::getUser();
         if ($user->authorise('core.admin', 'com_oscontent')) {
             ToolbarHelper::preferences('com_oscontent');
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function setOptions()
+    {
+        if ($this->options === null) {
+            $this->options = [
+                'contentRows'      => $this->params->get('nbOSContent'),
+                'categoryRows'     => $this->params->get('nbOSCategories'),
+                'displayAlias'     => (bool)$this->params->get('displayAlias'),
+                'displayIntroText' => (bool)$this->params->get('displayIntroText'),
+                'displayFullText'  => (bool)$this->params->get('displayFullText'),
+                'displayWysiwyg'   => (int)$this->params->get('displayWysiwyg')
+            ];
+            foreach ($this->options as $key => $value) {
+                $this->document->addScriptOptions('oscontent.' . $key, $value);
+            }
         }
     }
 }

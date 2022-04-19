@@ -263,27 +263,4 @@ class OSContentModelContent extends OscontentModelAdmin
 
         return true;
     }
-
-    /**
-     * @return MenusModelItem
-     */
-    protected function getMenuModel()
-    {
-        if (Version::MAJOR_VERSION < 4) {
-            $path = JPATH_ADMINISTRATOR . '/components/com_menus';
-            BaseDatabaseModel::addIncludePath($path . '/models');
-            Table::addIncludePath($path . '/tables');
-
-            /** @var MenusModelItem $model */
-            $model = BaseDatabaseModel::getInstance('Item', 'MenusModel');
-
-        } else {
-            /*
-            $model = Factory::getApplication()->bootComponent('com_content')
-                ->getMVCFactory()->createModel($name, $appName, $options);
-            */
-        }
-
-        return $model;
-    }
 }

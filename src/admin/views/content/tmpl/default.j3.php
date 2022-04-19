@@ -46,6 +46,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 extract($this->options);
 /**
  * @var string $contentRows
+ * @var string $categoryRows
  * @var bool   $displayAlias
  * @var bool   $displayIntroText
  * @var bool   $displayFullText
