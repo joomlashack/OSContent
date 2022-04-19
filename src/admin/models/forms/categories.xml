@@ -30,8 +30,8 @@
 
         <field name="link_type"
                type="list"
-               label="">
-            <option value="">COM_OSCONTENT_OPTION_CATEGORY_TYPE_SELECTe</option>
+               label="COM_OSCONTENT_SELECT_MENUTYPE"
+               showon="menuselect!:">
             <option value="category.list">COM_OSCONTENT_OPTION_CATEGORY_TYPE_LIST</option>
             <option value="category.blog">COM_OSCONTENT_OPTION_CATEGORY_TYPE_BLOG</option>
         </field>
