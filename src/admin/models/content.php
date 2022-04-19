@@ -27,10 +27,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Table\Content as ContentTable;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Version;
+use Joomla\Component\Content\Site\Model\ArticleModel;
 
 defined('_JEXEC') or die();
 
@@ -40,6 +37,11 @@ class OSContentModelContent extends OscontentModelAdmin
      * @inheritdoc
      */
     protected $text_prefix = 'COM_OSCONTENT_CONTENT';
+
+    /**
+     * @var ContentModelArticle
+     */
+    protected $contentModel = null;
 
     /**
      * @inheritDoc
@@ -60,6 +62,26 @@ class OSContentModelContent extends OscontentModelAdmin
     protected function loadFormData()
     {
         return Factory::getApplication()->getUserState('com_oscontent.edit.content.data', []);
+    }
+
+    /**
+     * @return ContentModelArticle|ArticleModel
+     */
+    protected function getModel()
+    {
+        if ($this->contentModel === null) {
+            $this->contentModel = Helper::getContentModel('Article', 'Administrator');
+        }
+
+        return $this->contentModel;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTable($name = '', $prefix = 'Table', $options = [])
+    {
+        return $this->getModel()->getTable();
     }
 
     /**
@@ -155,11 +177,7 @@ class OSContentModelContent extends OscontentModelAdmin
      */
     public function save($data)
     {
-        /**
-         * @var ContentModelArticle $model
-         * @var ContentTable        $table
-         */
-        $model = Helper::getContentModel('Article', 'Administrator');
+        $model = $this->getModel();
         $table = $model->getTable();
 
         $metadata = array_filter([
