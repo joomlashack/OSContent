@@ -22,6 +22,7 @@
  */
 
 use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
@@ -48,6 +49,8 @@ class OSContentViewContent extends OscontentViewAdmin
 
         OscontentHelper::addSubmenu('content');
         $this->sidebar = Sidebar::render();
+
+        HTMLHelper::_('script', 'com_oscontent/admin.min.js', ['relative' => true]);
 
         parent::display($tpl);
     }
