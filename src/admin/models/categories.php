@@ -165,7 +165,8 @@ class OSContentModelCategories extends OscontentModelAdmin
                         $data['parent_id'] ?? null,
                         $linkVars,
                         $newCategory['title'],
-                        $newCategory['alias'],
+                        $newCategory['alias'] ?? '',
+                        $newCategory['published'] ?? 0,
                         $index
                     );
                 }

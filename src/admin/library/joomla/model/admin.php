@@ -59,10 +59,11 @@ abstract class OscontentModelAdmin extends AdminModel
 
     /**
      * @param string   $menutype
-     * @param ?int     $menuId
-     * @param string[] $linkVars
+     * @param int|null $menuId
+     * @param array    $linkVars
      * @param string   $title
      * @param string   $alias
+     * @param int      $published
      * @param int      $index
      *
      * @return void
@@ -70,10 +71,11 @@ abstract class OscontentModelAdmin extends AdminModel
      */
     protected function menuLink(
         string $menutype,
-        ?int $menuId,
+        int $menuId,
         array $linkVars,
         string $title,
         string $alias,
+        int $published,
         int $index
     ) {
         if ($menutype) {
@@ -100,7 +102,7 @@ abstract class OscontentModelAdmin extends AdminModel
                         'component_id' => $component->id,
                         'parent_id'    => $parentMenu->id ?? null,
                         'component'    => $option,
-                        'published'    => 1,
+                        'published'    => $published,
                         'language'     => '*'
 
                     ];

@@ -211,14 +211,15 @@ class OSContentModelContent extends OscontentModelAdmin
                     $newArticle['id'] = $model->getState('article.id');
                     $this->menuLink(
                         $data['menutype'],
-                        $data['parent_id'],
+                        $data['parent_id'] ?? 0,
                         [
                             'option' => 'com_content',
                             'view'   => 'article',
                             'id'     => $newArticle['id']
                         ],
                         $newArticle['title'],
-                        $newArticle['alias'],
+                        $newArticle['alias'] ?? '',
+                        $newArticle['published'] ?? 0,
                         $index
                     );
                 }
