@@ -59,7 +59,7 @@ abstract class OscontentModelAdmin extends AdminModel
 
     /**
      * @param string   $menutype
-     * @param int      $menuId
+     * @param ?int     $menuId
      * @param string[] $linkVars
      * @param string   $title
      * @param string   $alias
@@ -70,7 +70,7 @@ abstract class OscontentModelAdmin extends AdminModel
      */
     protected function menuLink(
         string $menutype,
-        int $menuId,
+        ?int $menuId,
         array $linkVars,
         string $title,
         string $alias,
@@ -86,7 +86,7 @@ abstract class OscontentModelAdmin extends AdminModel
 
                 if ($component && $title && $alias) {
                     $menus      = AbstractMenu::getInstance('site');
-                    $parentMenu = $menus->getItem($menuId);
+                    $parentMenu = $menuId ? $menus->getItem($menuId) : null;
 
                     $model = $this->getMenuModel();
                     $model->setState('menu.id');

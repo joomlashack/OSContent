@@ -22,16 +22,24 @@
             <option value="1">JYES</option>
         </field>
 
-        <field name="menuselect"
-               type="menuitem"
-               label="COM_OSCONTENT_LINK_TO_MENU">
+        <field name="menutype"
+               type="menu"
+               clientid="0"
+               label="COM_OSCONTENT_ADD_TO_MENU">
             <option value="">COM_OSCONTENT_OPTION_NONE</option>
+        </field>
+
+        <field name="parent_id"
+               type="menuitem"
+               label="COM_OSCONTENT_CREATE_SUBMENU"
+               showon="menutype!:">
+            <option value="">COM_OSCONTENT_OPTION_MENU_ROOT</option>
         </field>
 
         <field name="link_type"
                type="list"
                label="COM_OSCONTENT_SELECT_MENUTYPE"
-               showon="menuselect!:">
+               showon="menutype!:">
             <option value="category.list">COM_OSCONTENT_OPTION_CATEGORY_TYPE_LIST</option>
             <option value="category.blog">COM_OSCONTENT_OPTION_CATEGORY_TYPE_BLOG</option>
         </field>

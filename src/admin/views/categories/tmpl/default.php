@@ -106,7 +106,7 @@ defined('_JEXEC') or die();
                                     <td>
                                         <div class="control-label"><label><input type="checkbox" name="addMenu"
                                                style="margin-top:0px;" value="1"><?php echo JText::_(
-                                            "COM_OSCONTENT_LINK_TO_MENU"
+                                            "COM_OSCONTENT_ADD_TO_MENU"
                                         ); ?></label></div>
                                         <?php echo $this->lists['menuselect']; ?><?php echo $this->lists['menuselect3']; ?>
                                     </td>
