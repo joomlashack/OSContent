@@ -326,7 +326,7 @@ $createdate = $createdate->toSql();
                     <tr>
                         <td>
                             <div class="control-label"><label><input type="checkbox" name="addMenu" value="1"><?php echo JText::_(
-                                "COM_OSCONTENT_LINK_TO_MENU"
+                                "COM_OSCONTENT_ADD_TO_MENU"
                             ); ?></label></div>
                             <?php echo $this->lists['menuselect']; ?>
                             <?php echo $this->lists['menuselect3']; ?>

@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-document.addEventListener('DOMContentLoaded', function() {
+;
+jQuery(document).ready(function($) {
     let titles     = document.getElementsByName('title[]'),
         aliases    = document.getElementsByName('alias[]'),
         introTexts = document.getElementsByName('introtext[]'),
@@ -91,4 +91,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    /* Manage menutype/menuitem selections when present */
+    $.fn.addChangeListener = function(callback) {
+        if (this.chosen) {
+            this.chosen().on('change', callback);
+
+        } else {
+            this.on('change', callback);
+        }
+
+        return this;
+    };
+
+    let menutype = document.getElementById('menutype'),
+        parentId = document.getElementById('parent_id');
+
+    let updateParentOptions = function(menuName) {
+        parentId.querySelectorAll('optgroup').forEach(function(group) {
+            let currentType = group.getAttribute('label');
+
+            group.querySelectorAll('option').forEach(function(item) {
+                item.disabled = currentType !== menuName;
+            });
+            parentId.value = '';
+
+            let $parentId = $(parentId);
+            if ($parentId.chosen) {
+                $parentId
+                    .val('')
+                    .trigger('chosen:updated')
+                    .trigger('liszt:updated');
+            }
+        });
+    };
+
+    $(menutype).addChangeListener(function(evt) {
+        let $this    = $(this),
+            menuName = this.options[this.selectedIndex].text;
+
+        updateParentOptions(menuName);
+    });
+
+    menutype.dispatchEvent(new CustomEvent('change'));
 });

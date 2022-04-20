@@ -58,6 +58,7 @@ abstract class OscontentModelAdmin extends AdminModel
     }
 
     /**
+     * @param string   $menutype
      * @param int      $menuId
      * @param string[] $linkVars
      * @param string   $title
@@ -67,9 +68,15 @@ abstract class OscontentModelAdmin extends AdminModel
      * @return void
      * @throws Exception
      */
-    protected function menuLink(int $menuId, array $linkVars, string $title, string $alias, int $index)
-    {
-        if ($menuId) {
+    protected function menuLink(
+        string $menutype,
+        int $menuId,
+        array $linkVars,
+        string $title,
+        string $alias,
+        int $index
+    ) {
+        if ($menutype) {
             try {
                 $title = stripslashes(OutputFilter::ampReplace($title));
                 $alias = $alias ?: $title;
@@ -85,13 +92,13 @@ abstract class OscontentModelAdmin extends AdminModel
                     $model->setState('menu.id');
 
                     $data = [
-                        'menutype'     => $parentMenu->menutype,
+                        'menutype'     => $menutype,
                         'title'        => $title,
                         'alias'        => OutputFilter::stringURLSafe($alias),
                         'link'         => 'index.php?' . http_build_query($linkVars),
                         'type'         => 'component',
                         'component_id' => $component->id,
-                        'parent_id'    => $parentMenu->id,
+                        'parent_id'    => $parentMenu->id ?? null,
                         'component'    => $option,
                         'published'    => 1,
                         'language'     => '*'

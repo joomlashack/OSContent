@@ -36,10 +36,18 @@
                extension="com_content"
                label="COM_OSCONTENT_CATEGORY"/>
 
-        <field name="menuselect"
-               type="menuitem"
-               label="COM_OSCONTENT_LINK_TO_MENU">
+        <field name="menutype"
+               type="menu"
+               clientid="0"
+               label="COM_OSCONTENT_ADD_TO_MENU">
             <option value="">COM_OSCONTENT_OPTION_NONE</option>
+        </field>
+
+        <field name="parent_id"
+               type="menuitem"
+               label="COM_OSCONTENT_CREATE_SUBMENU"
+               showon="menutype!:">
+            <option value="">COM_OSCONTENT_OPTION_MENU_ROOT</option>
         </field>
 
         <field name="created"

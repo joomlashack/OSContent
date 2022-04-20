@@ -105,8 +105,8 @@ class OSContentModelContent extends OscontentModelAdmin
             'publish_down'     => 'date',
             'metadesc'         => 'array',
             'metakey'          => 'array',
-            'addmenu'          => 'int',
-            'menuselect'       => 'int',
+            'menutype'         => 'string',
+            'parent_id'        => 'int',
             'featured'         => 'int'
         ]);
     }
@@ -199,18 +199,19 @@ class OSContentModelContent extends OscontentModelAdmin
                 if ($model->save($newArticle) == false) {
                     throw new Exception(
                         sprintf(
-                        '%02d. %s (%s): %s',
-                        $index + 1,
-                        $newArticle['title'],
-                        $newArticle['alias'],
-                        $model->getError()
-                    )
+                            '%02d. %s (%s): %s',
+                            $index + 1,
+                            $newArticle['title'],
+                            $newArticle['alias'],
+                            $model->getError()
+                        )
                     );
 
-                } elseif (empty($data['menuselect']) == false) {
+                } elseif (empty($data['menutype']) == false) {
                     $newArticle['id'] = $model->getState('article.id');
                     $this->menuLink(
-                        $data['menuselect'],
+                        $data['menutype'],
+                        $data['parent_id'],
                         [
                             'option' => 'com_content',
                             'view'   => 'article',
