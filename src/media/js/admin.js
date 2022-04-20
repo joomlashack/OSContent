@@ -104,34 +104,36 @@ jQuery(document).ready(function($) {
         return this;
     };
 
-    let menutype = document.getElementById('menutype'),
-        parentId = document.getElementById('parent_id');
+    let menutype = document.getElementById('menutype');
+    if (menutype) {
+        let parentId = document.getElementById('parent_id');
 
-    let updateParentOptions = function(menuName) {
-        parentId.querySelectorAll('optgroup').forEach(function(group) {
-            let currentType = group.getAttribute('label');
+        let updateParentOptions = function(menuName) {
+            parentId.querySelectorAll('optgroup').forEach(function(group) {
+                let currentType = group.getAttribute('label');
 
-            group.querySelectorAll('option').forEach(function(item) {
-                item.disabled = currentType !== menuName;
+                group.querySelectorAll('option').forEach(function(item) {
+                    item.disabled = currentType !== menuName;
+                });
+                parentId.value = '';
+
+                let $parentId = $(parentId);
+                if ($parentId.chosen) {
+                    $parentId
+                        .val('')
+                        .trigger('chosen:updated')
+                        .trigger('liszt:updated');
+                }
             });
-            parentId.value = '';
+        };
 
-            let $parentId = $(parentId);
-            if ($parentId.chosen) {
-                $parentId
-                    .val('')
-                    .trigger('chosen:updated')
-                    .trigger('liszt:updated');
-            }
+        $(menutype).addChangeListener(function(evt) {
+            let $this    = $(this),
+                menuName = this.options[this.selectedIndex].text;
+
+            updateParentOptions(menuName);
         });
-    };
 
-    $(menutype).addChangeListener(function(evt) {
-        let $this    = $(this),
-            menuName = this.options[this.selectedIndex].text;
-
-        updateParentOptions(menuName);
-    });
-
-    menutype.dispatchEvent(new CustomEvent('change'));
+        menutype.dispatchEvent(new CustomEvent('change'));
+    }
 });
