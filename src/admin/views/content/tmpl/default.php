@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2011-2020 Joomlashack.com. All rights reserved
+ * @copyright 2011-2022 Joomlashack.com. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
@@ -21,371 +21,208 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die();
 
-JHtml::_('behavior.framework');
-JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.tooltip');
-JHTML::_('behavior.calendar');
+/**
+ * @var OSContentViewContent $this
+ * @var stdClass             $template
+ * @var string               $layout
+ * @var string               $layoutTemplate
+ * @var Language             $lang
+ * @var string               $filetofind
+ */
 
-$hidden = "";
-$editor = JFactory::getEditor();
+extract($this->options);
+/**
+ * @var string  $contentRows
+ * @var string  $categoryRows
+ * @var boolean $displayAlias
+ * @var boolean $displayIntroText
+ * @var boolean $displayFullText
+ * @var integer $displayWysiwyg
+ */
 
-// TODO: Check if this variable is really needed
-$post = $this->post;
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
-$createdate = JFactory::getDate();
+$columnWidth = ($displayIntroText xor $displayFullText)
+    ? 'col-lg-6'
+    : ($displayFullText && $displayIntroText ? 'col-lg-3' : '');
 
-$createdate = $createdate->toSql();
+$editor = Editor::getInstance($this->app->get('editor'));
+
 ?>
-
 <div class="row-fluid">
-<?php if (!empty($this->sidebar)): ?>
-<div id="j-sidebar-container" class="span2">
-    <?php echo $this->sidebar; ?>
+    <div id="j-main-container">
+        <form name="adminForm"
+              id="adminForm"
+              action="<?php echo Route::_('index.php?option=com_oscontent'); ?>"
+              method="post"
+              class="form-validate">
 
-</div>
-<div id="j-main-container" class="span10">
-<?php else : ?>
-<div id="j-main-container">
-<?php endif; ?>
-
-<script language="javascript" type="text/javascript">
-    // Execute when page is loaded
-    window.onload = setDateTime;
-
-    // Set date/time
-    function setDateTime() {
-        document.getElementById("created").value = "<?php echo $createdate; ?>";
-        document.getElementById("publish_up").value = "<?php echo $createdate; ?>";
-
-        return false;
-    }
-
-    // Copy 1st introtext to all the other introtext
-    function copyText() {
-        <?php if (/*($editor->_name == "tinymce" || $editor->_name == "jce") && */$this->params->get('displayWysiwyg', 0) != "0"): ?>
-        // Remove <br> of the iframe in firefox with tinymce
-        tinyMCE.triggerSave(true, true);
-        var re = new RegExp("<br>$");
-        document.getElementById("introtext_1").value.replace(re, "");
-        document.getElementById("fulltext_1").value.replace(re, "");
-        tinyMCE.updateContent("introtext_1");
-        tinyMCE.updateContent("fulltext_1");
-        <?php endif; ?>
-
-        if (document.getElementById("duplicateText").checked) {
-            for (i = 2; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                // Remove <br> of the iframe in firefox with tinymce
-                var re = new RegExp("<br>$");
-                document.getElementById("introtext_" + i).value.replace(re, "");
-                document.getElementById("fulltext_" + i).value.replace(re, "");
-
-                if ((document.getElementById("introtext_" + i).value == "" || document.getElementById("introtext_" + i).value == "<br>") && document.getElementById("introtext_1").value != "<br>") {
-                    document.getElementById("introtext_" + i).value = document.getElementById("introtext_1").value;
-                }
-                if ((document.getElementById("fulltext_" + i).value == "" || document.getElementById("fulltext_" + i).value == "<br>" ) && document.getElementById("fulltext_1").value != "<br>") {
-                    document.getElementById("fulltext_" + i).value = document.getElementById("fulltext_1").value;
-                }
-
-                if (document.getElementById("title_" + i).value == "") {
-                    document.getElementById("title_" + i).value = document.getElementById("title_1").value + " " + i;
-                }
-
-                <?php if (/*($editor->_name == "tinymce" || $editor->_name == "jce") &&*/ $this->params->get('displayWysiwyg', 0) != "0"): ?>
-                tinyMCE.updateContent("introtext_" + i);
-                tinyMCE.updateContent("fulltext_" + i);
-                <?php endif; ?>
-
-            }
-        }
-        else {
-            for (i = 2; i < <?php echo $this->params->get('nbOSContent', 10) + 1; ?>; i++) {
-                if (document.getElementById("introtext_" + i).value == document.getElementById("introtext_1").value) {
-                    document.getElementById("introtext_" + i).value = "";
-                }
-                if (document.getElementById("fulltext_" + i).value == document.getElementById("fulltext_1").value) {
-                    document.getElementById("fulltext_" + i).value = "";
-                }
-                if (document.getElementById("title_" + i).value == document.getElementById("title_1").value) {
-                    document.getElementById("title_" + i).value = "";
-                }
-                <?php if (/*($editor->_name == "tinymce" || $editor->_name == "jce") &&*/ $this->params->get('displayWysiwyg', 0) != "0"): ?>
-                tinyMCE.updateContent("introtext_" + i);
-                tinyMCE.updateContent("fulltext_" + i);
-                <?php endif; ?>
-            }
-        }
-    }
-
-    Joomla.submitbutton = function (task, type) {
-        var form = document.adminForm;
-
-        if (!document.getElementById("published").checked) {
-            document.getElementById("publish_up").value = "";
-            document.getElementById("published").value = 0;
-        }
-
-        if ((form.addMenu.checked) && (form.menuselect.value == '')) {
-            alert("Please select a menu.");
-        }
-        else {
-            Joomla.submitform(task, document.id('content-form'));
-        }
-    }
-</script>
-
-<style>
-    #editor-xtd-buttons {
-        clear: both;
-    }
-</style>
-
-<form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
-      id="content-form" class="adminForm form-validate">
-<script language="javascript" type="text/javascript">
-    var sectioncategories = new Array;
-    var menulist = new Array;
-    <?php
-
-    // Sub menus
-    $i = 0;
-    $top = 0;
-
-    foreach ($this->lists['menulist'] as $k => $items)
-    {
-        $top = 0;
-
-        foreach ($items as $v)
-        {
-            if ($top == 0)
-            {
-                echo "menulist[" . ($i++) . "] = new Array('" . addslashes($v->menutype) . "','-1','Top');\t";
-                $top = 1;
-            }
-
-            echo "menulist[" . ($i++) . "] = new Array('" . addslashes($v->menutype) . "','" . addslashes($v->id) . "','" .
-                str_replace('&nbsp;', ' ', addslashes(str_replace('&#160;', '-', $v->treename))) . "');\t";
-        }
-    }
-    ?>
-</script>
-
-<div class="row-fluid ost-oscontent-container">
-        <div class="span8 ost-table-cell-left">
-            <fieldset>
-            <!-- articles -->
-            <legend><?php echo JText::_("COM_OSCONTENT_CREATEUPTO") . " " . $this->params->get(
-                        'nbOSContent',
-                        10
-                    ) . " " . JText::_("COM_OSCONTENT_ARTICLESINAROW"); ?></legend>
-            <table class="table table-striped">
-                <?php $k = 0; ?>
-                <?php for ($i = 1; $i < $this->params->get('nbOSContent', 10) + 1; $i++): ?>
-                    <tr>
-                        <td class="ost-number">
-                            <strong><?php echo $i; ?></strong>
-                        </td>
-                        <td class="ost-medium-sc">
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_TITLE"); ?></label></div>
-                            <input class="inputbox span11" type="text" size="50" maxlength="255"
-                                   id="title_<?php echo $i; ?>" name="title[]"
-                                   value="<?php echo(@$post["title"][$i - 1]); ?>">
-                            <?php if ($this->params->get('displayAlias', 1) == 1): ?>
-                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ALIAS"); ?></label></div>
-                                <input class="inputbox span11" type="text" size="50" maxlength="255"
-                                           id="alias_<?php echo $i; ?>" name="alias[]"
-                                           value="<?php echo(@$post["alias"][$i - 1]); ?>"
-                                           placeholder="<?php echo JText::_("COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"); ?>">
-                            <?php else: ?>
-                                <?php $hidden .= '<input type="hidden" id="alias_<?php echo $i; ?>" name="alias[]" value =""  >'; ?>
-                            <?php endif; ?>
-                        </td>
-                        <?php if ($this->params->get('displayIntroText', 1) == 1): ?>
-                            <td class="ost-medium-sc">
-                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_INTRO_TEXT"); ?></label></div>
-                                <?php if (($i == 1 && $this->params->get(
-                                            'displayWysiwyg'
-                                        ) == "1") || $this->params->get('displayWysiwyg') == "2"
-                                ): ?>
-                                    <?php echo "<td colspan=\"4\">" . $editor->display(
-                                            'introtext_' . $i,
-                                            @$post["introtext_" . $i],
-                                            '50%',
-                                            '50',
-                                            '20',
-                                            '50'
-                                        ) . "</td>"; ?>
-                                <?php else: ?>
-                                    <textarea id="<?php echo 'introtext_' . $i; ?>"
-                                              name="<?php echo 'introtext_' . $i; ?>" rows="4"
-                                              cols="35"
-                                              class="span11"><?php echo(@$post["introtext_" . ($i)]); ?></textarea>
-                                <?php endif; ?>
-                            </td>
-                        <?php
-                        else:
-                            $hidden .= '<input type="hidden" id="introtext_' . $i . '" name="introtext_' . $i . '" value =""  >'; ?>
-                        <?php endif; ?>
-
-                        <?php if ($this->params->get('displayFullText', 1) == 1): ?>
-                            <td class="ost-medium-sc">
-                                <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_FULL_TEXT"); ?></label></div>
-                                <?php if (($i == 1 && $this->params->get(
-                                            'displayWysiwyg'
-                                        ) == "1") || $this->params->get('displayWysiwyg') == "2"
-                                ): ?>
-                                    <?php echo $editor->display(
-                                            'fulltext_' . $i,
-                                            @$post["fulltext_" . $i],
-                                            '50%',
-                                            '50',
-                                            '20',
-                                            '50'
-                                        ); ?>
-                                <?php else: ?>
-                                        <textarea id="<?php echo 'fulltext_' . $i; ?>"
-                                                  name="<?php echo 'fulltext_' . $i; ?>" rows="4"
-                                                  cols="35"
-                                                  class="span11"><?php echo(@$post["fulltext_" . $i]); ?></textarea>
-
-                                <?php endif; ?>
-                            </td>
-                        <?php else: ?>
-                            <?php $hidden .= '<input type="hidden" id="fulltext_' . $i . '" name="fulltext_' . $i . '" value =""  >'; ?>
-                        <?php endif; ?>
-                    </tr>
-
-                    <?php $hidden .= '<input type="hidden" id="metadesc_' . $i . '" name="metadesc[]" value ="">'; ?>
-                    <?php $hidden .= '<input type="hidden" id="metakey_' . $i . '" name="metakey[]" value ="">'; ?>
-
-                    <?php $k = 1 - $k; ?>
-                <?php endfor; ?>
-            </table>
-            </fieldset>
-            <!-- /articles -->
-        </div>
-        <div class="span4 ost-table-cell-right">
-            <!-- options -->
-            <div class="well">
-                <legend><?php echo JText::_("COM_OSCONTENT_OPTIONS"); ?></legend>
-                <table border="0" cellpadding="3" cellspacing="0">
-                    <tr>
-                        <td>
-                            <?php echo JText::_("COM_OSCONTENT_COPY_FIRST_TITLE"); ?>
+            <div class="row">
+                <div class="col-lg-9">
+                    <fieldset class="form-vertical options-form">
+                        <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
+                        <table class="table table-striped">
                             <?php
-                            echo JHTML::tooltip(JText::_("COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP"),
-                            '',
-                            'tooltip.png',
-                            '',
-                            '');
-                            ?>
-                            <input type="checkbox" id="duplicateText" name="duplicateText"
-                                   onClick="javascript:copyText()">
-                        </td>
-                    </tr>
+                            for ($row = 0; $row < $contentRows; $row++) :
+                                $titleId = 'title_' . $row;
+                                $wysiwyg = $displayWysiwyg == 2 || ($row == 0 && $displayWysiwyg == 1);
+                                ?>
+                                <tr>
+                                    <td class="col-lg-1">
+                                        <strong><?php echo number_format($row + 1); ?></strong>
+                                    </td>
 
-                    <tr>
-                        <td>
-                            <?php echo JText::_("COM_OSCONTENT_PUBLISHED"); ?>
-                            <input type="checkbox" id="published" name="published" value="1" checked>
-                        </td>
-                    </tr>
+                                    <td class="<?php echo $columnWidth; ?>">
+                                        <div class="control-group">
+                                            <div class="control-label">
+                                                <label for="<?php echo $titleId; ?>">
+                                                    <?php echo Text::_('COM_OSCONTENT_TITLE'); ?>
+                                                </label>
+                                            </div>
+                                            <div class="controls">
+                                                <input class="col-lg-12"
+                                                       type="text"
+                                                       maxlength="255"
+                                                       id="<?php echo $titleId; ?>"
+                                                       name="title[]"
+                                                       value="<?php echo $this->formData->get('title.' . $row); ?>">
+                                            </div>
+                                        </div>
+                                        <?php
+                                        if ($displayAlias) :
+                                            $aliasId = 'alias_' . $row;
+                                            ?>
+                                            <div class="control-group">
+                                                <div class="control-label">
+                                                    <label for="<?php echo $aliasId; ?>">
+                                                        <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="controls">
+                                                    <input class="col-lg-12"
+                                                           type="text"
+                                                           maxlength="255"
+                                                           id="<?php echo $aliasId; ?>"
+                                                           name="alias[]"
+                                                           value="<?php echo $this->formData->get('alias.' . $row); ?>"
+                                                           placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </td>
 
-                    <tr>
-                        <td>
-                            <?php echo JText::_("COM_OSCONTENT_FEATURED"); ?>
-                            <input type="checkbox" id="featured" name="featured" value="1">
-                        </td>
-                    </tr>
+                                    <?php
+                                    if ($displayIntroText) :
+                                        $introTextId = 'introtext_' . $row;
+                                        ?>
+                                        <td class="<?php echo $columnWidth; ?>">
+                                            <div class="control-group">
+                                                <div class="conttrol-label">
+                                                    <label for="<?php echo $introTextId; ?>">
+                                                        <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="controls">
+                                                    <?php
+                                                    if ($wysiwyg) :
+                                                        echo $editor->display(
+                                                            'introtext[]',
+                                                            $this->formData->get('introtext.' . $row),
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            true,
+                                                            $introTextId
+                                                        );
+                                                    else: ?>
+                                                        <textarea id="<?php echo $introTextId ?>"
+                                                                  name="introtext[]"
+                                                                  rows="5"
+                                                                  class="col-lg-12"
+                                                                  class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    <?php endif; ?>
 
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_ACCESS_LEVEL"); ?></label></div>
-                            <?php echo $this->lists['access']; ?>
-                        </td>
-                    </tr>
+                                    <?php
+                                    if ($displayFullText) :
+                                        $fullTextId = 'fulltext_' . $row;
+                                        ?>
+                                        <td class="<?php echo $columnWidth; ?>">
+                                            <div class="control-group">
+                                                <div class="control-label">
+                                                    <label for="<?php echo $fullTextId; ?>">
+                                                        <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="controls">
+                                                    <?php
+                                                    if ($wysiwyg):
+                                                        echo $editor->display(
+                                                            'fulltext[]',
+                                                            $this->formData->get('fulltext.' . $row),
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            true,
+                                                            $fullTextId
+                                                        ); ?>
+                                                    <?php else : ?>
+                                                        <textarea id="<?php echo $fullTextId; ?>"
+                                                                  name="fulltext[]"
+                                                                  rows="5"
+                                                                  cols="35"
+                                                                  class="col-lg-12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endfor; ?>
+                        </table>
+                    </fieldset>
+                </div>
 
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_AUTHOR"); ?></label></div>
-                            <?php echo $this->lists['created_by']; ?>
-                        </td>
-                    </tr>
+                <div class="col-lg-3">
+                    <fieldset class="options-form form-vertical">
+                        <legend><?php echo Text::_('COM_OSCONTENT_OPTIONS'); ?></legend>
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label id="duplicateText-lbl" class="hasTooltip"
+                                       title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP'); ?>">
+                                    <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE'); ?>
+                                </label>
+                            </div>
+                            <div class="controls">
+                                <fieldset class="btn-group radio">
+                                    <a id="duplicateText" type="button" class="btn btn-success">Copy</a>
+                                    <a id="clearText" type="button" class="btn btn-danger">Clear</a>
+                                </fieldset>
+                            </div>
+                        </div>
 
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_AUTHOR_ALIAS"); ?></label></div>
-                            <input type="text" name="created_by_alias" id="created_by_alias" value="" size="20"/>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_CATEGORY"); ?></label></div>
-                            <?php echo $this->lists['catid']; ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><input type="checkbox" name="addMenu" value="1"><?php echo JText::_(
-                                "COM_OSCONTENT_LINK_TO_MENU"
-                            ); ?></label></div>
-                            <?php echo $this->lists['menuselect']; ?>
-                            <?php echo $this->lists['menuselect3']; ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_CREATED_DATE"); ?></label></div>
-                            <?php echo JHTML::_(
-                                'calendar',
-                                JHTML::_('date', $createdate, 'Y-m-d H:i:s'),
-                                "created",
-                                "created"
-                            ); ?></td>
-                        <?php // echo JHTML::_('calendar', date('Y-m-d H:i:s'), "publish_up", "publish_up"); ?>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_UP"); ?></label></div>
-                            <?php echo JHTML::_(
-                                'calendar',
-                                JHTML::_('date', $createdate, 'Y-m-d H:i:s'),
-                                "publish_up",
-                                "publish_up"
-                            ); ?></td>
-                        <?php // echo JHTML::_('calendar', date('Y-m-d H:i:s'), "publish_up", "publish_up"); ?>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <div class="control-label"><label><?php echo JText::_("COM_OSCONTENT_PUBLISH_DOWN"); ?></label></div>
-                            <?php
-                            $date = "Never";
-                            $date = JFactory::getDbo()->getNullDate();
-                            ?>
-                            <?php echo JHTML::_('calendar', $date, "publish_down", "publish_down"); ?>
-                        </td>
-                    </tr>
-                </table>
+                        <?php echo $this->form->renderFieldset('options'); ?>
+                    </fieldset>
+                </div>
             </div>
-            <!-- /options -->
+
+            <input type="hidden" name="task" value=""/>
+            <?php echo HTMLHelper::_('form.token'); ?>
+        </form>
     </div>
 </div>
-
-<input type="hidden" name="task" value=""/>
-<?php echo JHtml::_('form.token'); ?>
-<?php echo $hidden; ?>
-</form>
-
-</div>
-<!-- #j-main-container -->
-
-</div>
-</div>
-
-<?php echo $this->extension->getFooterMarkup(); ?>

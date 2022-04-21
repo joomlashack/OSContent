@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="main">
+        <field name="categoryId"
+               type="category"
+               layout="joomla.form.field.list-fancy-select"
+               required="true"
+               extension="com_content"
+               label="COM_OSCONTENT_CATEGORY">
+            <option value="">- Select -</option>
+        </field>
+
+        <field name="delete"
+               type="radio"
+               class="btn-group"
+               label="Delete"
+               default="content">
+            <option value="all">All</option>
+            <option value="content">Content Only</option>
+        </field>
+    </fieldset>
+</form>

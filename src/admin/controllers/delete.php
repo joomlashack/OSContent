@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2011-2020 Joomlashack.com. All rights reserved
+ * @copyright 2011-2022 Joomlashack.com. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
@@ -21,77 +21,35 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\MVC\Controller\AdminController;
+
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.controllerform');
-
-/**
- * Controller Delete
- *
- * @since  1.0.0
- */
-class OSContentControllerDelete extends JControllerForm
+class OSContentControllerDelete extends AdminController
 {
     /**
-     * Method to display the controller's view
-     *
-     * @param   bool  $cachable  Cachable
-     * @param   array $urlparams URL Params
-     *
-     * @return  OSContentControllerDelete
-     */
-    public function display($cachable = false, $urlparams = array())
-    {
-        require_once JPATH_COMPONENT . '/helpers/oscontent.php';
-
-        $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));
-        parent::display($cachable, $urlparams);
-
-        return $this;
-    }
-
-    /**
-     * Method to delete
-     *
-     * @param   string $key    Key
-     * @param   string $urlVar URL var
-     *
-     * @access    public
-     * @return  void
+     * @inheritDoc
      */
     public function delete($key = null, $urlVar = null)
     {
-        // TODO: Allow to delete multiple items
+        $this->checkToken();
 
-        // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        /** @var OSContentModelDelete $model */
+        $model = $this->getModel();
 
-        $model = $this->getModel('delete');
-
-        if (!$model->deleteOSContent()) {
-            $msg = JText::_("COM_OSCONTENT_ERROR_DELETE");
-        } else {
-            $msg = JText::_("COM_OSCONTENT_SUCCESS_DELETE");
+        $model->customDelete();
+        if ($model->customDelete() == false) {
+            $this->setMessage($model->getError(), 'error');
         }
 
-        $this->setMessage($msg);
-
-        $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false), $msg);
+        $this->setRedirect('index.php?option=com_oscontent&view=delete');
     }
 
     /**
-     * Method to Cancel
-     *
-     * @param   string $key    Key
-     * @param   string $urlVar URL var
-     *
-     * @access    public
-     * @return  void
+     * @inheritDoc
      */
-    public function cancel($key = null, $urlVar = null)
+    public function getModel($name = 'Delete', $prefix = 'OscontentModel', $config = [])
     {
-        $this->setRedirect(JRoute::_('index.php?option=com_oscontent&view=delete', false));
-
-        return true;
+        return parent::getModel($name, $prefix, $config);
     }
 }

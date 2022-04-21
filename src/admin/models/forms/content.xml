@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="options">
+        <field name="state"
+               type="radio"
+               class="btn-group btn-broup-yesno"
+               layout="joomla.form.field.radio.switcher"
+               label="COM_OSCONTENT_PUBLISHED"
+               default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field name="featured"
+               type="radio"
+               class="btn-group btn-broup-yesno"
+               layout="joomla.form.field.radio.switcher"
+               label="COM_OSCONTENT_FEATURED"
+               default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field name="access"
+               type="accesslevel"
+               layout="joomla.form.field.list-fancy-select"
+               label="COM_OSCONTENT_ACCESS_LEVEL"/>
+
+        <field name="created_by"
+               type="user"
+               label="COM_OSCONTENT_AUTHOR"/>
+
+        <field name="created_by_alias"
+               type="text"
+               label="COM_OSCONTENT_AUTHOR_ALIAS"/>
+
+        <field name="catid"
+               type="category"
+               layout="joomla.form.field.list-fancy-select"
+               extension="com_content"
+               label="COM_OSCONTENT_CATEGORY"/>
+
+        <field name="menutype"
+               type="menu"
+               clientid="0"
+               label="COM_OSCONTENT_ADD_TO_MENU">
+            <option value="">COM_OSCONTENT_OPTION_NONE</option>
+        </field>
+
+        <field name="parent_id"
+               type="menuitem"
+               label="COM_OSCONTENT_CREATE_SUBMENU"
+               showon="menutype!:">
+            <option value="">COM_OSCONTENT_OPTION_MENU_ROOT</option>
+        </field>
+
+        <field name="created"
+               type="calendar"
+               label="COM_OSCONTENT_CREATED_DATE"
+               translateformat="true"
+               showtime="true"
+               default="now"/>
+
+        <field name="publish_up"
+               type="calendar"
+               label="COM_OSCONTENT_PUBLISH_UP"
+               translateformat="true"
+               showtime="true"/>
+
+        <field name="publish_down"
+               type="calendar"
+               label="COM_OSCONTENT_PUBLISH_DOWN"
+               translateformat="true"
+               showtime="true"/>
+    </fieldset>
+</form>

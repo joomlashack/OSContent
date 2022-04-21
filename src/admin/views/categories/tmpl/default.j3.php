@@ -50,31 +50,34 @@ extract($this->options);
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', 'select');
 ?>
-<div id="j-main-container">
-    <form name="adminForm"
-          id="adminForm"
-          action="<?php echo Route::_('index.php?option=com_oscontent&view=categories'); ?>"
-          method="post"
-          class="form-validate">
+<form name="adminForm"
+      id="adminForm"
+      action="<?php echo Route::_('index.php?option=com_oscontent&view=categories'); ?>"
+      method="post"
+      class="form-validate">
 
-        <div class="row">
-            <div class="col-lg-9">
-                <fieldset class="form-vertical options-form">
-                    <legend>
-                        <?php echo Text::sprintf('COM_OSCONTENT_CATEGORIES_CREATEUPTO', $categoryRows); ?>
-                    </legend>
+    <div id="j-sidebar-container" class="span2">
+        <?php echo $this->sidebar; ?>
+    </div>
+
+    <div id="j-main-container" class="span10">
+        <div class="row-fluid form-vertical">
+            <div class="span8">
+                <fieldset>
+                    <legend><?php echo Text::sprintf('COM_OSCONTENT_CATEGORIES_CREATEUPTO', $categoryRows); ?></legend>
                     <table class="table table-striped">
                         <?php
                         for ($row = 0; $row < $categoryRows; $row++) :
                             $titleId = 'title_' . $row;
                             ?>
                             <tr>
-                                <td class="col-lg-1">
+                                <td class="span1">
                                     <strong><?php echo number_format($row + 1); ?></strong>
                                 </td>
 
-                                <td class="col-lg-5">
+                                <td class="span5">
                                     <div class="control-group">
                                         <div class="control-label">
                                             <label for="<?php echo $titleId; ?>">
@@ -82,8 +85,9 @@ HTMLHelper::_('behavior.keepalive');
                                             </label>
                                         </div>
                                         <div class="controls">
-                                            <input type="text"
-                                                   class="col-lg-12"
+                                            <input class="span12"
+                                                   type="text"
+                                                   size="50"
                                                    maxlength="255"
                                                    id="<?php echo $titleId; ?>"
                                                    name="title[]"
@@ -92,25 +96,21 @@ HTMLHelper::_('behavior.keepalive');
                                     </div>
                                 </td>
 
-                                <td class="col-lg-5">
+                                <td class="span5">
                                     <div class="control-group">
                                         <?php
                                         $aliasId = 'alias_' . $row;
                                         ?>
-                                        <div class="control-label">
-                                            <label for="<?php echo $aliasId; ?>">
-                                                <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
-                                            </label>
-                                        </div>
-                                        <div class="controls">
-                                            <input type="text"
-                                                   class="col-lg-12"
-                                                   maxlength="255"
-                                                   id="<?php echo $aliasId; ?>"
-                                                   name="alias[]"
-                                                   value="<?php echo $this->formData->get('alias.' . $row); ?>"
-                                                   placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
-                                        </div>
+                                        <label for="<?php echo $aliasId; ?>">
+                                            <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                        </label>
+                                        <input class="span12"
+                                               type="text"
+                                               maxlength="255"
+                                               id="<?php echo $aliasId; ?>"
+                                               name="alias[]"
+                                               value="<?php echo $this->formData->get('alias.' . $row); ?>"
+                                               placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
                                     </div>
                                 </td>
                             </tr>
@@ -118,16 +118,16 @@ HTMLHelper::_('behavior.keepalive');
                     </table>
                 </fieldset>
             </div>
-
-            <div class="col-lg-3">
-                <fieldset class="options-form">
+            <div class="row-fluid well span4">
+                <fieldset>
                     <legend><?php echo Text::_('COM_OSCONTENT_OPTIONS'); ?></legend>
                     <?php echo $this->form->renderFieldset('options'); ?>
                 </fieldset>
             </div>
         </div>
+    </div>
 
-        <input type="hidden" name="task" value=""/>
-        <?php echo HTMLHelper::_('form.token'); ?>
-    </form>
-</div>
+    <input type="hidden" name="task" value=""/>
+    <?php echo HTMLHelper::_('form.token'); ?>
+</form>
+

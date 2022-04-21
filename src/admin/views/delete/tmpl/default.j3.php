@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -39,14 +40,23 @@ defined('_JEXEC') or die();
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', 'select');
+
 ?>
 <form name="adminForm"
       id="adminForm"
       action="<?php echo Route::_('index.php?option=com_oscontent&view=delete'); ?>"
-      method="post">
+      method="post"
+      class="form-validate">
+
+    <div id="j-sidebar-container" class="span2">
+        <?php echo $this->sidebar; ?>
+    </div>
 
     <div id="j-main-container" class="span10">
+        <div class="row-fluid form-horizontal">
             <?php echo $this->form->renderFieldset('main'); ?>
+        </div>
     </div>
 
     <input type="hidden" name="task" value=""/>

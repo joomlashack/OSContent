@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.7" type="component" method="upgrade">
+<extension type="component" method="upgrade">
     <name>com_oscontent</name>
     <author>Joomlashack</author>
-    <creationDate>June 07 2019</creationDate>
-    <copyright>Copyright (C) 2011-2018 Open Source Training, LLC, All rights reserved</copyright>
-    <license>GPL v3</license>
     <authorEmail>help@joomlashack.com</authorEmail>
-    <authorUrl>https://www.joomlashack.com</authorUrl>
-    <version>1.12.5</version>
-    <variant>FREE</variant>
+    <authorUrl>https://www.joomlashack.com/</authorUrl>
+    <copyright>Copyright 2011-2022 Joomlashack.com</copyright>
+    <license>GNU GPL; see LICENSE file</license>
     <description>COM_OSCONTENT_COMPONENT_DESCRIPTION</description>
+    <version>2.0.0b2</version>
+    <creationDate>April 21 2022</creationDate>
+    <variant>FREE</variant>
 
     <scriptfile>script.installer.php</scriptfile>
 
     <administration>
         <menu img="components/com_oscontent/media/images/oscontent.png">COM_OSCONTENT</menu>
+        <submenu>
+            <menu view="content">COM_OSCONTENT_ADMINMENU_CREATE</menu>
+            <menu view="categories">COM_OSCONTENT_ADMINMENU_CATEGORIES</menu>
+            <menu view="delete">COM_OSCONTENT_ADMINMENU_DELETE</menu>
+        </submenu>
 
         <files folder="admin">
+            <folder>controllers</folder>
+            <folder>form</folder>
+            <folder>helpers</folder>
+            <folder>language</folder>
+            <folder>library</folder>
+            <folder>models</folder>
+            <folder>views</folder>
+
             <filename>access.xml</filename>
             <filename>config.xml</filename>
             <filename>controller.php</filename>
+            <filename>include.php</filename>
             <filename>oscontent.php</filename>
-            <folder>controllers</folder>
-            <folder>helpers</folder>
-            <folder>language</folder>
-            <folder>models</folder>
-            <folder>tables</folder>
-            <folder>views</folder>
-            <folder>library</folder>
-            <folder>form</folder>
         </files>
     </administration>
 
     <media destination="com_oscontent" folder="media">
         <folder>css</folder>
-        <folder>js</folder>
         <folder>images</folder>
-        <folder>fonts</folder>
+        <folder>js</folder>
     </media>
 
     <updateservers>
-        <server type="extension" priority="1" name="OSContent Updates"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
+        <server type="extension" priority="1" name="OSContent Free"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/com_oscontent]]></server>
     </updateservers>
 
     <alledia>
@@ -48,22 +53,24 @@
         <namespace>OSContent</namespace>
         <license>free</license>
         <targetplatform>3.*</targetplatform>
+
+        <minify>
+            <script>media/js/admin.js</script>
+            <script>media/js/delete.js</script>
+        </minify>
+
         <relatedExtensions>
             <extension type="library"
-                       element="allediaframework">AllediaFramework</extension>
-
-            <extension type="plugin"
-                       group="system"
-                       element="ossystem"
-                       publish="true"
-                       ordering="first">OSSystem</extension>
+                       element="allediaframework"
+                       downgrade="false">ShackFramework</extension>
 
             <extension type="plugin"
                        group="system"
                        element="osmylicensesmanager"
                        publish="true"
-                       ordering="last">OSMyLicensesManager</extension>
+                       downgrade="false"
+                       ordering="last">ShackExtensionSupport</extension>
         </relatedExtensions>
-        <include>AllediaFreeDefaultFiles</include>
+        <include>ShackDefaultFiles</include>
     </alledia>
 </extension>

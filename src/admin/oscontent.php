@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2011-2020 Joomlashack.com. All rights reserved
+ * @copyright 2011-2022 Joomlashack.com. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
@@ -21,29 +21,18 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die();
 
-JFactory::getDocument()->addStyleDeclaration(
-    '
-    .icon-48-oscontent {
-        background-image: url("components/com_oscontent/media/images/icon-48-oscontent.png");
-    }
-    '
-);
-
-require_once 'controller.php';
-
-if (!JFactory::getUser()->authorise('core.manage', 'com_oscontent')) {
-    throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
+if (!Factory::getUser()->authorise('core.manage', 'com_focalpoint')) {
+    throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller = JControllerLegacy::getInstance('OSContent');
-
-$task = JFactory::getApplication()->input->getCmd('task');
-
-$controller->execute($task);
-$controller->redirect();
-
-if (defined('JDEBUG')) {
-    JProfiler::getInstance('Application')->mark('com_oscontent');
+if (include __DIR__ . '/include.php') {
+    $controller = BaseController::getInstance('Oscontent');
+    $controller->execute(Factory::getApplication()->input->getCmd('task'));
+    $controller->redirect();
 }

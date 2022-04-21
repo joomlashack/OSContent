@@ -2,7 +2,7 @@
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2011-2020 Joomlashack.com. All rights reserved
+ * @copyright 2011-2022 Joomlashack.com. All rights reserved
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
@@ -21,46 +21,49 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
-
-/**
- * Mass Content View
- *
- * @since  1.0.0
- */
-class OSContentViewContent extends OSView
+class OSContentViewContent extends OscontentViewAdmin
 {
     /**
-     * Method to display the view
-     *
-     * @param   string $tpl Template file
-     *
-     * @access    public
-     * @return  void
+     * @var Registry
+     */
+    protected $formData = null;
+
+    /**
+     * @inheritDoc
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_OSCONTENT_CREATE_CONTENT'), 'oscontent.png');
-        JToolBarHelper::apply("content.save");
-        JToolbarHelper::cancel('content.cancel');
-        JToolBarHelper::divider();
-        JToolBarHelper::spacer();
-        JToolBarHelper::preferences('com_oscontent');
+        $this->model    = $this->getModel();
+        $this->form     = $this->model->getForm();
+        $this->formData = new Registry($this->app->getUserState('com_oscontent.edit.content.data'));
 
-        // Get component params
-        $params = JComponentHelper::getParams('com_oscontent');
+        $this->addToolbar();
 
-        // Get data
-        $lists = $this->get('Data');
+        OscontentHelper::addSubmenu('content');
+        $this->sidebar = Sidebar::render();
 
-        $post = $this->getModel()->getPostData();
-
-        $this->params = $params;
-        $this->lists  = $lists;
-        $this->post   = $post;
+        HTMLHelper::_('script', 'com_oscontent/admin.min.js', ['relative' => true]);
 
         parent::display($tpl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function addToolbar(?string $title = null, ?string $icon = 'file-2')
+    {
+        ToolbarHelper::apply('content.save');
+
+        $title = $title ?: Text::_('COM_OSCONTENT_PAGE_CREATE_CONTENT');
+
+        parent::addToolbar($title, $icon);
     }
 }

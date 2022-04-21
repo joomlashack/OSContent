@@ -1,4 +1,3 @@
-<?php
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
@@ -21,35 +20,27 @@
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\Helpers\Sidebar;
-use Joomla\CMS\Language\Text;
+Joomla.submitform = function(task) {
+    let adminForm = document.getElementById('adminForm');
+    if (document.formvalidator.isValid(adminForm)) {
+        let message = null;
 
-defined('_JEXEC') or die();
+        switch (adminForm.delete.value) {
+            case 'all':
+                message = 'COM_OSCONTENT_DELETE_ALL';
+                break;
 
-abstract class OscontentHelper extends ContentHelper
-{
-    /**
-     * @inheritDoc
-     */
-    public static function addSubmenu($vName)
-    {
-        Sidebar::addEntry(
-            Text::_('COM_OSCONTENT_ADMINMENU_CREATE'),
-            'index.php?option=com_oscontent&view=content',
-            $vName == 'content'
-        );
+            case 'content':
+                message = 'COM_OSCONTENT_DELETE_CONTENT';
+                break;
 
-        Sidebar::addEntry(
-            Text::_('COM_OSCONTENT_ADMINMENU_CATEGORIES'),
-            'index.php?option=com_oscontent&view=categories',
-            $vName == 'categories'
-        );
-
-        Sidebar::addEntry(
-            Text::_('COM_OSCONTENT_ADMINMENU_DELETE'),
-            'index.php?option=com_oscontent&view=delete',
-            $vName == 'delete'
-        );
+            default:
+                alert(Joomla.JText._('COM_OSCONTENT_DELETE_FAIL'));
+                return;
+        }
+        if (confirm(Joomla.JText._(message))) {
+            adminForm.task.value = task;
+            adminForm.submit();
+        }
     }
 }
