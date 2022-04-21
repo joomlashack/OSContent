@@ -63,7 +63,7 @@ class OSContentViewCategories extends OscontentViewAdmin
         ToolbarHelper::apply('categories.save');
         ToolbarHelper::cancel('categories.cancel');
 
-        $title = $title ?: Text::_('COM_OSCONTENT_MASS_CATEGORIES');
+        $title = $title ?: Text::_('COM_OSCONTENT_PAGE_MASS_CATEGORIES');
 
         parent::addToolbar($title, $icon);
     }

@@ -62,7 +62,7 @@ class OSContentViewContent extends OscontentViewAdmin
     {
         ToolbarHelper::apply('content.save');
 
-        $title = $title ?: Text::_('COM_OSCONTENT_CREATE_CONTENT');
+        $title = $title ?: Text::_('COM_OSCONTENT_PAGE_CREATE_CONTENT');
 
         parent::addToolbar($title, $icon);
     }
