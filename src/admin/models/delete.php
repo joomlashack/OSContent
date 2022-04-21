@@ -166,7 +166,7 @@ class OSContentModelDelete extends OscontentModelAdmin
                 $pks = [$categoryId];
                 $categoryModel->publish($pks, -2);
                 if ($categoryModel->delete($pks)) {
-                    $this->app->enqueueMessage('COM_OSCONTENT_DELETE_CATEGORY');
+                    $this->app->enqueueMessage(Text::_('COM_OSCONTENT_DELETE_CATEGORY'));
 
                     return true;
                 }
