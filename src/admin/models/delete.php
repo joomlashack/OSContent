@@ -26,6 +26,7 @@ use Alledia\Framework\Helper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 defined('_JEXEC') or die();
 
@@ -196,7 +197,7 @@ class OSContentModelDelete extends OscontentModelAdmin
             // Then we can delete
             $success = $contentModel->delete($articles);
             if ($success) {
-                $this->app->enqueueMessage(Text::sprintf('COM_OSCONTENT_DELETE_N_ARTICLES', count($articles)));
+                $this->app->enqueueMessage(Text::plural('COM_OSCONTENT_DELETE_N_ARTICLES', count($articles)));
 
             } else {
                 $this->setError(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'));
@@ -229,7 +230,7 @@ class OSContentModelDelete extends OscontentModelAdmin
 
             $success = $menuModel->delete($menuIds);
             if ($success) {
-                $this->app->enqueueMessage(Text::sprintf('COM_OSCONTENT_DELETE_N_MENUS', count($menuIds)));
+                $this->app->enqueueMessage(Text::plural('COM_OSCONTENT_DELETE_N_MENUS', count($menuIds)));
             } else {
                 $this->setError('Menu Problem');
             }
