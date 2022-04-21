@@ -4,6 +4,7 @@
         <field name="state"
                type="radio"
                class="btn-group btn-broup-yesno"
+               layout="joomla.form.field.radio.switcher"
                label="COM_OSCONTENT_PUBLISHED"
                default="0">
             <option value="0">JNO</option>
@@ -13,6 +14,7 @@
         <field name="featured"
                type="radio"
                class="btn-group btn-broup-yesno"
+               layout="joomla.form.field.radio.switcher"
                label="COM_OSCONTENT_FEATURED"
                default="0">
             <option value="0">JNO</option>
@@ -21,6 +23,7 @@
 
         <field name="access"
                type="accesslevel"
+               layout="joomla.form.field.list-fancy-select"
                label="COM_OSCONTENT_ACCESS_LEVEL"/>
 
         <field name="created_by"
@@ -33,6 +36,7 @@
 
         <field name="catid"
                type="category"
+               layout="joomla.form.field.list-fancy-select"
                extension="com_content"
                label="COM_OSCONTENT_CATEGORY"/>
 

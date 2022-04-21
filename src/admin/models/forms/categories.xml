@@ -3,6 +3,7 @@
     <fieldset name="options">
         <field name="parent"
                type="category"
+               layout="joomla.form.field.list-fancy-select"
                label="COM_OSCONTENT_PARENT"
                extension="com_content"
                default="1">
@@ -11,11 +12,13 @@
 
         <field name="access"
                type="accesslevel"
+               layout="joomla.form.field.list-fancy-select"
                label="COM_OSCONTENT_ACCESS_LEVEL"/>
 
         <field name="published"
                type="radio"
                class="btn-group btn-broup-yesno"
+               layout="joomla.form.field.radio.switcher"
                label="COM_OSCONTENT_PUBLISHED"
                default="0">
             <option value="0">JNO</option>

@@ -3,8 +3,9 @@
     <fieldset name="main">
         <field name="categoryId"
                type="category"
-               extension="com_content"
+               layout="joomla.form.field.list-fancy-select"
                required="true"
+               extension="com_content"
                label="COM_OSCONTENT_CATEGORY">
             <option value="">- Select -</option>
         </field>

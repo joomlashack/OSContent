@@ -20,69 +20,35 @@
  * You should have received a copy of the GNU General Public License
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die();
 
+/**
+ * @var OSContentViewDelete $this
+ * @var string              $template
+ * @var string              $layout
+ * @var string              $layoutTemplate
+ * @var Language            $lang
+ * @var string              $filetofind
+ */
+
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 ?>
+<form name="adminForm"
+      id="adminForm"
+      action="<?php echo Route::_('index.php?option=com_oscontent&view=delete'); ?>"
+      method="post">
 
-
-    <div id="j-main-container">
-
-        <script language="javascript" type="text/javascript">
-            Joomla.submitbutton = function (task, type) {
-                if (task === 'delete.delete') {
-                    if (confirm("<?php echo JText::_("COM_OSCONTENT_DELETE_ALL");?>"))
-                        Joomla.submitform(task, document.getElementById('delete-form'));
-                    else return;
-                }
-                else {
-                    Joomla.submitform(task, document.getElementById('delete-form'));
-                }
-            };
-        </script>
-
-        <form action="<?php echo JRoute::_('index.php?option=com_oscontent'); ?>" method="post" name="adminForm"
-              id="delete-form" class="adminForm form-validate">
-
-            <script language="javascript" type="text/javascript">
-                // var sectioncategories = new Array;
-                //
-                <?php
-                        // $i = 0;
-                        // foreach ($this->lists['sectioncategories'] as $k=>$items) {
-                        //  foreach ($items as $v) {
-                        //      echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->name)."');\t";
-                        //  }
-                        // }
-                        // ?>
-            </script>
-            <fieldset class="form-control">
-                <legend><?php echo JText::_("COM_OSCONTENT_DELETE_SECTIONS_CATEGORIES"); ?></legend>
-                <table border="0" cellpadding="3" cellspacing="0">
-                    <tr>
-                        <td colspan="2"><?php echo JText::_("COM_OSCONTENT_DESTROY_ALL"); ?></td>
-                    </tr>
-                    <tr>
-                        <td style="white-space: nowrap;"><?php echo JText::_(
-                                    "COM_OSCONTENT_CATEGORY"
-                                ) . " " . $this->lists['catid']; ?></td>
-                        <td><input type="checkbox" id="deleteCategory" name="deleteCategory"><?php echo JText::_(
-                                "COM_OSCONTENT_DELETE_CATEGORIES"
-                            ); ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo JText::_('COM_OSCONTENT_CONTENT'); ?></td>
-                        <td><input type="checkbox" id="deleteContentOnly" name="deleteContentOnly"><?php echo JText::_(
-                                "COM_OSCONTENT_DELETE_CONTENT_ONLY"
-                            ); ?></td>
-                    </tr>
-                </table>
-            </fieldset>
-
-            <input type="hidden" name="task" value=""/>
-            <?php echo JHtml::_('form.token'); ?>
-        </form>
+    <div id="j-main-container" class="span10">
+            <?php echo $this->form->renderFieldset('main'); ?>
     </div>
-    <!-- #j-main-container -->
 
-<?php echo $this->extension->getFooterMarkup(); ?>
+    <input type="hidden" name="task" value=""/>
+    <?php echo HTMLHelper::_('form.token'); ?>
+</form>
