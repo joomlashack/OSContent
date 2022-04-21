@@ -158,8 +158,8 @@ class OSContentModelDelete extends OscontentModelAdmin
         $categoryId = (int)$this->getState('category.id');
         if ($categoryId) {
             if (
-                $this->deleteArticles($categoryId)
-                && $this->deleteMenus($categoryId)
+                ($articles = $this->deleteArticles($categoryId))
+                && $this->deleteMenus($categoryId, $articles)
             ) {
                 /** @var CategoriesModelCategory $categoryModel */
                 $categoryModel = Helper::getCategoryModel('Category', 'administrator');
@@ -179,7 +179,12 @@ class OSContentModelDelete extends OscontentModelAdmin
         return true;
     }
 
-    protected function deleteArticles(int $categoryId): bool
+    /**
+     * @param int $categoryId
+     *
+     * @return int[]
+     */
+    protected function deleteArticles(int $categoryId): array
     {
         $db = $this->getDbo();
 
@@ -201,25 +206,56 @@ class OSContentModelDelete extends OscontentModelAdmin
 
             } else {
                 $this->setError(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'));
-                return false;
+                return [];
             }
         }
 
-        return true;
+        return $articles;
     }
 
-    protected function deleteMenus(int $categoryId): bool
+    /**
+     * @param int   $categoryId
+     * @param int[] $articleIds
+     *
+     * @return bool
+     */
+    protected function deleteMenus(int $categoryId, array $articleIds): bool
     {
         $db = $this->getDbo();
+
+        $quotedLink = $db->quoteName('link');
+        $ors        = [];
+        if ($articleIds) {
+            $ors[] = sprintf(
+                '(%s)',
+                join(
+                    ' AND ',
+                    [
+                        sprintf('LOCATE(%s, %s) > 0', $db->quote('view=article'), $quotedLink),
+                        sprintf('%s RLIKE %s', $quotedLink, $db->quote(sprintf('id=(%s)', join('|', $articleIds))))
+                    ]
+                )
+            );
+        }
+        $ors[] = sprintf(
+            '(%s)',
+            join(
+                ' AND ',
+                [
+                    sprintf('LOCATE(%s, %s) > 0', $db->quote('view=category'), $quotedLink),
+                    sprintf('LOCATE(%s, %s) > 0', $db->quote('id=' . $categoryId), $quotedLink)
+                ]
+            )
+        );
 
         $query = $db->getQuery(true)
             ->select('id')
             ->from('#__menu')
             ->where([
-                'component_id = ' . ComponentHelper::getComponent('com_content')->id,
-                sprintf('LOCATE(%s, link) > 0', $db->quote('category')),
-                sprintf('LOCATE(%s, link) > 0', $db->quote('com_content')),
-                sprintf('LOCATE(%s, link) > 0', $db->quote('id=' . $categoryId))
+                $db->quoteName('type') . ' = ' . $db->quote('component'),
+                $db->quoteName('client_id') . ' = 0',
+                $db->quoteName('component_id') . ' = ' . ComponentHelper::getComponent('com_content')->id,
+                sprintf('(%s)', join(' OR ', $ors))
             ]);
 
         if ($menuIds = $db->setQuery($query)->loadColumn()) {
