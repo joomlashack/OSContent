@@ -22,39 +22,28 @@
  */
 
 use Alledia\Framework\Factory;
+use Alledia\Framework\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Version;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 defined('_JEXEC') or die();
 
 abstract class OscontentModelAdmin extends AdminModel
 {
     /**
-     * @return MenusModelItem
+     * @return MenusModelItem|ItemModel
      */
     protected function getMenuModel()
     {
-        if (Version::MAJOR_VERSION < 4) {
-            $path = JPATH_ADMINISTRATOR . '/components/com_menus';
-            BaseDatabaseModel::addIncludePath($path . '/models');
-            Table::addIncludePath($path . '/tables');
-
-            /** @var MenusModelItem $model */
-            $model = BaseDatabaseModel::getInstance('Item', 'MenusModel');
-
-        } else {
-            /*
-            $model = Factory::getApplication()->bootComponent('com_content')
-                ->getMVCFactory()->createModel($name, $appName, $options);
-            */
-        }
-
-        return $model;
+        return Helper::getJoomlaModel(
+            'Item',
+            'MenusModel',
+            'com_menus',
+            'Administrator'
+        );
     }
 
     /**

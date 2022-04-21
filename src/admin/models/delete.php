@@ -222,8 +222,8 @@ class OSContentModelDelete extends OscontentModelAdmin
             ]);
 
         if ($menuIds = $db->setQuery($query)->loadColumn()) {
-            /** @var MenusModelItem $menuModel */
-            $menuModel = Helper::getJoomlaModel('Item', 'MenusModel', 'com_menus', 'administrator');
+            /** @var MenusModelItem|ItemModel $menuModel */
+            $menuModel = $this->getMenuModel();
 
             $menuModel->publish($menuIds, -2);
 
