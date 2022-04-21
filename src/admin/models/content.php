@@ -219,7 +219,7 @@ class OSContentModelContent extends OscontentModelAdmin
                         ],
                         $newArticle['title'],
                         $newArticle['alias'] ?? '',
-                        $newArticle['published'] ?? 0,
+                        $newArticle['state'] ?? 0,
                         $index
                     );
                 }
