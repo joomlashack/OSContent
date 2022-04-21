@@ -53,6 +53,12 @@
         <namespace>OSContent</namespace>
         <license>free</license>
         <targetplatform>3.*</targetplatform>
+
+        <minify>
+            <script>media/js/admin.js</script>
+            <script>media/js/delete.js</script>
+        </minify>
+
         <relatedExtensions>
             <extension type="library"
                        element="allediaframework"
