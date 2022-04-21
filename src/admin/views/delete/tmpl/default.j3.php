@@ -54,7 +54,6 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     </div>
 
     <div id="j-main-container" class="span10">
-        <p>Message here</p>
         <div class="row-fluid form-horizontal">
             <?php echo $this->form->renderFieldset('main'); ?>
         </div>
