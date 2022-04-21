@@ -21,229 +21,222 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Alledia\Framework\Factory;
+use Alledia\Framework\Helper;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/models/model.php';
-
-/**
- * Model Delete
- *
- * @since  1.0.0
- */
-class OSContentModelDelete extends OSModelAbstract
+class OSContentModelDelete extends OscontentModelAdmin
 {
     /**
-     * @var    string  The prefix to use with controller messages.
-     * @since  1.6
+     * @inheritdoc
      */
     protected $text_prefix = 'COM_OSCONTENT_DELETE';
 
     /**
-     * Model context string.
-     *
-     * @var  string
+     * @var ContentModelArticle
      */
-    protected $_context = 'com_oscontent.delete';
+    protected $contentModel = null;
 
     /**
-     * Get the form
-     *
-     * @param   array $data     Data
-     * @param   bool  $loadData Load data
-     *
-     * @access    public
-     * @since     1.0.0
-     *
-     * @return  Form
+     * @var CMSApplication
      */
-    public function getForm($data = array(), $loadData = true)
+    protected $app = null;
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    protected function populateState()
     {
-        // Get the form.
-        $form = $this->loadForm(
+        $this->app = Factory::getApplication();
+
+        $input = $this->app->input;
+
+        $this->setState('category.id', $input->get('categoryId'));
+        $this->setState('delete', $input->get('delete'));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        return $this->loadForm(
             'com_oscontent.delete',
             'delete',
-            array('control' => 'jform', 'load_data' => $loadData)
+            ['load_data' => $loadData]
         );
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
     }
 
     /**
-     * Get parent category
-     *
-     * @access    protected
-     * @since     1.0.0
-     *
-     * @return  array
+     * @return ContentModelArticle|ArticleModel
      */
-    protected function getCategoryParent()
+    protected function getModel()
     {
-        // Initialise variables.
-        $options = array();
+        if ($this->contentModel === null) {
+            $this->contentModel = Helper::getContentModel('Article', 'Administrator');
+        }
 
+        return $this->contentModel;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTable($name = '', $prefix = 'Table', $options = [])
+    {
+        return $this->getModel()->getTable();
+    }
+
+    /**
+     * @return bool
+     */
+    public function customDelete()
+    {
         try {
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true);
+            switch ($this->getState('delete')) {
+                case 'content':
+                    return $this->clearContent();
 
-            $query->select('a.id AS value, a.title AS text, a.level');
-            $query->from('#__categories AS a');
-            $query->join('LEFT', '`#__categories` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-
-            $extension = "com_content";
-            $query->where('(a.extension = "com_content" OR a.parent_id = 0) AND a.id <> 1');
-
-            /*
-            // Prevent parenting to children of this item
-            if ($id = $this->form->getValue('id'))
-            {
-                $query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
-                $query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
-
-                $rowQuery   = $db->getQuery(true);
-                $rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
-                $rowQuery->from('#__categories AS a');
-                $rowQuery->where('a.id = ' . (int) $id);
-                $db->setQuery($rowQuery);
-                $row = $db->loadObject();
+                case 'all':
+                    return $this->clearAll();
             }
-            */
 
-            $query->where('a.published IN (0,1)');
-            $query->group('a.id');
-            $query->order('a.lft ASC');
+            $errorMessage = '<pre>' . print_r($this->getState()->getProperties(), 1) . '</pre>';
 
-            // Get the options.
-            $db->setQuery($query);
-
-            $options = $db->loadObjectList();
-
-        } catch (Exception $e) {
-            throw new Exception($db->getErrorMsg(), 500);
+        } catch (Throwable $error) {
+            $errorMessage = (sprintf('%s:%s<br>%s', $error->getFile(), $error->getLine(), $error->getMessage()));
         }
 
-        // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
-            // Translate ROOT
-            if ($options[$i]->level == 0) {
-                $options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
-            }
-
-            $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-        }
-
-        // Initialise variables.
-        $user = JFactory::getUser();
-
-        if (empty($id)) {
-            // New item, only have to check core.create.
-            foreach ($options as $i => $option) {
-                // Unset the option if the user isn't authorised for it.
-                if (!$user->authorise('core.create', $extension . ' . category.' . $option->value)) {
-                    unset($options[$i]);
-                }
-            }
-        } else {
-            // Existing item is a bit more complex. Need to account for core.edit and core.edit.own.
-            foreach ($options as $i => $option) {
-                // Unset the option if the user isn't authorised for it.
-                if (!$user->authorise('core.edit', $extension . '.category.' . $option->value)) {
-                    // As a backup, check core.edit.own
-                    if (!$user->authorise('core.edit.own', $extension . '.category.' . $option->value)) {
-                        // No core.edit nor core.edit.own - bounce this one
-                        unset($options[$i]);
-                    } else {
-                        // TODO: I've got a funny feeling we need to check core.create here.
-                        // Maybe you can only get the list of categories you are allowed to create in?
-                        // Need to think about that. If so, this is the place to do the check.
-                    }
-                }
-            }
-        }
-
-        if (isset($row) && !isset($options[0])) {
-            if ($row->parent_id == '1') {
-                $parent       = new stdClass;
-                $parent->text = JText::_('JGLOBAL_ROOT_PARENT');
-                array_unshift($options, $parent);
-            }
-        }
-
-        return $options;
+        $this->setError($errorMessage ?? 'Unknown problem');
+        return false;
     }
 
     /**
-     * Get Data
+     * Clear only introtext and fulltext in articles of selected category
      *
-     * @access    public
-     * @since     1.0.0
-     *
-     * @return  array
+     * @return bool
      */
-    public function &getData()
+    protected function clearContent()
     {
-        $categories        = $this->getCategoryParent();
-        $sectioncategories = 0;
+        $categoryId = (int)$this->getState('category.id');
+        if ($categoryId) {
+            $db = $this->getDbo();
 
-        $lists['catid'] = JHTML::_('select.genericlist', $categories, 'catid', 'style="float: none;"', 'value', 'text');
+            $query = $db->getQuery(true)
+                ->update('#__content')
+                ->set([
+                    $db->quoteName('introtext') . ' = ' . $db->quote(''),
+                    $db->quoteName('fulltext') . ' = ' . $db->quote('')
+                ])
+                ->where('catid = ' . $categoryId);
 
-        $lists['sectioncategories'] = $sectioncategories;
-
-        return $lists;
-    }
-
-    public function deleteOSContent($option = null)
-    {
-        $database = JFactory::getDBO();
-
-        $input = JFactory::getApplication()->input;
-        $catid = $input->getInt('catid');
-
-        // TODO: Use int value for these fields
-        $deleteCategory    = $input->getInt('deleteCategory') === 0;
-        $deleteContentOnly = $input->getInt('deleteContentOnly') === 0;
-
-        $where = "";
-
-        if ($catid > 0) {
-            // A cat is selected
-            if ($deleteCategory) {
-                // Delete link menu-cat
-                $query = "DELETE m FROM #__menu m "
-                    . "\n WHERE m.component_id = " . $database->q($this->getExtensionId('com_content'))
-                    . "\n AND LOCATE(\"category\", link) >0 AND LOCATE(\"com_content\", link) >0 AND LOCATE(\"id={$catid}\", link) >0";
-
-                $database->setQuery($query);
-                $database->execute();
-
-                // Delete cat
-                $query = "DELETE FROM #__categories"
-                    . "\n WHERE id=$catid"
-                    . $where;
-
-                $database->setQuery($query);
-                $database->execute();
+            $success = (bool)$db->setQuery($query)->execute();
+            if ($success) {
+                $this->app->enqueueMessage(sprintf('Cleared contents of %s articles', $db->getAffectedRows()));
             }
 
-            if ($deleteContentOnly) {
-                $query = "UPDATE #__content SET `introtext`='', `fulltext`='' "
-                    . "\n WHERE catid=$catid"
-                    . $where;
-            } else {
-                // Delete full content (article)
-                $query = "DELETE co FROM #__content co "
-                    . "\n WHERE co.catid=$catid"
-                    . $where;
-            }
-
-            $database->setQuery($query);
-            $database->execute();
+            return $success;
         }
 
-        // Delete content
+        $this->setError('Nothing to delete');
+        return false;
+    }
+
+    /**
+     * Remove all content related to the category
+     *
+     * @return false
+     */
+    protected function clearAll()
+    {
+        $categoryId = (int)$this->getState('category.id');
+        if ($categoryId) {
+            if (
+                $this->deleteArticles($categoryId)
+                && $this->deleteMenus($categoryId)
+            ) {
+                /** @var CategoriesModelCategory $categoryModel */
+                $categoryModel = Helper::getCategoryModel('Category', 'administrator');
+
+                $pks = [$categoryId];
+                $categoryModel->publish($pks, -2);
+                if ($categoryModel->delete($pks)) {
+                    $this->app->enqueueMessage('COM_OSCONTENT_DELETE_CATEGORY');
+
+                    return true;
+                }
+
+                $this->setError($categoryModel->getError());
+            }
+        }
+
+        return true;
+    }
+
+    protected function deleteArticles(int $categoryId): bool
+    {
+        $db = $this->getDbo();
+
+        $query = $db->getQuery(true)
+            ->select('id')
+            ->from('#__content')
+            ->where('catid = ' . $categoryId);
+
+        if ($articles = $db->setQuery($query)->loadColumn()) {
+            $contentModel = $this->getModel();
+
+            // First we need to trash the articles
+            $contentModel->publish($articles, -2);
+
+            // Then we can delete
+            $success = $contentModel->delete($articles);
+            if ($success) {
+                $this->app->enqueueMessage(Text::sprintf('COM_OSCONTENT_DELETE_N_ARTICLES', count($articles)));
+
+            } else {
+                $this->setError(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected function deleteMenus(int $categoryId): bool
+    {
+        $db = $this->getDbo();
+
+        $query = $db->getQuery(true)
+            ->select('id')
+            ->from('#__menu')
+            ->where([
+                'component_id = ' . ComponentHelper::getComponent('com_content')->id,
+                sprintf('LOCATE(%s, link) > 0', $db->quote('category')),
+                sprintf('LOCATE(%s, link) > 0', $db->quote('com_content')),
+                sprintf('LOCATE(%s, link) > 0', $db->quote('id=' . $categoryId))
+            ]);
+
+        if ($menuIds = $db->setQuery($query)->loadColumn()) {
+            /** @var MenusModelItem $menuModel */
+            $menuModel = Helper::getJoomlaModel('Item', 'MenusModel', 'com_menus', 'administrator');
+
+            $menuModel->publish($menuIds, -2);
+
+            $success = $menuModel->delete($menuIds);
+            if ($success) {
+                $this->app->enqueueMessage(Text::sprintf('COM_OSCONTENT_DELETE_N_MENUS', count($menuIds)));
+            } else {
+                $this->setError('Menu Problem');
+            }
+
+            return $success;
+        }
+
         return true;
     }
 }

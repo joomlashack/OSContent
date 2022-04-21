@@ -2,7 +2,7 @@
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
  * @copyright 2022 Joomlashack.com. All rights reserved
- * @license   https://www.gnu.org/licenses/gpl.html GNU/GPL 
+ * @license   https://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of OSContent.
  *
@@ -19,3 +19,28 @@
  * You should have received a copy of the GNU General Public License
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+Joomla.submitform = function(task) {
+    let adminForm = document.getElementById('adminForm');
+    if (document.formvalidator.isValid(adminForm)) {
+        let message = null;
+
+        switch (adminForm.delete.value) {
+            case 'all':
+                message = 'COM_OSCONTENT_DELETE_ALL';
+                break;
+
+            case 'content':
+                message = 'COM_OSCONTENT_DELETE_CONTENT';
+                break;
+
+            default:
+                alert(Joomla.JText._('COM_OSCONTENT_DELETE_FAIL'));
+                return;
+        }
+        if (confirm(Joomla.JText._(message))) {
+            adminForm.task.value = task;
+            adminForm.submit();
+        }
+    }
+}

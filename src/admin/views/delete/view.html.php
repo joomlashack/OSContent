@@ -21,46 +21,44 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_oscontent/views/view.php';
-
-/**
- * Mass Delete View
- *
- * @since  1.0.0
- */
-class OSContentViewDelete extends OSView
+class OSContentViewDelete extends OscontentViewAdmin
 {
-    protected $params;
-    protected $lists;
-
     /**
-     * Method to display the view
-     *
-     * @param   string $tpl Template file
-     *
-     * @access    public
-     * @return  void
+     * @inheritDoc
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_OSCONTENT_DELETE_CONTENT'), 'oscontent.png');
-        JToolBarHelper::custom('delete.delete', 'delete.png', 'delete_f2.png', JText::_('COM_OSCONTENT_DELETE'), false);
-//        JToolbarHelper::cancel('delete.cancel');
-        JToolBarHelper::divider();
-        JToolBarHelper::spacer();
-        JToolBarHelper::preferences('com_oscontent');
+        $this->model = $this->getModel();
+        $this->form  = $this->model->getForm();
 
-        // Get component params
-        $params = JComponentHelper::getParams('com_oscontent');
+        $this->addToolbar();
 
-        // Get data
-        $lists = $this->get('Data');
+        OscontentHelper::addSubmenu('delete');
+        $this->sidebar = Sidebar::render();
 
-        $this->params = $params;
-        $this->lists  = $lists;
+        Text::script('COM_OSCONTENT_DELETE_ALL');
+        Text::script('COM_OSCONTENT_DELETE_CONTENT');
+        Text::script('COM_OSCONTENT_DELETE_FAIL');
+        HTMLHelper::_('script', 'com_oscontent/delete.min.js', ['relative' => true]);
 
         parent::display($tpl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function addToolbar(?string $title = null, ?string $icon = 'trash')
+    {
+        ToolbarHelper::custom('delete.delete', 'delete', 'delete', Text::_('COM_OSCONTENT_DELETE'), false);
+
+        $title = $title ?: Text::_('COM_OSCONTENT_PAGE_DELETE');
+        parent::addToolbar($title, $icon);
     }
 }
