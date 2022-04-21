@@ -69,7 +69,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
 
             <div class="row">
                 <div class="col-lg-9">
-                    <fieldset class="options-form">
+                    <fieldset class="form-vertical options-form">
                         <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
                         <table class="table table-striped">
                             <?php
@@ -82,7 +82,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         <strong><?php echo number_format($row + 1); ?></strong>
                                     </td>
 
-                                    <td>
+                                    <td class="<?php echo $columnWidth; ?>">
                                         <div class="control-group">
                                             <div class="control-label">
                                                 <label for="<?php echo $titleId; ?>">
@@ -90,9 +90,8 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                 </label>
                                             </div>
                                             <div class="controls">
-                                                <input class="span12"
+                                                <input class="col-lg-12"
                                                        type="text"
-                                                       size="50"
                                                        maxlength="255"
                                                        id="<?php echo $titleId; ?>"
                                                        name="title[]"
@@ -110,9 +109,8 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                     </label>
                                                 </div>
                                                 <div class="controls">
-                                                    <input class="span12"
+                                                    <input class="col-lg-12"
                                                            type="text"
-                                                           size="50"
                                                            maxlength="255"
                                                            id="<?php echo $aliasId; ?>"
                                                            name="alias[]"
@@ -120,9 +118,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                            placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
                                                 </div>
                                             </div>
-                                        <?php endif;
-                                        ?>
-
+                                        <?php endif; ?>
                                     </td>
 
                                     <?php
@@ -130,28 +126,34 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         $introTextId = 'introtext_' . $row;
                                         ?>
                                         <td class="<?php echo $columnWidth; ?>">
-                                            <label for="<?php echo $introTextId; ?>">
-                                                <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
-                                            </label>
-                                            <?php
-                                            if ($wysiwyg) :
-                                                echo $editor->display(
-                                                    'introtext[]',
-                                                    $this->formData->get('introtext.' . $row),
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    true,
-                                                    $introTextId
-                                                );
-                                            else: ?>
-                                                <textarea id="<?php echo $introTextId ?>"
-                                                          name="introtext[]"
-                                                          rows="5"
-                                                          cols="35"
-                                                          class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
-                                            <?php endif; ?>
+                                            <div class="control-group">
+                                                <div class="conttrol-label">
+                                                    <label for="<?php echo $introTextId; ?>">
+                                                        <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="controls">
+                                                    <?php
+                                                    if ($wysiwyg) :
+                                                        echo $editor->display(
+                                                            'introtext[]',
+                                                            $this->formData->get('introtext.' . $row),
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            true,
+                                                            $introTextId
+                                                        );
+                                                    else: ?>
+                                                        <textarea id="<?php echo $introTextId ?>"
+                                                                  name="introtext[]"
+                                                                  rows="5"
+                                                                  class="col-lg-12"
+                                                                  class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
                                         </td>
                                     <?php endif; ?>
 
@@ -160,28 +162,34 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         $fullTextId = 'fulltext_' . $row;
                                         ?>
                                         <td class="<?php echo $columnWidth; ?>">
-                                            <label for="<?php echo $fullTextId; ?>">
-                                                <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
-                                            </label>
-                                            <?php
-                                            if ($wysiwyg):
-                                                echo $editor->display(
-                                                    'fulltext[]',
-                                                    $this->formData->get('fulltext.' . $row),
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    true,
-                                                    $fullTextId
-                                                ); ?>
-                                            <?php else : ?>
-                                                <textarea id="<?php echo $fullTextId; ?>"
-                                                          name="fulltext[]"
-                                                          rows="5"
-                                                          cols="35"
-                                                          class="span12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
-                                            <?php endif; ?>
+                                            <div class="control-group">
+                                                <div class="control-label">
+                                                    <label for="<?php echo $fullTextId; ?>">
+                                                        <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="controls">
+                                                    <?php
+                                                    if ($wysiwyg):
+                                                        echo $editor->display(
+                                                            'fulltext[]',
+                                                            $this->formData->get('fulltext.' . $row),
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            true,
+                                                            $fullTextId
+                                                        ); ?>
+                                                    <?php else : ?>
+                                                        <textarea id="<?php echo $fullTextId; ?>"
+                                                                  name="fulltext[]"
+                                                                  rows="5"
+                                                                  cols="35"
+                                                                  class="col-lg-12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
                                         </td>
                                     <?php endif; ?>
                                 </tr>
