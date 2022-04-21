@@ -61,7 +61,6 @@ class OSContentViewCategories extends OscontentViewAdmin
     protected function addToolbar(?string $title = null, ?string $icon = 'folder')
     {
         ToolbarHelper::apply('categories.save');
-        ToolbarHelper::cancel('categories.cancel');
 
         $title = $title ?: Text::_('COM_OSCONTENT_PAGE_MASS_CATEGORIES');
 
