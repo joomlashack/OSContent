@@ -29,11 +29,6 @@ use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die();
 
-HTMLHelper::_('bootstrap.tooltip');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('formbehavior.chosen', 'select');
-
 /**
  * @var OSContentViewContent $this
  * @var string               $template
@@ -52,6 +47,11 @@ extract($this->options);
  * @var bool   $displayFullText
  * @var int    $displayWysiwyg
  */
+
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 $columnWidth = ($displayIntroText xor $displayFullText)
     ? 'span6'
