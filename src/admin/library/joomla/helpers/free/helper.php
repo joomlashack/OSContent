@@ -27,6 +27,29 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die();
 
-abstract class OscontentHelper extends OscontentHelpersFreeHelper
+abstract class OscontentHelpersFreeHelper extends ContentHelper
 {
+    /**
+     * @inheritDoc
+     */
+    public static function addSubmenu($vName)
+    {
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_CREATE'),
+            'index.php?option=com_oscontent&view=content',
+            $vName == 'content'
+        );
+
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_CATEGORIES'),
+            'index.php?option=com_oscontent&view=categories',
+            $vName == 'categories'
+        );
+
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_DELETE'),
+            'index.php?option=com_oscontent&view=delete',
+            $vName == 'delete'
+        );
+    }
 }
