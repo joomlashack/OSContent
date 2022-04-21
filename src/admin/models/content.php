@@ -25,7 +25,7 @@ use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 
 defined('_JEXEC') or die();
 
