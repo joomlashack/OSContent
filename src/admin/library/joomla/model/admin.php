@@ -21,8 +21,8 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Alledia\Framework\Factory;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Model\AdminModel;
