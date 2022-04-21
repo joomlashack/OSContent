@@ -106,16 +106,23 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         if ($displayAlias) :
                                             $aliasId = 'alias_' . $row;
                                             ?>
-                                            <label for="<?php echo $aliasId; ?>">
-                                                <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
-                                            </label>
-                                            <input class="span12"
-                                                   type="text"
-                                                   maxlength="255"
-                                                   id="<?php echo $aliasId; ?>"
-                                                   name="alias[]"
-                                                   value="<?php echo $this->formData->get('alias.' . $row); ?>"
-                                                   placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
+                                            <div class="control-group">
+                                                <div class="control-label">
+                                                    <label for="<?php echo $aliasId; ?>">
+                                                        <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                                    </label>
+                                                </div>
+
+                                                <div class="controls">
+                                                    <input class="span12"
+                                                           type="text"
+                                                           maxlength="255"
+                                                           id="<?php echo $aliasId; ?>"
+                                                           name="alias[]"
+                                                           value="<?php echo $this->formData->get('alias.' . $row); ?>"
+                                                           placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
+                                                </div>
+                                            </div>
                                         <?php endif;
                                         ?>
                                     </div>
@@ -126,28 +133,34 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                     $introTextId = 'introtext_' . $row;
                                     ?>
                                     <td class="<?php echo $columnWidth; ?>">
-                                        <label for="<?php echo $introTextId; ?>">
-                                            <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
-                                        </label>
-                                        <?php
-                                        if ($wysiwyg) :
-                                            echo $editor->display(
-                                                'introtext[]',
-                                                $this->formData->get('introtext.' . $row),
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                true,
-                                                $introTextId
-                                            );
-                                        else: ?>
-                                            <textarea id="<?php echo $introTextId ?>"
-                                                      name="introtext[]"
-                                                      rows="4"
-                                                      cols="35"
-                                                      class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
-                                        <?php endif; ?>
+                                        <div class="control-group">
+                                            <div class="control-label">
+                                                <label for="<?php echo $introTextId; ?>">
+                                                    <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
+                                                </label>
+                                            </div>
+                                            <div class="controls">
+                                                <?php
+                                                if ($wysiwyg) :
+                                                    echo $editor->display(
+                                                        'introtext[]',
+                                                        $this->formData->get('introtext.' . $row),
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        true,
+                                                        $introTextId
+                                                    );
+                                                else: ?>
+                                                    <textarea id="<?php echo $introTextId ?>"
+                                                              name="introtext[]"
+                                                              rows="4"
+                                                              cols="35"
+                                                              class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 <?php endif; ?>
 
@@ -156,28 +169,34 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                     $fullTextId = 'fulltext_' . $row;
                                     ?>
                                     <td class="<?php echo $columnWidth; ?>">
-                                        <label for="<?php echo $fullTextId; ?>">
-                                            <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
-                                        </label>
-                                        <?php
-                                        if ($wysiwyg):
-                                            echo $editor->display(
-                                                'fulltext[]',
-                                                $this->formData->get('fulltext.' . $row),
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                true,
-                                                $fullTextId
-                                            ); ?>
-                                        <?php else : ?>
-                                            <textarea id="<?php echo $fullTextId; ?>"
-                                                      name="fulltext[]"
-                                                      rows="4"
-                                                      cols="35"
-                                                      class="span12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
-                                        <?php endif; ?>
+                                        <div class="control-group">
+                                            <div class="control-label">
+                                                <label for="<?php echo $fullTextId; ?>">
+                                                    <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
+                                                </label>
+                                            </div>
+                                            <div class="controls">
+                                                <?php
+                                                if ($wysiwyg):
+                                                    echo $editor->display(
+                                                        'fulltext[]',
+                                                        $this->formData->get('fulltext.' . $row),
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        true,
+                                                        $fullTextId
+                                                    ); ?>
+                                                <?php else : ?>
+                                                    <textarea id="<?php echo $fullTextId; ?>"
+                                                              name="fulltext[]"
+                                                              rows="4"
+                                                              cols="35"
+                                                              class="span12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 <?php endif; ?>
                             </tr>
