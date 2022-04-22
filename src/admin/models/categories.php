@@ -25,6 +25,7 @@ use Alledia\Framework\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 
 defined('_JEXEC') or die();
 
@@ -36,10 +37,13 @@ class OSContentModelCategories extends OscontentModelAdmin
     protected $text_prefix = 'COM_OSCONTENT_CATEGORIES';
 
     /**
-     * @var CategoriesModelCategory
+     * @var CategoriesModelCategory|CategoryTable
      */
     protected $categoryModel = null;
 
+    /**
+     * @var string[][]
+     */
     protected $menuLayouts = [
         'category.list' => ['view' => 'category'],
         'category.blog' => ['view' => 'category', 'layout' => 'blog']
@@ -67,7 +71,7 @@ class OSContentModelCategories extends OscontentModelAdmin
     }
 
     /**
-     * @return CategoriesModelCategory
+     * @return CategoriesModelCategory|CategoryTable
      */
     protected function getCategoryModel()
     {
@@ -101,9 +105,6 @@ class OSContentModelCategories extends OscontentModelAdmin
      */
     public function save($data)
     {
-        /**
-         * @var CategoriesModelCategory $model
-         */
         $model = Helper::getCategoryModel('Category', 'Administrator');
 
         $commonData = array_filter([
@@ -123,7 +124,6 @@ class OSContentModelCategories extends OscontentModelAdmin
 
         $errors = [];
         foreach ($data['title'] as $index => $title) {
-
             if (empty($title)) {
                 continue;
             }

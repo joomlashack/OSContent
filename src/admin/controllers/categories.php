@@ -25,7 +25,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 
 defined('_JEXEC') or die();
 
-class OSContentControllerCategories extends FormController
+class OscontentControllerCategories extends FormController
 {
     /**
      * @inheritDoc
