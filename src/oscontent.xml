@@ -72,5 +72,11 @@
                        ordering="last">ShackExtensionSupport</extension>
         </relatedExtensions>
         <include>ShackDefaultFiles</include>
+
+        <obsolete>
+            <preflight>
+                <folder>media/com_oscontent</folder>
+            </preflight>
+        </obsolete>
     </alledia>
 </extension>

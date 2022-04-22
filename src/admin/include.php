@@ -58,7 +58,6 @@ try {
 
         Factory::getLanguage()->load('com_oscontent.sys', OSCONTENT_ADMIN);
 
-        HTMLHelper::_('stylesheet', 'com_oscontent/admin.css', ['relative' => true]);
         HTMLHelper::_('jquery.framework');
         JLoader::register('OscontentHelper', OSCONTENT_ADMIN . '/helpers/oscontent.php');
 
