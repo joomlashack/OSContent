@@ -38,16 +38,4 @@ class OscontentControllerCategories extends FormController
 
         return $result;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function cancel($key = null)
-    {
-        $result = parent::cancel($key);
-
-        $this->setRedirect('index.php?option=com_oscontent&view=categories');
-
-        return $result;
-    }
 }
