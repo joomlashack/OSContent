@@ -37,7 +37,6 @@ class OSContentControllerDelete extends AdminController
         /** @var OSContentModelDelete $model */
         $model = $this->getModel();
 
-        $model->customDelete();
         if ($model->customDelete() == false) {
             $this->setMessage($model->getError(), 'error');
         }
