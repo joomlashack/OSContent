@@ -26,7 +26,6 @@ defined('_JEXEC') or die();
 use Alledia\Framework\AutoLoader;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Version;
 
 defined('_JEXEC') or die();
 
