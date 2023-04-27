@@ -70,7 +70,13 @@ class OSContentModelCategories extends OscontentModelAdmin
      */
     protected function loadFormData()
     {
-        return Factory::getApplication()->getUserState('com_oscontent.edit.categories.data', []);
+        $app = Factory::getApplication();
+
+        $data = $app->getUserState('com_oscontent.edit.categories.data', []);
+
+        $data['access'] = $data['access'] ?? $app->get('access');
+
+        return $data;
     }
 
     /**

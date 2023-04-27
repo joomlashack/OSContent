@@ -62,7 +62,13 @@ class OSContentModelContent extends OscontentModelAdmin
      */
     protected function loadFormData()
     {
-        return Factory::getApplication()->getUserState('com_oscontent.edit.content.data', []);
+        $app = Factory::getApplication();
+
+        $data = $app->getUserState('com_oscontent.edit.content.data', []);
+
+        $data['access'] = $data['access'] ?? $app->get('access');
+
+        return $data;
     }
 
     /**
