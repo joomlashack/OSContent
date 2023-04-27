@@ -109,7 +109,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                             <div class="control-group">
                                                 <div class="control-label">
                                                     <label for="<?php echo $aliasId; ?>">
-                                                        <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                                        <?php echo Text::_('COM_OSCONTENT_ALIAS'); ?>
                                                     </label>
                                                 </div>
 
@@ -123,8 +123,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                            placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
                                                 </div>
                                             </div>
-                                        <?php endif;
-                                        ?>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
 
@@ -147,12 +146,12 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                         $this->formData->get('introtext.' . $row),
                                                         null,
                                                         null,
-                                                        null,
-                                                        null,
+                                                        0,
+                                                        0,
                                                         true,
                                                         $introTextId
                                                     );
-                                                else: ?>
+                                                else : ?>
                                                     <textarea id="<?php echo $introTextId ?>"
                                                               name="introtext[]"
                                                               rows="4"
@@ -177,18 +176,18 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                             </div>
                                             <div class="controls">
                                                 <?php
-                                                if ($wysiwyg):
+                                                if ($wysiwyg) :
                                                     echo $editor->display(
                                                         'fulltext[]',
                                                         $this->formData->get('fulltext.' . $row),
                                                         null,
                                                         null,
-                                                        null,
-                                                        null,
+                                                        0,
+                                                        0,
                                                         true,
                                                         $fullTextId
-                                                    ); ?>
-                                                <?php else : ?>
+                                                    );
+                                                else : ?>
                                                     <textarea id="<?php echo $fullTextId; ?>"
                                                               name="fulltext[]"
                                                               rows="4"

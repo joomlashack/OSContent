@@ -40,12 +40,12 @@ defined('_JEXEC') or die();
 
 extract($this->options);
 /**
- * @var string  $contentRows
- * @var string  $categoryRows
- * @var boolean $displayAlias
- * @var boolean $displayIntroText
- * @var boolean $displayFullText
- * @var integer $displayWysiwyg
+ * @var string $contentRows
+ * @var string $categoryRows
+ * @var bool   $displayAlias
+ * @var bool   $displayIntroText
+ * @var bool   $displayFullText
+ * @var int    $displayWysiwyg
  */
 
 HTMLHelper::_('bootstrap.tooltip');
@@ -105,7 +105,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                             <div class="control-group">
                                                 <div class="control-label">
                                                     <label for="<?php echo $aliasId; ?>">
-                                                        <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
+                                                        <?php echo Text::_('COM_OSCONTENT_ALIAS'); ?>
                                                     </label>
                                                 </div>
                                                 <div class="controls">
@@ -127,7 +127,7 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                         ?>
                                         <td class="<?php echo $columnWidth; ?>">
                                             <div class="control-group">
-                                                <div class="conttrol-label">
+                                                <div class="control-label">
                                                     <label for="<?php echo $introTextId; ?>">
                                                         <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
                                                     </label>
@@ -140,12 +140,12 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                             $this->formData->get('introtext.' . $row),
                                                             null,
                                                             null,
-                                                            null,
-                                                            null,
+                                                            0,
+                                                            0,
                                                             true,
                                                             $introTextId
                                                         );
-                                                    else: ?>
+                                                    else : ?>
                                                         <textarea id="<?php echo $introTextId ?>"
                                                                   name="introtext[]"
                                                                   rows="5"
@@ -170,14 +170,14 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                                 </div>
                                                 <div class="controls">
                                                     <?php
-                                                    if ($wysiwyg):
+                                                    if ($wysiwyg) :
                                                         echo $editor->display(
                                                             'fulltext[]',
                                                             $this->formData->get('fulltext.' . $row),
                                                             null,
                                                             null,
-                                                            null,
-                                                            null,
+                                                            0,
+                                                            0,
                                                             true,
                                                             $fullTextId
                                                         ); ?>
