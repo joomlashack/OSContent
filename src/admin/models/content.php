@@ -27,7 +27,10 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Administrator\Model\ArticleModel;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 class OSContentModelContent extends OscontentModelAdmin
 {
@@ -165,7 +168,8 @@ class OSContentModelContent extends OscontentModelAdmin
                     'alias'     => OutputFilter::stringURLSafe($alias),
                     'introtext' => $data['introtext'][$index] ?? '',
                     'fulltext'  => $data['fulltext'][$index] ?? '',
-                ]);
+                ]
+            );
 
             if (
                 $table->load([
@@ -187,14 +191,14 @@ class OSContentModelContent extends OscontentModelAdmin
         }
 
         if ($errors) {
-            $this->setError('<br>' . join('<br>', $errors));
+            Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'warning');
 
             return false;
         }
 
         foreach ($newArticles as $index => $newArticle) {
             try {
-                $model->setState('article.id', null);
+                $model->setState('article.id');
 
                 if ($model->save($newArticle) == false) {
                     throw new Exception(
