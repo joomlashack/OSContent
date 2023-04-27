@@ -191,7 +191,7 @@ class OSContentModelContent extends OscontentModelAdmin
         }
 
         if ($errors) {
-            Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'warning');
+            Factory::getApplication()->enqueueMessage(join('<br>', $errors), 'error');
 
             return false;
         }
@@ -200,7 +200,7 @@ class OSContentModelContent extends OscontentModelAdmin
             try {
                 $model->setState('article.id');
 
-                if ($model->save($newArticle) == false) {
+                if ($model->save($newArticle) === false) {
                     throw new Exception(
                         sprintf(
                             '%02d. %s (%s): %s',

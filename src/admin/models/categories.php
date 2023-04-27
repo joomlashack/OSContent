@@ -27,7 +27,10 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 class OSContentModelCategories extends OscontentModelAdmin
 {
@@ -101,7 +104,7 @@ class OSContentModelCategories extends OscontentModelAdmin
 
     /**
      * @inheritDoc
-     *
+     * @throws Exception
      */
     public function save($data)
     {
@@ -131,10 +134,11 @@ class OSContentModelCategories extends OscontentModelAdmin
             try {
                 $alias = $data['alias'][$index] ?: $title;
 
-                $newCategory = array_merge([
-                    'title' => $title,
-                    'alias' => OutputFilter::stringURLSafe($alias)
-                ],
+                $newCategory = array_merge(
+                    [
+                        'title' => $title,
+                        'alias' => OutputFilter::stringURLSafe($alias)
+                    ],
                     $commonData
                 );
 
@@ -151,7 +155,6 @@ class OSContentModelCategories extends OscontentModelAdmin
                     );
 
                 } elseif ($menuType && $linkType) {
-
                     $linkVars       = array_merge(
                         [
                             'option' => 'com_content',
@@ -176,7 +179,8 @@ class OSContentModelCategories extends OscontentModelAdmin
         }
 
         if ($errors) {
-            $this->setError('<br>' . join('<br>', $errors));
+            Factory::getApplication()->enqueueMessage(join('<br>', $errors), 'error');
+
             return false;
         }
 
