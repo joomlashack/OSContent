@@ -29,12 +29,16 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 abstract class OscontentModelAdmin extends AdminModel
 {
     /**
      * @return MenusModelItem|ItemModel
+     * @throws Exception
      */
     protected function getMenuModel()
     {

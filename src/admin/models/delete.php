@@ -26,9 +26,13 @@ use Alledia\Framework\Helper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 class OSContentModelDelete extends OscontentModelAdmin
 {
@@ -95,8 +99,9 @@ class OSContentModelDelete extends OscontentModelAdmin
 
     /**
      * @return bool
+     * @throws Exception
      */
-    public function customDelete()
+    public function customDelete(): bool
     {
         try {
             switch ($this->getState('delete')) {
@@ -113,7 +118,8 @@ class OSContentModelDelete extends OscontentModelAdmin
             $errorMessage = (sprintf('%s:%s<br>%s', $error->getFile(), $error->getLine(), $error->getMessage()));
         }
 
-        $this->setError($errorMessage ?? 'Unknown problem');
+        Factory::getApplication()->enqueueMessage($errorMessage ?? 'Unknown problem', 'error');
+
         return false;
     }
 
@@ -121,8 +127,9 @@ class OSContentModelDelete extends OscontentModelAdmin
      * Clear only introtext and fulltext in articles of selected category
      *
      * @return bool
+     * @throws Exception
      */
-    protected function clearContent()
+    protected function clearContent(): bool
     {
         $categoryId = (int)$this->getState('category.id');
         if ($categoryId) {
@@ -144,7 +151,8 @@ class OSContentModelDelete extends OscontentModelAdmin
             return $success;
         }
 
-        $this->setError('Nothing to delete');
+        Factory::getApplication()->enqueueMessage('Nothing to delete', 'warning');
+
         return false;
     }
 
@@ -152,6 +160,7 @@ class OSContentModelDelete extends OscontentModelAdmin
      * Remove all content related to the category
      *
      * @return false
+     * @throws Exception
      */
     protected function clearAll()
     {
@@ -172,7 +181,7 @@ class OSContentModelDelete extends OscontentModelAdmin
                     return true;
                 }
 
-                $this->setError($categoryModel->getError());
+                Factory::getApplication()->enqueueMessage($categoryModel->getError(), 'error');
             }
         }
 
@@ -183,6 +192,7 @@ class OSContentModelDelete extends OscontentModelAdmin
      * @param int $categoryId
      *
      * @return int[]
+     * @throws Exception
      */
     protected function deleteArticles(int $categoryId): array
     {
@@ -205,7 +215,8 @@ class OSContentModelDelete extends OscontentModelAdmin
                 $this->app->enqueueMessage(Text::plural('COM_OSCONTENT_DELETE_N_ARTICLES', count($articles)));
 
             } else {
-                $this->setError(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'));
+                Factory::getApplication()->enqueueMessage(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'), 'error');
+
                 return [];
             }
         }
@@ -218,6 +229,7 @@ class OSContentModelDelete extends OscontentModelAdmin
      * @param int[] $articleIds
      *
      * @return bool
+     * @throws Exception
      */
     protected function deleteMenus(int $categoryId, array $articleIds): bool
     {

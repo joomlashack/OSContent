@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <access component="com_oscontent">
     <section name="component">
-        <action name="core.admin" title="COM_OSCONTENT_ACTION_COMPONENT_ADMIN"
-                description="COM_OSCONTENT_ACTION_COMPONENT_ADMIN_DESC"/>
-        <action name="core.manage" title="COM_OSCONTENT_ACTION_COMPONENT_MANAGE"
-                description="COM_OSCONTENT_ACTION_COMPONENT_MANAGE_DESC"/>
+        <action name="core.admin" title="COM_OSCONTENT_ACTION_COMPONENT_ADMIN"/>
+        <action name="core.manage" title="COM_OSCONTENT_ACTION_COMPONENT_MANAGE"/>
     </section>
 </access>

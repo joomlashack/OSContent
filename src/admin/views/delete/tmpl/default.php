@@ -20,9 +20,9 @@
  * You should have received a copy of the GNU General Public License
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die();
@@ -46,7 +46,7 @@ HTMLHelper::_('behavior.keepalive');
       method="post">
 
     <div id="j-main-container" class="span10">
-            <?php echo $this->form->renderFieldset('main'); ?>
+        <?php echo $this->form->renderFieldset('main'); ?>
     </div>
 
     <input type="hidden" name="task" value=""/>

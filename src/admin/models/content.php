@@ -206,7 +206,7 @@ class OSContentModelContent extends OscontentModelAdmin
             try {
                 $model->setState('article.id');
 
-                if ($model->save($newArticle) === false) {
+                if ($model->save($newArticle) == false) {
                     throw new Exception(
                         sprintf(
                             '%02d. %s (%s): %s',

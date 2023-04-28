@@ -21,11 +21,10 @@
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\Helpers\Sidebar;
-use Joomla\CMS\Language\Text;
-
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 abstract class OscontentHelper extends OscontentHelpersFreeHelper
 {

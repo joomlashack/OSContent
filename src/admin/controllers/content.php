@@ -23,13 +23,15 @@
 
 use Joomla\CMS\MVC\Controller\FormController;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 class OSContentControllerContent extends FormController
 {
     /**
      * @inheritDoc
-     *
      */
     public function save($key = null, $urlVar = null)
     {
