@@ -119,7 +119,7 @@ class OSContentViewContent extends OscontentViewAdmin
         $fieldset = $form->getFieldset('article');
 
         $fields = [];
-        foreach ($fieldset as $fieldName => $field) {
+        foreach ($fieldset as $field) {
             $name          = $field->getAttribute('name');
             $fields[$name] = $field;
         }
