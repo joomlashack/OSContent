@@ -182,9 +182,8 @@ class OSContentModelContent extends OscontentModelAdmin
                     continue;
                 }
 
+                $newArticles[] = $article;
             }
-
-            $newArticles[] = $article;
         }
 
         if ($errors) {
