@@ -95,15 +95,12 @@ class OSContentModelContent extends OscontentModelAdmin
      * @return array
      * @throws Exception
      */
-    public function getPostData(): array
+    protected function getPostData(): array
     {
         $input = Factory::getApplication()->input->post;
 
         return $input->getArray([
-            'title'            => 'array',
-            'alias'            => 'array',
-            'introtext'        => 'array',
-            'fulltext'         => 'array',
+            'article'          => 'array',
             'state'            => 'int',
             'access'           => 'int',
             'created_by'       => 'int',
@@ -139,6 +136,10 @@ class OSContentModelContent extends OscontentModelAdmin
         $table = $model->getTable();
 
         $commonData = array_filter([
+            'title'            => '',
+            'alias'            => '',
+            'introtext'        => '',
+            'fulltext'         => '',
             'featured'         => (int)$data['featured'],
             'created_by'       => $data['created_by'] ?: null,
             'created_by_alias' => $data['created_by_alias'] ?: null,
@@ -160,44 +161,35 @@ class OSContentModelContent extends OscontentModelAdmin
 
         $newArticles = [];
         $errors      = [];
-        foreach ($data['title'] as $index => $title) {
-            if (empty($title)) {
-                continue;
+        foreach ($data['article'] as $index => $article) {
+            if ($article['title']) {
+                $article['alias'] = OutputFilter::stringURLSafe($article['alias'] ?: $article['title']);
+
+                $article = array_merge($commonData, $article);
+
+                if (
+                    $table->load([
+                        'alias' => $article['alias'],
+                        'catid' => $article['catid']
+                    ])
+                ) {
+                    $errors[] = sprintf(
+                        '%02d. %s: %s',
+                        $index + 1,
+                        $article['alias'],
+                        Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS')
+                    );
+                    continue;
+                }
+
             }
 
-            $alias = $data['alias'][$index] ?: $title;
-
-            $currentArticle = array_merge(
-                $commonData,
-                [
-                    'title'     => $title,
-                    'alias'     => OutputFilter::stringURLSafe($alias),
-                    'introtext' => $data['introtext'][$index] ?? '',
-                    'fulltext'  => $data['fulltext'][$index] ?? '',
-                ]
-            );
-
-            if (
-                $table->load([
-                    'alias' => $currentArticle['alias'],
-                    'catid' => $currentArticle['catid']
-                ])
-            ) {
-                $errors[] = sprintf(
-                    '%02d. %s: %s',
-                    $index + 1,
-                    $currentArticle['alias'],
-                    Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS')
-                );
-
-                continue;
-            }
-
-            $newArticles[$index] = $currentArticle;
+            $newArticles[] = $article;
         }
 
         if ($errors) {
             Factory::getApplication()->enqueueMessage(join('<br>', $errors), 'error');
+            $this->setError(Text::_('COM_OSCONTENT_ERROR_CONTENT'));
 
             return false;
         }
@@ -240,7 +232,10 @@ class OSContentModelContent extends OscontentModelAdmin
         }
 
         if ($errors) {
-            Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'warning');
+            Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'error');
+            $this->setError(Text::_('COM_OSCONTENT_ERROR_CONTENT'));
+
+            return false;
         }
 
         return true;
