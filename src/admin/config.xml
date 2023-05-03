@@ -7,20 +7,17 @@
         <field name="nbOSContent"
                type="number"
                default="10"
-               label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"
-               description="COM_OSCONTENT_PARAM_NBMASSCONTENT_DESC"/>
+               label="COM_OSCONTENT_PARAM_NBMASSCONTENT_LABEL"/>
 
         <field name="nbOSCategories"
                type="number"
                default="10"
-               label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"
-               description="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_DESC"/>
+               label="COM_OSCONTENT_PARAM_NBMASSCATEGORIES_LABEL"/>
 
         <field name="displayWysiwyg"
                type="list"
                default="0"
-               label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL"
-               description="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_DESC">
+               label="COM_OSCONTENT_PARAM_DISPLAYWYSIWYG_LABEL">
             <option value="0">JHIDE</option>
             <option value="1">COM_OSCONTENT_OPTION_SHOW_FIRST</option>
             <option value="2">COM_OSCONTENT_OPTION_SHOW_ALL</option>
@@ -31,8 +28,7 @@
                class="btn-group btn-group-yesno"
                layout="joomla.form.field.radio.switcher"
                default="1"
-               label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL"
-               description="COM_OSCONTENT_PARAM_DISPLAYALIAS_DESC">
+               label="COM_OSCONTENT_PARAM_DISPLAYALIAS_LABEL">
             <option value="0">JHIDE</option>
             <option value="1">JSHOW</option>
         </field>
@@ -42,8 +38,7 @@
                class="btn-group btn-group-yesno"
                layout="joomla.form.field.radio.switcher"
                default="1"
-               label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL"
-               description="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_DESC">
+               label="COM_OSCONTENT_PARAM_DISPLAYINTROTEXT_LABEL">
             <option value="0">JHIDE</option>
             <option value="1">JSHOW</option>
         </field>
@@ -53,8 +48,7 @@
                class="btn-group btn-group-yesno"
                layout="joomla.form.field.radio.switcher"
                default="1"
-               label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL"
-               description="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_DESC">
+               label="COM_OSCONTENT_PARAM_DISPLAYFULLTEXT_LABEL">
             <option value="0">JHIDE</option>
             <option value="1">JSHOW</option>
         </field>
