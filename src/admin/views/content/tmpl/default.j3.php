@@ -21,7 +21,6 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -55,9 +54,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 
 $columnWidth = ($displayIntroText xor $displayFullText)
     ? 'span6'
-    : ($displayFullText && $displayIntroText ? 'span4' : '');
-
-$editor = Editor::getInstance($this->app->get('editor'));
+    : ($displayFullText && $displayIntroText ? 'span4' : 'span12');
 
 ?>
 <form name="adminForm"
@@ -75,11 +72,11 @@ $editor = Editor::getInstance($this->app->get('editor'));
             <div class="span8">
                 <fieldset>
                     <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
+
                     <table class="table table-striped">
                         <?php
                         for ($row = 0; $row < $contentRows; $row++) :
-                            $titleId = 'title_' . $row;
-                            $wysiwyg = $displayWysiwyg == 2 || ($row == 0 && $displayWysiwyg == 1);
+                            $fields = $this->getFields($row);
                             ?>
                             <tr>
                                 <td class="span1">
@@ -87,115 +84,24 @@ $editor = Editor::getInstance($this->app->get('editor'));
                                 </td>
 
                                 <td class="<?php echo $columnWidth; ?>">
-                                    <div class="control-group">
-                                        <div class="control-label">
-                                            <label for="<?php echo $titleId; ?>">
-                                                <?php echo Text::_('COM_OSCONTENT_TITLE'); ?>
-                                            </label>
-                                        </div>
-                                        <div class="controls">
-                                            <input class="span12"
-                                                   type="text"
-                                                   size="50"
-                                                   maxlength="255"
-                                                   id="<?php echo $titleId; ?>"
-                                                   name="title[]"
-                                                   value="<?php echo $this->formData->get('title.' . $row); ?>">
-                                        </div>
-                                        <?php
-                                        if ($displayAlias) :
-                                            $aliasId = 'alias_' . $row;
-                                            ?>
-                                            <div class="control-group">
-                                                <div class="control-label">
-                                                    <label for="<?php echo $aliasId; ?>">
-                                                        <?php echo Text::_('COM_OSCONTENT_ALIAS'); ?>
-                                                    </label>
-                                                </div>
-
-                                                <div class="controls">
-                                                    <input class="span12"
-                                                           type="text"
-                                                           maxlength="255"
-                                                           id="<?php echo $aliasId; ?>"
-                                                           name="alias[]"
-                                                           value="<?php echo $this->formData->get('alias.' . $row); ?>"
-                                                           placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
-                                                </div>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
+                                    <?php
+                                    echo $fields['title']->renderField();
+                                    if (empty($fields['alias']) == false) :
+                                        echo $fields['alias']->renderField();
+                                    endif;
+                                    ?>
                                 </td>
 
                                 <?php
-                                if ($displayIntroText) :
-                                    $introTextId = 'introtext_' . $row;
-                                    ?>
+                                if (empty($fields['introtext']) == false) : ?>
                                     <td class="<?php echo $columnWidth; ?>">
-                                        <div class="control-group">
-                                            <div class="control-label">
-                                                <label for="<?php echo $introTextId; ?>">
-                                                    <?php echo Text::_('COM_OSCONTENT_INTRO_TEXT'); ?>
-                                                </label>
-                                            </div>
-                                            <div class="controls">
-                                                <?php
-                                                if ($wysiwyg) :
-                                                    echo $editor->display(
-                                                        'introtext[]',
-                                                        $this->formData->get('introtext.' . $row),
-                                                        null,
-                                                        null,
-                                                        0,
-                                                        0,
-                                                        true,
-                                                        $introTextId
-                                                    );
-                                                else : ?>
-                                                    <textarea id="<?php echo $introTextId ?>"
-                                                              name="introtext[]"
-                                                              rows="4"
-                                                              cols="35"
-                                                              class="span12"><?php echo $this->formData->get('introtext.' . $row); ?></textarea>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
+                                        <?php echo $fields['introtext']->renderField(); ?>
                                     </td>
-                                <?php endif; ?>
+                                <?php endif;
 
-                                <?php
-                                if ($displayFullText) :
-                                    $fullTextId = 'fulltext_' . $row;
-                                    ?>
+                                if (empty($fields['fulltext']) == false) :?>
                                     <td class="<?php echo $columnWidth; ?>">
-                                        <div class="control-group">
-                                            <div class="control-label">
-                                                <label for="<?php echo $fullTextId; ?>">
-                                                    <?php echo Text::_('COM_OSCONTENT_FULL_TEXT'); ?>
-                                                </label>
-                                            </div>
-                                            <div class="controls">
-                                                <?php
-                                                if ($wysiwyg) :
-                                                    echo $editor->display(
-                                                        'fulltext[]',
-                                                        $this->formData->get('fulltext.' . $row),
-                                                        null,
-                                                        null,
-                                                        0,
-                                                        0,
-                                                        true,
-                                                        $fullTextId
-                                                    );
-                                                else : ?>
-                                                    <textarea id="<?php echo $fullTextId; ?>"
-                                                              name="fulltext[]"
-                                                              rows="4"
-                                                              cols="35"
-                                                              class="span12"><?php echo $this->formData->get('fulltext.' . $row); ?></textarea>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
+                                        <?php echo $fields['fulltext']->renderField(); ?>
                                     </td>
                                 <?php endif; ?>
                             </tr>

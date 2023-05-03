@@ -21,6 +21,8 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -68,5 +70,60 @@ class OSContentViewContent extends OscontentViewAdmin
         $title = $title ?: Text::_('COM_OSCONTENT_PAGE_CREATE_CONTENT');
 
         parent::addToolbar($title, $icon);
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return FormField[]
+     */
+    protected function getFields(int $index): array
+    {
+        $form = Form::getInstance('com_oscontent.article' . $index, $this->form->getXml()->asXML());
+
+        $displayWysiwyg = $this->options['displayWysiwyg'];
+        $wysiwyg        = $displayWysiwyg == 2 || ($index == 0 && $displayWysiwyg == 1);
+
+        // Verify alias
+        if ($this->options['displayAlias'] == false) {
+            $form->removeField('alias', 'article');
+        }
+
+        // Verify infotext
+        if ($this->options['displayIntroText']) {
+            if ($wysiwyg) {
+                $introtext            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="introtext"]');
+                $introtext[0]['type'] = 'editor';
+            }
+
+        } else {
+            $form->removeField('introtext', 'article');
+        }
+
+        // Verify fulltext
+        if ($this->options['displayFullText']) {
+            if ($wysiwyg) {
+                $fulltext            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="fulltext"]');
+                $fulltext[0]['type'] = 'editor';
+            }
+
+        } else {
+            $form->removeField('fulltext', 'article');
+        }
+
+        $group = $form->getXml()->xpath('/form/fieldset[@name="article"]/fields');
+        $group = array_shift($group);
+
+        $group['name'] = "article[{$index}]";
+
+        $fieldset = $form->getFieldset('article');
+
+        $fields = [];
+        foreach ($fieldset as $fieldName => $field) {
+            $name          = $field->getAttribute('name');
+            $fields[$name] = $field;
+        }
+
+        return $fields;
     }
 }

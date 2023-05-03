@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+    <fieldset name="article">
+        <fields name="article">
+            <field name="title"
+                   type="text"
+                   label="COM_OSCONTENT_TITLE"
+                   class="span12 col-lg-12"
+                   maxlength="255"/>
+
+            <field name="alias"
+                   type="text"
+                   label="COM_OSCONTENT_ALIAS"
+                   class="span12 col-lg-12"
+                   hint="COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"/>
+
+            <field name="introtext"
+                   type="textarea"
+                   rows="5"
+                   cols="35"
+                   class="span12 col-lg-12"
+                   label="COM_OSCONTENT_INTRO_TEXT"/>
+
+            <field name="fulltext"
+                   type="textarea"
+                   rows="5"
+                   cols="35"
+                   class="span12 col-lg-12"
+                   label="COM_OSCONTENT_FULL_TEXT"/>
+        </fields>
+    </fieldset>
+
     <fieldset name="options">
         <field name="state"
                type="radio"
