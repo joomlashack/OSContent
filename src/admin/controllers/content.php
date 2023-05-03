@@ -30,6 +30,8 @@ defined('_JEXEC') or die();
 
 class OSContentControllerContent extends FormController
 {
+    protected $text_prefix = 'COM_OSCONTENT_CONTENT';
+
     /**
      * @inheritDoc
      */

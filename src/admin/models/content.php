@@ -189,7 +189,7 @@ class OSContentModelContent extends OscontentModelAdmin
 
         if ($errors) {
             Factory::getApplication()->enqueueMessage(join('<br>', $errors), 'error');
-            $this->setError(Text::_('COM_OSCONTENT_ERROR_CONTENT'));
+            $this->setError(Text::_('COM_OSCONTENT_CONTENT_ERROR_SAVE_FAILED'));
 
             return false;
         }
@@ -233,7 +233,7 @@ class OSContentModelContent extends OscontentModelAdmin
 
         if ($errors) {
             Factory::getApplication()->enqueueMessage('<br>' . join('<br>', $errors), 'error');
-            $this->setError(Text::_('COM_OSCONTENT_ERROR_CONTENT'));
+            $this->setError(Text::_('COM_OSCONTENT_CONTENT_ERROR_SAVE_FAILED'));
 
             return false;
         }

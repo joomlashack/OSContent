@@ -215,7 +215,7 @@ class OSContentModelDelete extends OscontentModelAdmin
                 $this->app->enqueueMessage(Text::plural('COM_OSCONTENT_DELETE_N_ARTICLES', count($articles)));
 
             } else {
-                Factory::getApplication()->enqueueMessage(Text::_('COM_OSCONTENT_ERROR_DELETE_ARTICLES'), 'error');
+                Factory::getApplication()->enqueueMessage(Text::_('COM_OSCONTENT_DELETE_ERROR_ARTICLES'), 'error');
 
                 return [];
             }
