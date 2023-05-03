@@ -54,7 +54,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 
 $columnWidth = ($displayIntroText xor $displayFullText)
     ? 'span6'
-    : ($displayFullText && $displayIntroText ? 'span4' : 'span12');
+    : ($displayFullText && $displayIntroText ? 'span4' : 'span11');
 
 ?>
 <form name="adminForm"
@@ -73,7 +73,7 @@ $columnWidth = ($displayIntroText xor $displayFullText)
                 <fieldset>
                     <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
 
-                    <table class="table table-striped">
+                    <table class="articles table table-striped">
                         <?php
                         for ($row = 0; $row < $contentRows; $row++) :
                             $fields = $this->getFields($row);

@@ -53,6 +53,11 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 $this->document->getWebAssetManager()->addInlineStyle('td .form-control { width: 100%; }');
+
+$columnWidth = ($displayIntroText xor $displayFullText)
+    ? 'col-lg-6'
+    : ($displayFullText && $displayIntroText ? 'col-lg-3' : 'col-lg-12');
+
 ?>
 <div class="row-fluid">
     <div id="j-main-container">
@@ -66,7 +71,7 @@ $this->document->getWebAssetManager()->addInlineStyle('td .form-control { width:
                 <div class="col-lg-9">
                     <fieldset class="form-vertical options-form">
                         <legend><?php echo Text::sprintf('COM_OSCONTENT_CREATEUPTO', $contentRows); ?></legend>
-                        <table class="table table-striped">
+                        <table class="articles table table-striped">
                             <?php
                             for ($row = 0; $row < $contentRows; $row++) :
                                 $fields = $this->getFields($row);
@@ -76,7 +81,7 @@ $this->document->getWebAssetManager()->addInlineStyle('td .form-control { width:
                                         <strong><?php echo number_format($row + 1); ?></strong>
                                     </td>
 
-                                    <td>
+                                    <td class="<?php echo $columnWidth; ?>">
                                         <?php
                                         echo $fields['title']->renderField();
                                         if (empty($fields['alias']) == false) :
@@ -86,13 +91,13 @@ $this->document->getWebAssetManager()->addInlineStyle('td .form-control { width:
                                     </td>
 
                                     <?php if (empty($fields['introtext']) == false) : ?>
-                                        <td>
+                                        <td class="<?php echo $columnWidth; ?>">
                                             <?php echo $fields['introtext']->renderField(); ?>
                                         </td>
                                     <?php endif;
 
                                     if (empty($fields['fulltext']) == false) : ?>
-                                        <td>
+                                        <td class="<?php echo $columnWidth; ?>">
                                             <?php echo $fields['fulltext']->renderField(); ?>
                                         </td>
                                     <?php endif; ?>

@@ -21,12 +21,13 @@
  */
 ;
 jQuery(document).ready(function($) {
-    let titles     = document.getElementsByName('title[]'),
-        aliases    = document.getElementsByName('alias[]'),
-        introTexts = document.getElementsByName('introtext[]'),
-        fullTexts  = document.getElementsByName('fulltext[]');
-
-    let editorValue = function(element, value) {
+    /**
+     * @param {HTMLElement} element
+     * @param {string} value
+     *
+     * @returns {?string}
+     */
+    let editorValue = (element, value) => {
         let editor = Joomla.editors.instances[element.id] || null;
         if (editor) {
             if (typeof value === 'undefined') {
@@ -47,28 +48,57 @@ jQuery(document).ready(function($) {
         return null;
     };
 
-    let duplicateText = document.getElementById('duplicateText');
+    /**
+     *
+     * @param {HTMLElement} article
+     *
+     * @returns {
+     *    {title    : HTMLElement},
+     *    {alias    : HTMLElement},
+     *    {introText: HTMLElement},
+     *    {fullText : HTMLElement}
+     * }
+     */
+    let getFields = (article) => {
+        return {
+            title    : article.querySelector('[name$="[title]"]'),
+            alias    : article.querySelector('[name$="[alias]"]'),
+            introText: article.querySelector('[name$="[introtext]"]'),
+            fullText : article.querySelector('[name$="[fulltext]"]')
+        };
+    };
+
+    let articles      = document.querySelectorAll('table.articles.table tr'),
+        duplicateText = document.getElementById('duplicateText');
+
     if (duplicateText) {
         duplicateText.addEventListener('click', function(evt) {
             evt.preventDefault();
 
-            let titleText = titles[0].value,
-                aliasText = aliases.length ? aliases[0].value : null,
-                introText = introTexts.length ? editorValue(introTexts[0]) : null,
-                fullText  = fullTexts.length ? editorValue(fullTexts[0]) : null;
+            let values = {};
+            articles.forEach((article, index) => {
+                let fields = getFields(article);
 
-            for (let index = 1; index < titles.length; index++) {
-                titles[index].value = titleText + ' ' + (index + 1);
-                if (aliasText) {
-                    aliases[index].value = aliasText + '-' + (index + 1);
+                for (let field in fields) {
+                    if (fields[field]) {
+                        if (index === 0) {
+                            values[field] = editorValue(fields[field]);
+
+                        } else if (values[field] || null) {
+                            switch (field) {
+                                case 'title':
+                                case 'alias':
+                                    editorValue(fields[field], values[field] + ' ' + (index + 1));
+                                    break;
+
+                                default:
+                                    editorValue(fields[field], values[field]);
+                                    break;
+                            }
+                        }
+                    }
                 }
-                if (introText) {
-                    editorValue(introTexts[index], introText);
-                }
-                if (fullText) {
-                    editorValue(fullTexts[index], fullText);
-                }
-            }
+            });
         });
     }
 
@@ -77,18 +107,16 @@ jQuery(document).ready(function($) {
         clearText.addEventListener('click', function(evt) {
             evt.preventDefault();
 
-            for (let index = 1; index < titles.length; index++) {
-                titles[index].value = '';
-                if (aliases[index]) {
-                    aliases[index].value = '';
+            articles.forEach((article, index) => {
+                if (index > 0) {
+                    let fields = getFields(article);
+                    for (field in fields) {
+                        if (fields[field]) {
+                            editorValue(fields[field], '');
+                        }
+                    }
                 }
-                if (introTexts[index]) {
-                    editorValue(introTexts[index], '');
-                }
-                if (fullTexts[index]) {
-                    editorValue(fullTexts[index], '');
-                }
-            }
+            });
         });
     }
 
