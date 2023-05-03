@@ -116,14 +116,16 @@ class OSContentModelCategories extends OscontentModelAdmin
     {
         $model = Helper::getCategoryModel('Category', 'Administrator');
 
-        $commonData = array_filter([
+        $commonData = [
+            'title'     => '',
+            'alias'     => '',
             'parent_id' => (int)$data['parent'],
             'access'    => (int)$data['access'],
             'published' => (int)$data['published'],
             'extension' => 'com_content',
             'note'      => Text::_('COM_OSCONTENT_NOTE_CREATEDBY'),
             'language'  => '*'
-        ]);
+        ];
 
         $menuType = $data['menutype'];
         $linkType = $data['link_type'] ?? null;
@@ -132,60 +134,54 @@ class OSContentModelCategories extends OscontentModelAdmin
         }
 
         $errors = [];
-        foreach ($data['title'] as $index => $title) {
-            if (empty($title)) {
-                continue;
-            }
+        foreach ($data['category'] as $index => $category) {
+            $category = array_merge($commonData, $category);
 
-            try {
-                $alias = $data['alias'][$index] ?: $title;
+            if ($category['title']) {
+                try {
+                    $category['alias'] = OutputFilter::stringURLSafe($category['alias'] ?: $category['title']);
 
-                $newCategory = array_merge(
-                    [
-                        'title' => $title,
-                        'alias' => OutputFilter::stringURLSafe($alias)
-                    ],
-                    $commonData
-                );
+                    $model->setState('category.id');
+                    if ($model->save($category) == false) {
+                        throw new Exception(
+                            sprintf(
+                                '%02d: %s (%s): %s',
+                                $index + 1,
+                                $category['title'],
+                                $category['alias'],
+                                $model->getError()
+                            )
+                        );
 
-                $model->setState('category.id');
-                if ($model->save($newCategory) == false) {
-                    throw new Exception(
-                        sprintf(
-                            '%02d: %s (%s): %s',
-                            $index + 1,
-                            $title,
-                            $alias,
-                            $model->getError()
-                        )
-                    );
+                    } elseif ($menuType && $linkType) {
+                        $linkVars       = array_merge(
+                            [
+                                'option' => 'com_content',
+                            ],
+                            $linkType
+                        );
+                        $linkVars['id'] = $model->getState('category.id');
 
-                } elseif ($menuType && $linkType) {
-                    $linkVars       = array_merge(
-                        [
-                            'option' => 'com_content',
-                        ],
-                        $linkType
-                    );
-                    $linkVars['id'] = $model->getState('category.id');
+                        $this->menuLink(
+                            $menuType,
+                            $data['parent_id'] ?? null,
+                            $linkVars,
+                            $category['title'],
+                            $category['alias'] ?? '',
+                            $category['published'] ?? 0,
+                            $index
+                        );
+                    }
 
-                    $this->menuLink(
-                        $menuType,
-                        $data['parent_id'] ?? null,
-                        $linkVars,
-                        $newCategory['title'],
-                        $newCategory['alias'] ?? '',
-                        $newCategory['published'] ?? 0,
-                        $index
-                    );
+                } catch (Throwable $error) {
+                    $errors[] = $error->getMessage();
                 }
-            } catch (Throwable $error) {
-                $errors[] = $error->getMessage();
             }
         }
 
         if ($errors) {
             Factory::getApplication()->enqueueMessage(join('<br>', $errors), 'error');
+            $this->setError(Text::_('COM_OSCONTENT_CATEGORIES_ERROR_SAVE_FAILED'));
 
             return false;
         }
@@ -202,14 +198,13 @@ class OSContentModelCategories extends OscontentModelAdmin
         $input = Factory::getApplication()->input->post;
 
         return $input->getArray([
-            'title'     => 'ARRAY',
-            'alias'     => 'ARRAY',
-            'parent'    => 'INT',
-            'access'    => 'INT',
-            'published' => 'INT',
+            'category'  => 'array',
+            'parent'    => 'int',
+            'access'    => 'int',
+            'published' => 'int',
             'menutype'  => 'string',
-            'parent_id' => 'INT',
-            'link_type' => 'STRING'
+            'parent_id' => 'int',
+            'link_type' => 'string'
         ]);
     }
 }

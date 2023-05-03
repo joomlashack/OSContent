@@ -67,10 +67,11 @@ HTMLHelper::_('formbehavior.chosen', 'select');
             <div class="span8">
                 <fieldset>
                     <legend><?php echo Text::sprintf('COM_OSCONTENT_CATEGORIES_CREATEUPTO', $categoryRows); ?></legend>
+
                     <table class="table table-striped">
                         <?php
                         for ($row = 0; $row < $categoryRows; $row++) :
-                            $titleId = 'title_' . $row;
+                            $fields = $this->getFields($row);
                             ?>
                             <tr>
                                 <td class="span1">
@@ -78,40 +79,11 @@ HTMLHelper::_('formbehavior.chosen', 'select');
                                 </td>
 
                                 <td class="span5">
-                                    <div class="control-group">
-                                        <div class="control-label">
-                                            <label for="<?php echo $titleId; ?>">
-                                                <?php echo Text::_('COM_OSCONTENT_TITLE'); ?>
-                                            </label>
-                                        </div>
-                                        <div class="controls">
-                                            <input class="span12"
-                                                   type="text"
-                                                   size="50"
-                                                   maxlength="255"
-                                                   id="<?php echo $titleId; ?>"
-                                                   name="title[]"
-                                                   value="<?php echo $this->formData->get('title.' . $row); ?>">
-                                        </div>
-                                    </div>
+                                    <?php echo $fields['title']->renderField(); ?>
                                 </td>
 
                                 <td class="span5">
-                                    <div class="control-group">
-                                        <?php
-                                        $aliasId = 'alias_' . $row;
-                                        ?>
-                                        <label for="<?php echo $aliasId; ?>">
-                                            <?php echo Text::_("COM_OSCONTENT_ALIAS"); ?>
-                                        </label>
-                                        <input class="span12"
-                                               type="text"
-                                               maxlength="255"
-                                               id="<?php echo $aliasId; ?>"
-                                               name="alias[]"
-                                               value="<?php echo $this->formData->get('alias.' . $row); ?>"
-                                               placeholder="<?php echo Text::_('COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER'); ?>">
-                                    </div>
+                                    <?php echo $fields['alias']->renderField(); ?>
                                 </td>
                             </tr>
                         <?php endfor; ?>

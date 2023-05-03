@@ -21,6 +21,8 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -68,5 +70,30 @@ class OSContentViewCategories extends OscontentViewAdmin
         $title = $title ?: Text::_('COM_OSCONTENT_PAGE_MASS_CATEGORIES');
 
         parent::addToolbar($title, $icon);
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return FormField[]
+     */
+    protected function getFields(int $index): array
+    {
+        $form = Form::getInstance('com_oscontent.category' . $index, $this->form->getXml()->asXML());
+
+        $group = $form->getXml()->xpath('/form/fieldset[@name="category"]/fields');
+        $group = array_shift($group);
+
+        $group['name'] = "category[{$index}]";
+
+        $fieldset = $form->getFieldset('category');
+
+        $fields = [];
+        foreach ($fieldset as $field) {
+            $name          = $field->getAttribute('name');
+            $fields[$name] = $field;
+        }
+
+        return $fields;
     }
 }
