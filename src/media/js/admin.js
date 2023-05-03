@@ -136,11 +136,11 @@ jQuery(document).ready(function($) {
     if (menutype) {
         let parentId = document.getElementById('parent_id');
 
-        let updateParentOptions = function(menuName) {
-            parentId.querySelectorAll('optgroup').forEach(function(group) {
+        let updateParentOptions = (menuName) => {
+            parentId.querySelectorAll('optgroup').forEach((group) => {
                 let currentType = group.getAttribute('label');
 
-                group.querySelectorAll('option').forEach(function(item) {
+                group.querySelectorAll('option').forEach((item) => {
                     item.disabled = currentType !== menuName;
                 });
                 parentId.value = '';
