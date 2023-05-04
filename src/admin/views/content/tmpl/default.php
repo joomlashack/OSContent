@@ -113,8 +113,8 @@ $columnWidth = ($displayIntroText xor $displayFullText)
                         <div class="control-group">
                             <div class="control-label">
                                 <label id="duplicateText-lbl" class="hasTooltip"
-                                       title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE_TOOLTIP'); ?>">
-                                    <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_TITLE'); ?>
+                                       title="<?php echo Text::_('COM_OSCONTENT_COPY_FIRST_ARTICLE_TOOLTIP'); ?>">
+                                    <?php echo Text::_('COM_OSCONTENT_COPY_FIRST_ARTICLE'); ?>
                                 </label>
                             </div>
                             <div class="controls">
