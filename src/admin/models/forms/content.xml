@@ -79,7 +79,7 @@
 
         <field name="parent_id"
                type="menuitem"
-               label="COM_OSCONTENT_CREATE_SUBMENU"
+               label="COM_OSCONTENT_SUBMENU"
                showon="menutype!:">
             <option value="">COM_OSCONTENT_OPTION_MENU_ROOT</option>
         </field>
