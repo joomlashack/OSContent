@@ -45,7 +45,7 @@ try {
         define('OSCONTENT_ADMIN', JPATH_ADMINISTRATOR . '/components/com_oscontent');
         define('OSCONTENT_LIBRARY', OSCONTENT_ADMIN . '/library');
 
-        AutoLoader::registerCamelBase('Oscontent', OSCONTENT_LIBRARY . '/joomla');
+        AutoLoader::register('Alledia', OSCONTENT_LIBRARY . '/alledia');
 
         Factory::getLanguage()->load('com_oscontent.sys', OSCONTENT_ADMIN);
 

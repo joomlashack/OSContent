@@ -21,6 +21,8 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Alledia\Oscontent\Model;
+
 use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -34,11 +36,11 @@ defined('_JEXEC') or die();
 // phpcs:enable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-abstract class OscontentModelAdmin extends AdminModel
+abstract class AbstractModelAdmin extends AdminModel
 {
     /**
-     * @return MenusModelItem|ItemModel
-     * @throws Exception
+     * @return \MenusModelItem|ItemModel
+     * @throws \Exception
      */
     protected function getMenuModel()
     {
@@ -60,7 +62,7 @@ abstract class OscontentModelAdmin extends AdminModel
      * @param int      $index
      *
      * @return void
-     * @throws Exception
+     * @throws \Exception
      */
     protected function menuLink(
         string $menutype,
@@ -100,10 +102,10 @@ abstract class OscontentModelAdmin extends AdminModel
 
                     ];
                     if ($model->save($data) == false) {
-                        throw new Exception($model->getError());
+                        throw new \Exception($model->getError());
                     }
                 }
-            } catch (Throwable $error) {
+            } catch (\Throwable $error) {
                 Factory::getApplication()->enqueueMessage(
                     sprintf(
                         '%s. %s (%s): %s',

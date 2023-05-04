@@ -21,6 +21,7 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Alledia\Oscontent\View\AbstractViewAdmin;
 use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -28,7 +29,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 
 defined('_JEXEC') or die();
 
-class OSContentViewDelete extends OscontentViewAdmin
+class OSContentViewDelete extends AbstractViewAdmin
 {
     /**
      * @inheritDoc

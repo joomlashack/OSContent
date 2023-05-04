@@ -21,6 +21,7 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Alledia\Oscontent\View\AbstractViewAdmin;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\Helpers\Sidebar;
@@ -34,7 +35,7 @@ defined('_JEXEC') or die();
 // phpcs:enable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-class OSContentViewCategories extends OscontentViewAdmin
+class OSContentViewCategories extends AbstractViewAdmin
 {
     /**
      * @var Registry

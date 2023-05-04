@@ -23,6 +23,7 @@
 
 use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
+use Alledia\Oscontent\Model\AbstractModelAdmin;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Administrator\Model\ArticleModel;
@@ -32,7 +33,7 @@ defined('_JEXEC') or die();
 // phpcs:enable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-class OSContentModelContent extends OscontentModelAdmin
+class OSContentModelContent extends AbstractModelAdmin
 {
     /**
      * @inheritdoc

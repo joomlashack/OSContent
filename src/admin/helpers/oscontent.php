@@ -21,11 +21,38 @@
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+
 // phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
 // phpcs:enable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-abstract class OscontentHelper extends OscontentHelpersFreeHelper
+abstract class OscontentHelper extends ContentHelper
 {
+    /**
+     * @inheritDoc
+     */
+    public static function addSubmenu($vName)
+    {
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_CREATE'),
+            'index.php?option=com_oscontent&view=content',
+            $vName == 'content'
+        );
+
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_CATEGORIES'),
+            'index.php?option=com_oscontent&view=categories',
+            $vName == 'categories'
+        );
+
+        Sidebar::addEntry(
+            Text::_('COM_OSCONTENT_ADMINMENU_DELETE'),
+            'index.php?option=com_oscontent&view=delete',
+            $vName == 'delete'
+        );
+    }
 }
