@@ -21,7 +21,6 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -40,12 +39,9 @@ defined('_JEXEC') or die();
 
 extract($this->options);
 /**
- * @var string $contentRows
- * @var string $categoryRows
- * @var bool   $displayAlias
- * @var bool   $displayIntroText
- * @var bool   $displayFullText
- * @var int    $displayWysiwyg
+ * @var int  $contentRows
+ * @var bool $displayIntro
+ * @var bool $displayFullText
  */
 
 HTMLHelper::_('bootstrap.tooltip');
@@ -54,9 +50,9 @@ HTMLHelper::_('behavior.keepalive');
 
 $this->document->getWebAssetManager()->addInlineStyle('td .form-control { width: 100%; }');
 
-$columnWidth = ($displayIntroText xor $displayFullText)
+$columnWidth = ($displayIntro xor $displayFullText)
     ? 'col-lg-6'
-    : ($displayFullText && $displayIntroText ? 'col-lg-3' : 'col-lg-12');
+    : ($displayFullText && $displayIntro ? 'col-lg-3' : 'col-lg-12');
 
 ?>
 <div class="row-fluid">

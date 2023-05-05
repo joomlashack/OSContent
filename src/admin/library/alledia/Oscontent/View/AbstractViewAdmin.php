@@ -45,7 +45,7 @@ abstract class AbstractViewAdmin extends AbstractForm
     /**
      * @var string[]
      */
-    protected $options = null;
+    protected $options = [];
 
     /**
      * @var string
@@ -104,20 +104,8 @@ abstract class AbstractViewAdmin extends AbstractForm
     /**
      * @return void
      */
-    protected function setOptions()
+    protected function setOptions(): void
     {
-        if ($this->options === null) {
-            $this->options = [
-                'contentRows'      => $this->params->get('nbOSContent'),
-                'categoryRows'     => $this->params->get('nbOSCategories'),
-                'displayAlias'     => (bool)$this->params->get('displayAlias'),
-                'displayIntroText' => (bool)$this->params->get('displayIntroText'),
-                'displayFullText'  => (bool)$this->params->get('displayFullText'),
-                'displayWysiwyg'   => (int)$this->params->get('displayWysiwyg')
-            ];
-            foreach ($this->options as $key => $value) {
-                $this->document->addScriptOptions('oscontent.' . $key, $value);
-            }
-        }
+        // For subclasses as needed
     }
 }

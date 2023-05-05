@@ -39,12 +39,9 @@ defined('_JEXEC') or die();
 
 extract($this->options);
 /**
- * @var string $contentRows
- * @var string $categoryRows
- * @var bool   $displayAlias
- * @var bool   $displayIntroText
- * @var bool   $displayFullText
- * @var int    $displayWysiwyg
+ * @var int  $contentRows
+ * @var bool $displayIntro
+ * @var bool $displayFullText
  */
 
 HTMLHelper::_('bootstrap.tooltip');
@@ -52,9 +49,9 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', 'select');
 
-$columnWidth = ($displayIntroText xor $displayFullText)
+$columnWidth = ($displayIntro xor $displayFullText)
     ? 'span6'
-    : ($displayFullText && $displayIntroText ? 'span4' : 'span11');
+    : ($displayFullText && $displayIntro ? 'span4' : 'span11');
 
 ?>
 <form name="adminForm"

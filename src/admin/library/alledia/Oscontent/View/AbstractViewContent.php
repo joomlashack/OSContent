@@ -84,16 +84,16 @@ class AbstractViewContent extends AbstractViewAdmin
     {
         $form = Form::getInstance('com_oscontent.article' . $index, $this->form->getXml()->asXML());
 
-        $displayWysiwyg = $this->options['displayWysiwyg'];
+        $displayWysiwyg = (int)$this->params->get('displayWysiwyg');
         $wysiwyg        = $displayWysiwyg == 2 || ($index == 0 && $displayWysiwyg == 1);
 
         // Verify alias
-        if ($this->options['displayAlias'] == false) {
+        if ($this->params->get('displayAlias') == false) {
             $form->removeField('alias', 'article');
         }
 
-        // Verify infotext
-        if ($this->options['displayIntroText']) {
+        // Verify infoText
+        if ($this->params->get('displayIntroText')) {
             if ($wysiwyg) {
                 $introtext            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="introtext"]');
                 $introtext[0]['type'] = 'editor';
@@ -103,8 +103,8 @@ class AbstractViewContent extends AbstractViewAdmin
             $form->removeField('introtext', 'article');
         }
 
-        // Verify fulltext
-        if ($this->options['displayFullText']) {
+        // Verify fullText
+        if ($this->params->get('displayFullText')) {
             if ($wysiwyg) {
                 $fulltext            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="fulltext"]');
                 $fulltext[0]['type'] = 'editor';
@@ -128,5 +128,25 @@ class AbstractViewContent extends AbstractViewAdmin
         }
 
         return $fields;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function setOptions(): void
+    {
+        $displayImages = $this->params->get('displayImages');
+
+        $intro      = $this->params->get('displayIntroText');
+        $introImage = $displayImages == -1 || $displayImages == 'intro';
+
+        $fullText      = $this->params->get('displayFullText');
+        $fullTextImage = $displayImages == -1 || $displayImages == 'fulltext';
+
+        $this->options = [
+            'contentRows'     => (int)$this->params->get('nbOSContent'),
+            'displayIntro'    => $intro || $introImage,
+            'displayFullText' => $fullText || $fullTextImage,
+        ];
     }
 }

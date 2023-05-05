@@ -39,12 +39,7 @@ defined('_JEXEC') or die();
 
 extract($this->options);
 /**
- * @var string $contentRows
- * @var string $categoryRows
- * @var bool   $displayAlias
- * @var bool   $displayIntroText
- * @var bool   $displayFullText
- * @var int    $displayWysiwyg
+ * @var int $categoryRows
  */
 
 HTMLHelper::_('bootstrap.tooltip');

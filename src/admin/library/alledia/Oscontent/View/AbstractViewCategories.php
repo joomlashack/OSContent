@@ -99,4 +99,14 @@ class AbstractViewCategories extends AbstractViewAdmin
 
         return $fields;
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function setOptions(): void
+    {
+        $this->options = [
+            'categoryRows' => (int)$this->params->get('nbOSCategories'),
+        ];
+    }
 }
