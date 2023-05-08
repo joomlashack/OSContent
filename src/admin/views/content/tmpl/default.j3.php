@@ -111,7 +111,7 @@ $columnWidth = ($displayIntro xor $displayFullText)
                                         <?php
                                         echo $fullText ? $fullText->renderField() : '';
                                         echo $imageFullText ? $imageFullText->renderField() : '';
-                                        echo $imageFullTextAlt ? $imageIntroAlt->renderField() : '';
+                                        echo $imageFullTextAlt ? $imageFullTextAlt->renderField() : '';
                                         ?>
                                     </td>
                                 <?php endif; ?>
