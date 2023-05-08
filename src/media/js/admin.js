@@ -22,10 +22,10 @@
 ;
 jQuery(document).ready(function($) {
     /**
-     * @param {HTMLElement} element
-     * @param {string} value
+     * @param {HTMLFormElement} element
+     * @param {String=}         value
      *
-     * @returns {?string}
+     * @returns {String|null}
      */
     let editorValue = (element, value) => {
         let editor = Joomla.editors.instances[element.id] || null;
@@ -37,11 +37,12 @@ jQuery(document).ready(function($) {
             }
 
         } else {
+            console.log(element.id, typeof value, value);
             if (typeof value === 'undefined') {
                 return element.value;
 
             } else {
-                element.value = value;
+                element.value = value + ' ';
             }
         }
 
@@ -61,16 +62,20 @@ jQuery(document).ready(function($) {
      */
     let getFields = (article) => {
         return {
-            title    : article.querySelector('[name$="[title]"]'),
-            alias    : article.querySelector('[name$="[alias]"]'),
-            introText: article.querySelector('[name$="[introtext]"]'),
-            fullText : article.querySelector('[name$="[fulltext]"]')
+            title           : article.querySelector('[name$="[title]"]'),
+            alias           : article.querySelector('[name$="[alias]"]'),
+            introText       : article.querySelector('[name$="[intro]"]'),
+            fullText        : article.querySelector('[name$="[fulltext]"]'),
+            introImage      : article.querySelector('[name$="[image_intro]"]'),
+            introImageAlt   : article.querySelector('[name$="[image_intro_alt]"]'),
+            fullTextImage   : article.querySelector('[name$="[image_fulltext]"]'),
+            fullTextImageAlt: article.querySelector('[name$="[image_fulltext_alt]"]')
         };
     };
 
-    let articles      = document.querySelectorAll('table.articles.table tr'),
-        duplicateText = document.getElementById('duplicateText');
+    let articles = document.querySelectorAll('table.articles.table tr');
 
+    let duplicateText = document.getElementById('duplicateText');
     if (duplicateText) {
         duplicateText.addEventListener('click', function(evt) {
             evt.preventDefault();
@@ -84,15 +89,19 @@ jQuery(document).ready(function($) {
                         if (index === 0) {
                             values[field] = editorValue(fields[field]);
 
-                        } else if (values[field] || null) {
+                        } else {
+                            let value = values[field] || '';
+
                             switch (field) {
                                 case 'title':
                                 case 'alias':
-                                    editorValue(fields[field], values[field] + ' ' + (index + 1));
+                                    if (value) {
+                                        editorValue(fields[field], value + ' ' + (index + 1));
+                                    }
                                     break;
 
                                 default:
-                                    editorValue(fields[field], values[field]);
+                                    editorValue(fields[field], value);
                                     break;
                             }
                         }
@@ -110,7 +119,7 @@ jQuery(document).ready(function($) {
             articles.forEach((article, index) => {
                 if (index > 0) {
                     let fields = getFields(article);
-                    for (field in fields) {
+                    for (let field in fields) {
                         if (fields[field]) {
                             editorValue(fields[field], '');
                         }
@@ -155,9 +164,8 @@ jQuery(document).ready(function($) {
             });
         };
 
-        $(menutype).addChangeListener(function(evt) {
-            let $this    = $(this),
-                menuName = this.options[this.selectedIndex].text;
+        $(menutype).addChangeListener(function() {
+            let menuName = this.options[this.selectedIndex].text;
 
             updateParentOptions(menuName);
         });

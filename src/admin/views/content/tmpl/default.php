@@ -86,15 +86,30 @@ $columnWidth = ($displayIntro xor $displayFullText)
                                         ?>
                                     </td>
 
-                                    <?php if (empty($fields['introtext']) == false) : ?>
+                                    <?php
+                                    $intro         = $fields['intro'] ?? null;
+                                    $imageIntro    = $fields['image_intro'] ?? null;
+                                    $imageIntroAlt = $fields['image_intro_alt'] ?? null;
+                                    if ($intro || $imageIntro) : ?>
                                         <td class="<?php echo $columnWidth; ?>">
-                                            <?php echo $fields['introtext']->renderField(); ?>
+                                            <?php
+                                            echo $intro ? $intro->renderField() : '';
+                                            echo $imageIntro ? $imageIntro->renderField() : '';
+                                            echo $imageIntroAlt ? $imageIntroAlt->renderField() : '';
+                                            ?>
                                         </td>
                                     <?php endif;
+                                    $fullText         = $fields['fulltext'] ?? null;
+                                    $imageFullText    = $fields['image_fulltext'] ?? null;
+                                    $imageFullTextAlt = $fields['image_fulltext_alt'] ?? null;
 
-                                    if (empty($fields['fulltext']) == false) : ?>
+                                    if ($fullText || $imageFullText) :?>
                                         <td class="<?php echo $columnWidth; ?>">
-                                            <?php echo $fields['fulltext']->renderField(); ?>
+                                            <?php
+                                            echo $fullText ? $fullText->renderField() : '';
+                                            echo $imageFullText ? $imageFullText->renderField() : '';
+                                            echo $imageFullTextAlt ? $imageIntroAlt->renderField() : '';
+                                            ?>
                                         </td>
                                     <?php endif; ?>
                                 </tr>

@@ -92,15 +92,15 @@ class AbstractViewContent extends AbstractViewAdmin
             $form->removeField('alias', 'article');
         }
 
-        // Verify infoText
-        if ($this->params->get('displayIntroText')) {
+        // Verify introText
+        if ($this->params->get('displayIntro')) {
             if ($wysiwyg) {
-                $introtext            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="introtext"]');
-                $introtext[0]['type'] = 'editor';
+                $intro            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="intro"]');
+                $intro[0]['type'] = 'editor';
             }
 
         } else {
-            $form->removeField('introtext', 'article');
+            $form->removeField('intro', 'article');
         }
 
         // Verify fullText
@@ -135,18 +135,10 @@ class AbstractViewContent extends AbstractViewAdmin
      */
     protected function setOptions(): void
     {
-        $displayImages = $this->params->get('displayImages');
-
-        $intro      = $this->params->get('displayIntroText');
-        $introImage = $displayImages == -1 || $displayImages == 'intro';
-
-        $fullText      = $this->params->get('displayFullText');
-        $fullTextImage = $displayImages == -1 || $displayImages == 'fulltext';
-
         $this->options = [
             'contentRows'     => (int)$this->params->get('nbOSContent'),
-            'displayIntro'    => $intro || $introImage,
-            'displayFullText' => $fullText || $fullTextImage,
+            'displayIntro'    => (bool)$this->params->get('displayIntro'),
+            'displayFullText' => (bool)$this->params->get('displayFullText')
         ];
     }
 }
