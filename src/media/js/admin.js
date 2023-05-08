@@ -64,7 +64,7 @@ jQuery(document).ready(function($) {
         return {
             title           : article.querySelector('[name$="[title]"]'),
             alias           : article.querySelector('[name$="[alias]"]'),
-            introText       : article.querySelector('[name$="[intro]"]'),
+            introText       : article.querySelector('[name$="[introtext]"]'),
             fullText        : article.querySelector('[name$="[fulltext]"]'),
             introImage      : article.querySelector('[name$="[image_intro]"]'),
             introImageAlt   : article.querySelector('[name$="[image_intro_alt]"]'),

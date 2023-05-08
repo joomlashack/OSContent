@@ -95,12 +95,12 @@ class AbstractViewContent extends AbstractViewAdmin
         // Verify introText
         if ($this->params->get('displayIntro')) {
             if ($wysiwyg) {
-                $intro            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="intro"]');
+                $intro            = $form->getXml()->xpath('//fieldset[@name="article"]//field[@name="introtext"]');
                 $intro[0]['type'] = 'editor';
             }
 
         } else {
-            $form->removeField('intro', 'article');
+            $form->removeField('introtext', 'article');
         }
 
         // Verify fullText

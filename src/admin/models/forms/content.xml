@@ -14,12 +14,12 @@
                    class="span12 col-lg-12"
                    hint="COM_OSCONTENT_ALIAS_DESCRIPTION_PLACEHOLDER"/>
 
-            <field name="intro"
+            <field name="introtext"
                    type="textarea"
                    rows="5"
                    cols="35"
                    class="span12 col-lg-12"
-                   label="COM_OSCONTENT_INTRO"/>
+                   label="COM_OSCONTENT_INTROTEXT"/>
 
             <field name="fulltext"
                    type="textarea"

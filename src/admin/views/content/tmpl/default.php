@@ -87,7 +87,7 @@ $columnWidth = ($displayIntro xor $displayFullText)
                                     </td>
 
                                     <?php
-                                    $intro         = $fields['intro'] ?? null;
+                                    $intro         = $fields['introtext'] ?? null;
                                     $imageIntro    = $fields['image_intro'] ?? null;
                                     $imageIntroAlt = $fields['image_intro_alt'] ?? null;
                                     if ($intro || $imageIntro) : ?>
