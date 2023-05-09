@@ -210,7 +210,7 @@ class AbstractModelContent extends AbstractModelAdmin
         $model = $this->getModel();
         $table = $model->getTable();
 
-        $commonData = array_filter([
+        $commonData = [
             'title'            => '',
             'alias'            => '',
             'introtext'        => '',
@@ -233,7 +233,7 @@ class AbstractModelContent extends AbstractModelAdmin
             'publish_down'     => empty($data['publish_down'])
                 ? ''
                 : Factory::getDate($data['publish_down'])->toSql(),
-        ]);
+        ];
 
         $newArticles = [];
         foreach ($data['article'] as $index => $article) {
