@@ -206,8 +206,6 @@ class AbstractModelContent extends AbstractModelAdmin
      */
     protected function getNewArticles(array $data): array
     {
-        echo '<p>' . __METHOD__ . '</p>';
-
         $app   = Factory::getApplication();
         $model = $this->getModel();
         $table = $model->getTable();
