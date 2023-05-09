@@ -55,4 +55,20 @@ abstract class OscontentHelper extends ContentHelper
             $vName == 'delete'
         );
     }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function filePathToText(string $path): string
+    {
+        if ($path) {
+            $pathInfo = pathinfo($path);
+
+            return ucwords(strtolower(str_replace(['_', '-'], ' ', $pathInfo['filename'])));
+        }
+
+        return '';
+    }
 }
