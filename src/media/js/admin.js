@@ -20,7 +20,7 @@
  * along with OSContent.  If not, see <https://www.gnu.org/licenses/>.
  */
 ;
-jQuery(document).ready(function($) {
+jQuery(function($) {
     /**
      * @param {HTMLFormElement} element
      * @param {String=}         value
@@ -37,7 +37,6 @@ jQuery(document).ready(function($) {
             }
 
         } else {
-            console.log(element.id, typeof value, value);
             if (typeof value === 'undefined') {
                 return element.value;
 
