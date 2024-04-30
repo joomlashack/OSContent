@@ -28,7 +28,11 @@ jQuery(function($) {
      * @returns {String|null}
      */
     let editorValue = (element, value) => {
-        let editor = Joomla.editors.instances[element.id] || null;
+        let editor = null;
+        if (Joomla.editors) {
+            editor = Joomla.editors.instances[element.id] || null;
+        }
+
         if (editor) {
             if (typeof value === 'undefined') {
                 return editor.getValue();
