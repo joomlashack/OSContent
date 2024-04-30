@@ -138,7 +138,7 @@ class AbstractViewContent extends AbstractViewAdmin
         $this->options = [
             'contentRows'     => (int)$this->params->get('nbOSContent'),
             'displayIntro'    => (bool)$this->params->get('displayIntro'),
-            'displayFullText' => (bool)$this->params->get('displayFullText')
+            'displayFullText' => (bool)$this->params->get('displayFullText'),
         ];
     }
 }
