@@ -167,10 +167,10 @@ class OSContentModelDelete extends AbstractModelAdmin
     {
         $categoryId = (int)$this->getState('category.id');
         if ($categoryId) {
-            if (
-                ($articles = $this->deleteArticles($categoryId))
-                && $this->deleteMenus($categoryId, $articles)
-            ) {
+            try {
+                $articles = $this->deleteArticles($categoryId);
+                $this->deleteMenus($categoryId, $articles);
+
                 /** @var CategoriesModelCategory $categoryModel */
                 $categoryModel = Helper::getCategoryModel('Category', 'administrator');
 
@@ -179,10 +179,14 @@ class OSContentModelDelete extends AbstractModelAdmin
                 if ($categoryModel->delete($pks)) {
                     $this->app->enqueueMessage(Text::_('COM_OSCONTENT_DELETE_CATEGORY'));
 
-                    return true;
+                } else {
+                    throw new Exception($categoryModel->getError());
                 }
 
-                Factory::getApplication()->enqueueMessage($categoryModel->getError(), 'error');
+            } catch (Throwable $error) {
+                $this->app->enqueueMessage($error->getMessage(), 'error');
+
+                return false;
             }
         }
 
