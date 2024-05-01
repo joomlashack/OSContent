@@ -119,7 +119,7 @@ class OSContentModelDelete extends AbstractModelAdmin
             $errorMessage = (sprintf('%s:%s<br>%s', $error->getFile(), $error->getLine(), $error->getMessage()));
         }
 
-        Factory::getApplication()->enqueueMessage($errorMessage ?? 'Unknown problem', 'error');
+        $this->app->enqueueMessage($errorMessage ?? 'Unknown problem', 'error');
 
         return false;
     }
@@ -140,7 +140,7 @@ class OSContentModelDelete extends AbstractModelAdmin
                 ->update('#__content')
                 ->set([
                     $db->quoteName('introtext') . ' = ' . $db->quote(''),
-                    $db->quoteName('fulltext') . ' = ' . $db->quote('')
+                    $db->quoteName('fulltext') . ' = ' . $db->quote(''),
                 ])
                 ->where('catid = ' . $categoryId);
 
@@ -152,7 +152,7 @@ class OSContentModelDelete extends AbstractModelAdmin
             return $success;
         }
 
-        Factory::getApplication()->enqueueMessage('Nothing to delete', 'warning');
+        $this->app->enqueueMessage('Nothing to delete', 'warning');
 
         return false;
     }
@@ -160,7 +160,7 @@ class OSContentModelDelete extends AbstractModelAdmin
     /**
      * Remove all content related to the category
      *
-     * @return false
+     * @return bool
      * @throws Exception
      */
     protected function clearAll()
@@ -245,7 +245,7 @@ class OSContentModelDelete extends AbstractModelAdmin
                     ' AND ',
                     [
                         sprintf('LOCATE(%s, %s) > 0', $db->quote('view=article'), $quotedLink),
-                        sprintf('%s RLIKE %s', $quotedLink, $db->quote(sprintf('id=(%s)', join('|', $articleIds))))
+                        sprintf('%s RLIKE %s', $quotedLink, $db->quote(sprintf('id=(%s)', join('|', $articleIds)))),
                     ]
                 )
             );
@@ -256,7 +256,7 @@ class OSContentModelDelete extends AbstractModelAdmin
                 ' AND ',
                 [
                     sprintf('LOCATE(%s, %s) > 0', $db->quote('view=category'), $quotedLink),
-                    sprintf('LOCATE(%s, %s) > 0', $db->quote('id=' . $categoryId), $quotedLink)
+                    sprintf('LOCATE(%s, %s) > 0', $db->quote('id=' . $categoryId), $quotedLink),
                 ]
             )
         );
@@ -268,7 +268,7 @@ class OSContentModelDelete extends AbstractModelAdmin
                 $db->quoteName('type') . ' = ' . $db->quote('component'),
                 $db->quoteName('client_id') . ' = 0',
                 $db->quoteName('component_id') . ' = ' . ComponentHelper::getComponent('com_content')->id,
-                sprintf('(%s)', join(' OR ', $ors))
+                sprintf('(%s)', join(' OR ', $ors)),
             ]);
 
         if ($menuIds = $db->setQuery($query)->loadColumn()) {
