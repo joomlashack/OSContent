@@ -173,6 +173,7 @@ class OSContentModelDelete extends AbstractModelAdmin
 
                 /** @var CategoriesModelCategory $categoryModel */
                 $categoryModel = Helper::getCategoryModel('Category', 'administrator');
+                $this->app->input->set('extension', 'com_content');
 
                 $pks = [$categoryId];
                 $categoryModel->publish($pks, -2);
