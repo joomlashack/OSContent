@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com

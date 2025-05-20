@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   OSContent
  * @contact   www.joomlashack.com, help@joomlashack.com
@@ -121,7 +122,7 @@ class AbstractModelContent extends AbstractModelAdmin
             'metakey'          => 'array',
             'menutype'         => 'string',
             'parent_id'        => 'int',
-            'featured'         => 'int'
+            'featured'         => 'int',
         ]);
     }
 
@@ -174,7 +175,7 @@ class AbstractModelContent extends AbstractModelAdmin
                         [
                             'option' => 'com_content',
                             'view'   => 'article',
-                            'id'     => $newArticle['id']
+                            'id'     => $newArticle['id'],
                         ],
                         $newArticle['title'],
                         $newArticle['alias'] ?? '',
@@ -186,6 +187,7 @@ class AbstractModelContent extends AbstractModelAdmin
             } catch (\Throwable $error) {
                 $this->warnings[] = $error->getMessage();
             }
+
         }
 
         if ($this->warnings) {
@@ -233,6 +235,7 @@ class AbstractModelContent extends AbstractModelAdmin
             'publish_down'     => empty($data['publish_down'])
                 ? ''
                 : Factory::getDate($data['publish_down'])->toSql(),
+            'transition'       => 1,
         ];
 
         $newArticles = [];
@@ -244,7 +247,7 @@ class AbstractModelContent extends AbstractModelAdmin
                 if (
                     $table->load([
                         'alias' => $article['alias'],
-                        'catid' => $article['catid']
+                        'catid' => $article['catid'],
                     ])
                 ) {
                     $app->enqueueMessage(
