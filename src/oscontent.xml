@@ -53,6 +53,7 @@
         <namespace>OSContent</namespace>
         <license>free</license>
         <targetplatform>3.*</targetplatform>
+        <phpminimum>7.4</phpminimum>
 
         <minify>
             <script>media/js/admin.js</script>
