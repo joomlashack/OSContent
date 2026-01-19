@@ -135,7 +135,7 @@ class OSContentModelDelete extends AbstractModelAdmin
     {
         $categoryId = (int)$this->getState('category.id');
         if ($categoryId) {
-            $db = $this->getDbo();
+            $db = $this->getDatabase();
 
             $query = $db->getQuery(true)
                 ->update('#__content')
@@ -203,7 +203,7 @@ class OSContentModelDelete extends AbstractModelAdmin
      */
     protected function deleteArticles(int $categoryId): array
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select('id')
@@ -240,7 +240,7 @@ class OSContentModelDelete extends AbstractModelAdmin
      */
     protected function deleteMenus(int $categoryId, array $articleIds): bool
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         $quotedLink = $db->quoteName('link');
         $ors        = [];
