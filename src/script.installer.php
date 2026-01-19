@@ -22,22 +22,20 @@
  * along with OSContent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Alledia\Installer\AbstractScript;
+
+// phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
 defined('_JEXEC') or die();
 
 $includePath = __DIR__ . '/admin/library/Installer/include.php';
-if (! file_exists($includePath)) {
+if (!file_exists($includePath)) {
     $includePath = __DIR__ . '/library/Installer/include.php';
 }
 
 require_once $includePath;
 
-use Alledia\Installer\AbstractScript;
-
-/**
- * OSContent Installer Script
- *
- * @since  1.0
- */
+//phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+// phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
 class Com_OSContentInstallerScript extends AbstractScript
 {
 
