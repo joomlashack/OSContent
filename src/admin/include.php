@@ -28,6 +28,7 @@ use Alledia\Framework\AutoLoader;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
 defined('_JEXEC') or die();
 
 try {
@@ -48,7 +49,7 @@ try {
 
         AutoLoader::register('Alledia', OSCONTENT_LIBRARY . '/alledia');
 
-        Factory::getLanguage()->load('com_oscontent.sys', OSCONTENT_ADMIN);
+        Factory::getApplication()->getLanguage()->load('com_oscontent.sys', OSCONTENT_ADMIN);
 
         HTMLHelper::_('jquery.framework');
         HTMLHelper::_('alledia.fontawesome');
@@ -65,4 +66,3 @@ try {
 }
 
 return defined('ALLEDIA_FRAMEWORK_LOADED') && defined('OSCONTENT_LOADED');
-
