@@ -26,10 +26,10 @@ namespace Alledia\Oscontent\Model;
 
 use Alledia\Framework\Factory;
 use Alledia\Framework\Helper;
+use Alledia\Framework\Joomla\Model\AbstractAdminModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -37,7 +37,7 @@ defined('_JEXEC') or die();
 // phpcs:enable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
-abstract class AbstractModelAdmin extends AdminModel
+abstract class AbstractModelAdmin extends AbstractAdminModel
 {
     /**
      * @return \MenusModelItem|ItemModel
@@ -99,7 +99,7 @@ abstract class AbstractModelAdmin extends AdminModel
                         'parent_id'    => $parentMenu->id ?? null,
                         'component'    => $option,
                         'published'    => $published,
-                        'language'     => '*'
+                        'language'     => '*',
 
                     ];
                     if ($model->save($data) == false) {
